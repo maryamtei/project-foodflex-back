@@ -4,42 +4,46 @@ const Meal = require('./meal');
 const Role = require('./role');
 const Scheduling = require('./scheduling');
 
-User.hasMany(Favorite, {
-    foreignKey: "user_id",
-    as: "favorites"
-});
+// One-to-One : hasOne + belongsTo
+// One-to-Many : hasMany + belongsTo
+// Many-to-Many : belongsToMany (through) + belongsToMany (through)
 
-Favorite.belongsTo(User, {
+User.hasMany(Favorite, {
     foreignKey: "user_id",
     as: "favorite"
 });
 
+Favorite.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user"
+});
+
 User.hasMany(Scheduling, {
     foreignKey: "user_id",
-    as: "schedules"
+    as: "scheduling"
 });
 
 Scheduling.belongsTo(User, {
     foreignKey: "user_id",
-    as: "schedule"
+    as: "user"
 });
 
-Scheduling.haveMany(Meal, {
+Scheduling.hasMany(Meal, {
     foreignKey: "scheduling_id",
-    as: "mealsOnSchedule"
+    as: "meal"
 });
 
-Meal.belongsToMany(Scheduling, {
+Meal.belongsTo(Scheduling, {
     foreignKey: "scheduling_id",
-    as: "mealsForSchedule"
+    as: "scheduling"
 });
 
-Role.belongsToMany(User, {
+Role.hasMany(User, {
     foreignKey: "role_id",
-    as: "roles"
+    as: "user"
 });
 
-User.haveOne(Role, {
+User.belongsTo(Role, {
     foreignKey: "role_id",
     as: "role"
 })

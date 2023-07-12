@@ -4,7 +4,7 @@ const sequelize = require('../dbConnexion');
 class Scheduling extends Model {}
 
 Scheduling.init({
-    week: DataTypes.TEXT,
+    week: DataTypes.STRING(30),
 },
 {
     sequelize,

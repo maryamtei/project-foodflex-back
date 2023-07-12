@@ -8,6 +8,8 @@ DROP TABLE
   "favori",
   "scheduling",
   "meal",
+
 DROP DOMAIN
   "rfc_email";
+
 COMMIT;

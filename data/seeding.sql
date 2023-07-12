@@ -1,12 +1,12 @@
--- Table: user
-INSERT INTO "user" ("firstname", "lastname", "email", "password") VALUES
-  ('John', 'Doe', 'john@example.com', 'password123'),
-  ('Jane', 'Smith', 'jane@example.com', 'password456');
-
 -- Table: role
 INSERT INTO "role" ("name") VALUES
   ('Admin'),
   ('User');
+
+-- Table: user
+INSERT INTO "user" ("firstname", "lastname", "email", "password") VALUES
+  ('John', 'Doe', 'john@example.com', 'password123'),
+  ('Jane', 'Smith', 'jane@example.com', 'password456');
 
 -- Table: favori
 INSERT INTO "favori" ("idDbMeal", "user_id", "name", "image", "position") VALUES

@@ -7,6 +7,14 @@ CHECK (value ~ '^(?:[a-z0-9!#$%&''*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~
 
 DROP TABLE IF EXISTS "user","role","favori","scheduling","meal";
 
+/* Table: role */
+CREATE TABLE IF NOT EXISTS "role" (
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "cree_le" timestamptz NOT NULL DEFAULT NOW(),
+  "modifie_le" timestamptz NULL DEFAULT NOW()
+);
+
 /* Table: user */
 CREATE TABLE IF NOT EXISTS "user" (
   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -47,7 +55,7 @@ CREATE TABLE IF NOT EXISTS "meal" (
   "scheduling_id" int NOT NULL REFERENCES "scheduling"("id"),
   "name" text NOT NULL,
   "image" text NOT NULL,
-  "position" int NOT NULL, CHECK ("position" <= 14),
+  "position" int NOT NULL, CHECK ("position" <= 13),
   "cree_le" timestamptz NOT NULL DEFAULT NOW(),
   "modifie_le" timestamptz NULL DEFAULT NOW()
 );

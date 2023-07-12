@@ -4,10 +4,10 @@ const sequelize = require('../dbConnexion');
 class Meal extends Model {}
 
 Meal.init({
-    idDbMeal: DataTypes.INT,
+    idDbMeal: DataTypes.INTEGER,
     name: DataTypes.TEXT,
     image: DataTypes.TEXT,
-    position: DataTypes.INT,
+    position: DataTypes.INTEGER,
 },
 {
     sequelize,
