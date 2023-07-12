@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "favori" (
   "user_id" int NOT NULL REFERENCES "user"("id"),
   "name" varchar(30) NOT NULL,
   "image" text NOT NULL,
-  "position" int NOT NULL, CHECK ("position" <= 14),
+  "position" int NOT NULL,
   "cree_le" timestamptz NOT NULL DEFAULT NOW(),
   "modifie_le" timestamptz NULL DEFAULT NOW()
 );
