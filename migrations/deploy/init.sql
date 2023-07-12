@@ -14,14 +14,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "lastname" varchar(64) NOT NULL,
   "email" rfc_email NOT NULL UNIQUE,
   "password" varchar(64) NOT NULL,
-  "cree_le" timestamptz NOT NULL DEFAULT NOW(),
-  "modifie_le" timestamptz NULL DEFAULT NOW()
-);
-
-/* Table: role */
-CREATE TABLE IF NOT EXISTS "role" (
-  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "name" varchar(30) NOT NULL,
+  "role_id" int NOT NULL REFERENCES "role"("id"),
   "cree_le" timestamptz NOT NULL DEFAULT NOW(),
   "modifie_le" timestamptz NULL DEFAULT NOW()
 );

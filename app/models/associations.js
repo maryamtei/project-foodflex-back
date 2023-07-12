@@ -4,16 +4,6 @@ const Meal = require('./meal');
 const Role = require('./role');
 const Scheduling = require('./scheduling');
 
-/* Associations */
-
-//cf: https://sequelize.org/docs/v6/core-concepts/assocs/
-
-// One-to-One : hasOne + belongsTo
-// One-to-Many : hasMany + belongsTo
-// Many-to-Many : belongsToMany (through) + belongsToMany (through)
-
-// L'Utilisateur à 0 ou plusieurs favorisss
-
 User.hasMany(Favorite, {
     foreignKey: "user_id",
     as: "favorites"
@@ -26,7 +16,7 @@ Favorite.belongsTo(User, {
 
 User.hasMany(Scheduling, {
     foreignKey: "user_id",
-    as: "Schedules"
+    as: "schedules"
 });
 
 Scheduling.belongsTo(User, {
@@ -42,6 +32,14 @@ Scheduling.haveMany(Meal, {
 Meal.belongsToMany(Scheduling, {
     foreignKey: "scheduling_id",
     as: "mealsForSchedule"
-})
+});
 
-module.exports = { List, Card, Tag }
+Role.belongsToMany(User, {
+    foreignKey: "role_id",
+    as: "roles"
+});
+
+User.haveOne(Role, {
+    foreignKey: "role_id",
+    as: "role"
+})
