@@ -222,7 +222,7 @@ export interface Meal {
 
 ### Favorites
 
-## GET
+## GET ROUTER 
 
 - VERBE: GET
 - ROUTE FRONT: 
