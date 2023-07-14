@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=foodflex
+
+init 2023-07-12T09:01:46Z Mary <tei.mary.dev@gmail.com> # initialisation de la base de donnée
