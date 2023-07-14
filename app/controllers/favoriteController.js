@@ -1,4 +1,5 @@
 const Favorite = require('../models/favorite');
+const User = require('../models/user');
 
 const favoriteController = {
 
@@ -18,9 +19,12 @@ const favoriteController = {
     },
     addFavorite: async (req,res) => {
         try {
-            const { name, image, position,idDbMeal} = req.body;
-            //Ya un req.body qq part pour recup les infos
-            // const favorite = await Favorite.build..utiliser build..?
+            const user = await User.findByPk()
+            const { name, image, position,idDbMeal, user_id} = req.body; //user_id envoyé par le front
+            // findbypk de user on récup favoris et profil
+            // findOne pour verif
+
+            // if exist alors on push pas else on push
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())

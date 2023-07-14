@@ -13,8 +13,7 @@ On doit récuperer un tableau avec 52 semaines et 14 repas par semaine.
 Réponse :
 ```javascript
 {[
-  week: number,
-  meals: [
+  week: [
     {
       "idMeal": number,
       "name": string,

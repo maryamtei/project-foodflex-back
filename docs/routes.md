@@ -9,9 +9,9 @@ Voici la description des différentes routes du backend sous forme de tableau :
 | PATCH | /planning/:id-semaine                  | Modifie le planning de la semaine spécifiée             |
 | POST  | /signup                               | Crée le profil de l'utilisateur                        |
 | POST  | /login                                | Authentifie l'utilisateur et crée une session          |
-| GET   | /profil                               | Affiche le profil de l'utilisateur                     |
-| PATCH | /profil                               | Modifie le profil de l'utilisateur                     |
-| DELETE| /profil                               | Supprime le profil de l'utilisateur                   |
+| GET   | /profil/:id                             | Affiche le profil de l'utilisateur                     |
+| PATCH | /profil/:id                              | Modifie le profil de l'utilisateur                     |
+| DELETE| /profil/:id                              | Supprime le profil de l'utilisateur                   |
 | GET   | /profil/favori                        | Affiche les recettes favorites de l'utilisateur        |
 | POST  | /profil/favori                        | Ajoute une recette favorite à l'utilisateur            |
 
