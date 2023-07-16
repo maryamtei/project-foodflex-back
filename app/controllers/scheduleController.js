@@ -1,4 +1,4 @@
-const Scheduling = require('../models/scheduling');
+const Scheduling = require('../models/schedule');
 
 const schedulingController = {
 
@@ -10,7 +10,7 @@ const schedulingController = {
             res.status(500).json(error.toString())
         }
     },
-    getSchedule: async (req,res) => {
+    getSchedule: async (req, res) => {
         try {
 
         } catch (error) {
