@@ -2,7 +2,7 @@ const User = require('./user');
 const Favorite = require('./favorite');
 const Meal = require('./meal');
 const Role = require('./role');
-const Scheduling = require('./scheduling');
+const Schedule = require('./schedule');
 
 // One-to-One : hasOne + belongsTo
 // One-to-Many : hasMany + belongsTo
@@ -18,24 +18,24 @@ Favorite.belongsTo(User, {
     as: "user"
 });
 
-User.hasMany(Scheduling, {
+User.hasMany(Schedule, {
     foreignKey: "user_id",
-    as: "scheduling"
+    as: "schedule"
 });
 
-Scheduling.belongsTo(User, {
+Schedule.belongsTo(User, {
     foreignKey: "user_id",
     as: "user"
 });
 
-Scheduling.hasMany(Meal, {
+Schedule.hasMany(Meal, {
     foreignKey: "scheduling_id",
     as: "meal"
 });
 
-Meal.belongsTo(Scheduling, {
-    foreignKey: "scheduling_id",
-    as: "scheduling"
+Meal.belongsTo(Schedule, {
+    foreignKey: "schedule_id",
+    as: "schedule"
 });
 
 Role.hasMany(User, {
