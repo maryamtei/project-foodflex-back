@@ -103,7 +103,7 @@ Requete:
 
 ```javascript
 {
-  "mail": string,
+  "email": string,
   "password" : string,
 }
 ```
