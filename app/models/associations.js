@@ -10,40 +10,42 @@ const Schedule = require('./schedule');
 
 User.hasMany(Favorite, {
     foreignKey: "user_id",
-    as: "favorite"
+    as: "favorites"
 });
 
 Favorite.belongsTo(User, {
     foreignKey: "user_id",
-    as: "user"
+    as: "users"
 });
 
 User.hasMany(Schedule, {
     foreignKey: "user_id",
-    as: "schedule"
+    as: "schedules"
 });
 
 Schedule.belongsTo(User, {
     foreignKey: "user_id",
-    as: "user"
+    as: "users"
 });
 
 Schedule.hasMany(Meal, {
     foreignKey: "scheduling_id",
-    as: "meal"
+    as: "meals"
 });
 
 Meal.belongsTo(Schedule, {
     foreignKey: "schedule_id",
-    as: "schedule"
+    as: "schedules"
 });
 
 Role.hasMany(User, {
     foreignKey: "role_id",
-    as: "user"
+    as: "users"
 });
 
 User.belongsTo(Role, {
     foreignKey: "role_id",
-    as: "role"
-})
+    as: "roles"
+});
+
+module.exports = { User, Favorite, Meal, Role, Schedule }

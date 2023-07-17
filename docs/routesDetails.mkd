@@ -129,13 +129,15 @@ Réponse :
 Réponse:
 
 ```javascript
-{
+{ 
+    "user_id": number,
     "firstName": string,
     "lastName": string,
     "email": string,
     "password": string,
     "favorites": [
       {
+        "favorite_id",
         "idMeal": string,
         "name": string,
         "imageUrl": string,
@@ -144,9 +146,11 @@ Réponse:
     ],
     "schedule": [
       {
+        "schedule_id" : number,
         "week": number,
         "meals": [
           {
+            "meal_id" : number,
             "idMeal": string,
             "name": string,
             "imageUrl": string,

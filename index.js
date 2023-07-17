@@ -4,13 +4,13 @@ dotenv.config();
 
 /*----------------- Express ----------------- */
 const express = require('express');
-const router = require('./app/router');
+const router = require('./app/routers/router');
 
 const cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-const middlewares = require('./app/middlewares');
+// const middlewares = require('./app/middlewares');
 
 app.use(express.json());
 //app.use(express.urlencoded({extended: true}))
@@ -21,10 +21,10 @@ app.use(express.json());
 
 /*----------------- Middlewares ----------------- */
 app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
-app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
+// app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
 app.use(router);
 
-app.use(middlewares.notFound);
+// app.use(middlewares.notFound);
 
 
 /*----------------- App ----------------- */
