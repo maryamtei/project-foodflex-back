@@ -1,17 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../dbConnexion');
 
-class Favorite extends Model {}
+class Favorite extends Model { }
 
 Favorite.init({
-    idDbMeal: DataTypes.INTEGER,
-    name: DataTypes.VARCHAR(30),
+    idDbMeal: DataTypes.STRING(10),
+    name: DataTypes.STRING(30),
     image: DataTypes.TEXT,
     position: DataTypes.INTEGER,
 },
-{
-    sequelize,
-    tableName: "Favorite"
-})
+    {
+        sequelize,
+        tableName: "Favorite"
+    })
 
 module.exports = Favorite;

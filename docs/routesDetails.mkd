@@ -3,6 +3,7 @@
 ## Planning
 
 ### GET
+
 - VERBE: GET
 - ROUTE FRONT: /planning
 - ROUTE API BACK: /planning
@@ -11,18 +12,21 @@
 On doit récuperer un tableau avec 52 semaines et 14 repas par semaine.
 
 Réponse :
+
 ```javascript
-{[
-  week: [
-    {
-      "idMeal": number,
-      "name": string,
-      image: string,
-      position: number
-    }
-  ]
-]
-}
+[
+  {
+    "week": number,
+    "meals": [
+      {
+        "idMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      },
+    ]
+  }
+] 
 ```
 
 ### POST
@@ -34,26 +38,23 @@ Réponse :
 - DESCRIPTION: Planning page - Change la position entre deux menus
 
 Requete:
+
 ```javascript
-{
-  week: number,
-  meal_1: 
-    {
-      "idMeal": number,
-      "name": string,
-      image: string,
-      position: number
-    },
-  meal_2: 
-    {
-      "idMeal": number,
-      "name": string,
-      image: string,
-      position: number
-    }
-}
+ {
+    "week": number,
+    "meals": [
+      {
+        "idMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      },
+    ]
+  }
 ```
+
 Réponse :
+
 ```javascript
 {
   message : "string" (message ok or failed),
@@ -68,18 +69,21 @@ Réponse :
 - ROUTE API BACK: /signup
 - ACTION: validation du formulaire
 - DESCRIPTION: signup page - crée le profil de l’utilisateur
-
+- NOTE : Initialiser Favorites et Schedules à la création du profil
+  
 Requete:
+
 ```javascript
 {
-  mail: "string",
-  password : "string",
-  confirm_password : "string",
-  name : "string"
+  "firstName": string,
+  "lastName": string,
+  "email": string,
+  "password": string,
 }
 ```
 
 Réponse :
+
 ```javascript
 {
   message : "string" (message ok or failed),
@@ -96,22 +100,25 @@ Réponse :
 - DESCRIPTION: Login page - gére la connexion
 
 Requete:
+
 ```javascript
 {
-  mail: "string",
-  password : "string",
+  "mail": string,
+  "password" : string,
 }
 ```
 
 Réponse :
+
 ```javascript
 {
   status : "string" (message ok or failed)
 }
+```
 
 ### Modale Profil
 
-## GET
+## GET Profil
 
 - VERBE: GET  
 - ROUTE FRONT: modale
@@ -120,19 +127,35 @@ Réponse :
 - DESCRIPTION: profil modale - Récupere les informations utilisateurs
 
 Réponse:
+
 ```javascript
 {
-  profil: {
-    mail: "string",
-    name : "string"
+    "firstName": string,
+    "lastName": string,
+    "email": string,
+    "password": string,
+    "favorites": [
+      {
+        "idMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      }
+    ],
+    "schedule": [
+      {
+        "week": number,
+        "meals": [
+          {
+            "idMeal": string,
+            "name": string,
+            "imageUrl": string,
+            "position": number
+          },
+        ]
+      },
+    ]
   },
-  favorites:[{
-      "idMeal": number,
-      "name": string,
-      image: string,
-      position: number 
-  }]
-}
 ```
 
 ## PATCH
@@ -141,9 +164,10 @@ Réponse:
 - ROUTE FRONT: modale
 - ROUTE API BACK: /profil
 - ACTION: lors de l'appuie du bouton "modification profil"
-- DESCRIPTION: profil modale - Modifie les informations utilisateurs 
+- DESCRIPTION: profil modale - Modifie les informations utilisateurs
 
 Requete:
+
 ```javascript
 {
     mail: "string",
@@ -152,7 +176,9 @@ Requete:
     confirm_password: "string"
 }
 ```
+
 Réponse:
+
 ```javascript
 {
     status: "string"
@@ -165,9 +191,10 @@ Réponse:
 - ROUTE FRONT: modale
 - ROUTE API BACK: /profil
 - ACTION: lors de l'appuie du bouton "delete favori"
-- DESCRIPTION: profil modale - Supprime une recette favorite 
+- DESCRIPTION: profil modale - Supprime une recette favorite
 
 Requete:
+
 ```javascript
 {
       "idMeal": number
@@ -175,6 +202,7 @@ Requete:
 ```
 
 Réponse:
+
 ```javascript
 {
     status: "string"
@@ -187,12 +215,13 @@ Réponse:
 
 - VERBE: GET
 - ROUTE FRONT: /recipes
-- ROUTE API THEMEALDB: www.themealdb.com/api/json/v1/1/random.php
+- ROUTE API THEMEALDB: <www.themealdb.com/api/json/v1/1/random.php>
 - ROUTE API BACK: non
 - ACTION: au chargement
 - DESCRIPTION: Home page - Récupérer X meals, on garde que idMeal, strMeal et strMealThumb pour l'affichage.
 
 Réponse:
+
 ```json
 {
   "meals": [
@@ -204,7 +233,8 @@ Réponse:
   ]
 }
 ```
-TypeScript : 
+
+TypeScript :
 
 ```js
 export interface Root {
@@ -221,15 +251,16 @@ export interface Meal {
 
 ### Favorites
 
-## GET ROUTER 
+## GET ROUTER
 
 - VERBE: GET
-- ROUTE FRONT: 
+- ROUTE FRONT:
 - ROUTE API BACK: /favori
 - ACTION: lors de l'appuie sur le bouton filter favorites
 - DESCRIPTION: profil modale - Récupere les informations utilisateurs
 
 Réponse:
+
 ```javascript
 {
   favorites:[{
@@ -244,12 +275,13 @@ Réponse:
 ## POST
 
 - VERBE: POST
-- ROUTE FRONT: 
+- ROUTE FRONT:
 - ROUTE API BACK: /favori
 - ACTION: appuie sur le bouton favori
 - DESCRIPTION: Planning page - Ajoute en favori
 
 Requete:
+
 ```javascript
 {
   meal_1: 
@@ -259,7 +291,9 @@ Requete:
       image: string
     }
 ```
+
 Réponse :
+
 ```javascript
 {
   message : "string" (message ok or failed),
@@ -267,16 +301,16 @@ Réponse :
 }
 ```
 
-
 ## DELETE
 
 - VERBE: DELETE
-- ROUTE FRONT: 
+- ROUTE FRONT:
 - ROUTE API BACK: /favori
 - ACTION: appuie sur le bouton delete
 - DESCRIPTION: Planning page - Supprime le menu dans le planning
 
 Requete:
+
 ```javascript
 {
   week: number,
@@ -288,7 +322,9 @@ Requete:
       position: number
     }
 ```
+
 Réponse :
+
 ```javascript
 {
   message : "string" (message ok or failed),
