@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../models/associations');
+const { User, Schedule } = require('../models/associations');
 
 const userController = {
 
@@ -35,7 +35,8 @@ const userController = {
         try {
             const user_id = req.params.id;
             const user = await User.findByPk(user_id, {
-                include: ['favorites', 'schedules']
+                include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
+
             })
             if (!user) {
                 res.status(404).json('Can not find user with id : ' + user_id);
