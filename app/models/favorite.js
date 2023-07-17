@@ -4,8 +4,8 @@ const sequelize = require('../dbConnexion');
 class Favorite extends Model { }
 
 Favorite.init({
-    idDbMeal: DataTypes.STRING(10),
-    name: DataTypes.STRING(30),
+    idDbMeal: DataTypes.STRING,
+    name: DataTypes.STRING,
     image: DataTypes.TEXT,
     position: DataTypes.INTEGER,
 },

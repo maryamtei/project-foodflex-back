@@ -2,9 +2,9 @@ const express = require('express');
 
 /*------------ Controllers ---------------- */
 
-const userController = require('./controllers/userController');
-const schedulingController = require('./controllers/schedulingController');
-const favoriteController = require('./controllers/favoriteController');
+const userController = require('../controllers/userController');
+const schedulingController = require('../controllers/scheduleController');
+const favoriteController = require('../controllers/favoriteController');
 
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
@@ -20,8 +20,10 @@ const router = express.Router();
 /* User -> Profil */
 
 router.delete(`/profil/:id`, userController.deleteProfil)
+/*
 router.patch(`/profil/:id`, userController.modifyProfil)
 router.get(`/profil:id`, userController.getProfil)
+*/
 router.post(`/signup`, userController.signUp)
 router.post(`/login`, userController.login)
 

@@ -47,3 +47,4 @@ User.belongsTo(Role, {
     foreignKey: "role_id",
     as: "role"
 })
+

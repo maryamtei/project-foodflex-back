@@ -20,13 +20,35 @@ const favoriteController = {
     addFavorite: async (req,res) => {
         try {
             const user_id = req.params.id;
-            const user = await User.findByPk({
-                association: 'favorites'
-            })
+            let bodyErrors = [];
+            let tabFavoris = [];
+            const user = await User.findOne(user_id,{
+                include: 'favorites'
+            });
+
             const { name, image, position,idDbMeal} = req.body; //user_id envoyé par le front
-            // findbypk de user on récup favoris et profil
-            // findOne pour verif
-            // if exist alors on push pas else on push
+
+
+            if(favoris){
+                return res.status(400).json('Ce favori existe déjà !');
+            }
+
+            if(!image) { bodyErrors.push('image can not be empty !') }
+            if(!position) { bodyErrors.push('position can not be empty !') }
+            if(!name) { bodyErrors.push('name can not be empty !') }
+            if(!idDbMeal) { bodyErrors.push('idDbMeal can not be empty !') }
+            if(bodyErrors.length) {
+                res.status(422).json(bodyErrors);
+            }else{
+                const newFavori = await user.create(user_id,{
+                    image,
+                    position,
+                    name,
+                    idDbMeal,
+                })
+                tabFavoris.push(newFavori)
+            }
+
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())

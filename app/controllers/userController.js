@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const User = require('../models');
+const Schedule = require('../models/schedule');
 const bcrypt = require('bcrypt');
 
 const userController = {
@@ -79,13 +80,14 @@ const userController = {
                 firstname,
                 email,
                 lastname,
-                password: hashedPassword
-            });
+                password: hashedPassword,
+            })
 
             return res.status(200).json('Inscription reussie !', newUser); //Pas sure qu'on return cet var
             //add redirect
         } catch (error) {
             console.log(error);
+            await t.rollback();
             res.status(500).json(error.toString())
         }
     },
