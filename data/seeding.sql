@@ -4,8 +4,8 @@ VALUES ('Admin'),
   ('User');
 -- Table: user
 INSERT INTO "user" (
-    "firstname",
-    "lastname",
+    "firstName",
+    "lastName",
     "email",
     "password",
     "role_id"

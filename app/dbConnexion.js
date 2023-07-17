@@ -7,6 +7,7 @@ const { Sequelize } = require('sequelize');
 const PG_URL = process.env.PG_URL;
 
 const defineAttributes = {
+    logging: false,
     define: {
         // underscored: true,          // On indique à sequelize de passer en mode snake case
         createdAt: "created_at",    // On lui indique la syntaxe pour nos timestamps

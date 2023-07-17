@@ -29,7 +29,7 @@ Schedule.belongsTo(User, {
 });
 
 Schedule.hasMany(Meal, {
-    foreignKey: "scheduling_id",
+    foreignKey: "schedule_id",
     as: "meals"
 });
 

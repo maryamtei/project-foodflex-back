@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS "role" (
 /* Table: user */
 CREATE TABLE IF NOT EXISTS "user" (
   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "firstname" varchar(64) NOT NULL,
-  "lastname" varchar(64) NOT NULL,
+  "firstName" varchar(64) NOT NULL,
+  "lastName" varchar(64) NOT NULL,
   "email" rfc_email NOT NULL UNIQUE,
   "password" varchar(64) NOT NULL,
   "role_id" int NOT NULL REFERENCES "role"("id"),
