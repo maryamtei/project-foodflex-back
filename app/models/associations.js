@@ -49,14 +49,15 @@ User.belongsTo(Role, {
     as: "roles"
 });
 
-AuthToken.hasOne(User, {
+
+User.hasOne(AuthToken, {
     foreignKey: "user_id",
-    as: "user_authToken"
+    as: "token"
 });
 
-User.belongsTo(AuthToken, {
+AuthToken.belongsTo(User, {
     foreignKey: "user_id",
-    as: "AuthToken"
+    as: "users"
 });
 
 module.exports = { User, Favorite, Meal, Role, Schedule, AuthToken }
