@@ -27,6 +27,8 @@ router.patch(`/profil/:id`, userController.modifyUser)
 router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
 router.post(`/login`, userController.login)
+router.post(`/logout`,authentification, userController.logout)
+router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)

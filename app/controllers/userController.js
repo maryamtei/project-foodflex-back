@@ -128,6 +128,21 @@ const userController = {
             console.log(error);
             res.status(500).json(error.toString())
         }
+    },
+    getUserInformation: async (req, res) => {
+        return res.status(200).json(req.user)
+    },
+    logout: async (req, res) => {
+        try {
+           if (!req.authToken) {
+            return res.status(401).json({ message: 'Token manquant. Déconnexion échouée.' });
+           }
+           console.log(req.user.token)
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error.toString())
+        }
     }
 
 };
