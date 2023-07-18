@@ -4,8 +4,8 @@ const sequelize = require('../dbConnexion');
 class Meal extends Model { }
 
 Meal.init({
-    idDbMeal: DataTypes.STRING,
-    name: DataTypes.STRING,
+    idDbMeal: DataTypes.TEXT,
+    name: DataTypes.TEXT,
     image: DataTypes.TEXT,
     position: DataTypes.INTEGER,
 },

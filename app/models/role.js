@@ -4,7 +4,7 @@ const sequelize = require('../dbConnexion');
 class Role extends Model { }
 
 Role.init({
-    name: DataTypes.STRING,
+    name: DataTypes.TEXT,
 },
     {
         sequelize,

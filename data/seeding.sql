@@ -3,46 +3,64 @@ INSERT INTO "role" ("name")
 VALUES ('Admin'),
   ('User');
 -- Table: user
-INSERT INTO "user" ("firstname", "lastname", "email", "password")
-VALUES ('John', 'Doe', 'john@example.com', 'password123'),
+INSERT INTO "user" (
+    "firstName",
+    "lastName",
+    "email",
+    "password",
+    "role_id"
+  )
+VALUES (
+    'John',
+    'Doe',
+    'john@example.com',
+    'password123',
+    2
+  ),
   (
     'Jane',
     'Smith',
     'jane@example.com',
-    'password456'
+    'password456',
+    2
+  ),
+  (
+    'Romain',
+    'Vicidomini',
+    'r.vicidomini@foodflex.com',
+    'foodflex',
+    2
+  ),
+  (
+    'Gabrielle',
+    'Pagnard',
+    'g.pagnard@foodflex.com',
+    'foodflex',
+    2
+  ),
+  (
+    'Maryam',
+    'Tei',
+    'm.tei@foodflex.com',
+    'foodflex',
+    2
+  ),
+  (
+    'Mathilde',
+    'Louradour',
+    'm.louradour@foodflex.com',
+    'foodflex',
+    2
+  ),
+  (
+    'Jonathan',
+    'Flamme',
+    'j.flamme@foodflex.com',
+    'foodflex',
+    2
   );
-(
-  'Romain',
-  'Vicidomini',
-  'r.vicidomini@foodflex.com',
-  'foodflex'
-);
-(
-  'Gabrielle',
-  'Pagnard',
-  'g.pagnard@foodflex.com',
-  'foodflex'
-);
-(
-  'Maryam',
-  'Tei',
-  'm.tei@foodflex.com',
-  'foodflex'
-);
-(
-  'Mathilde',
-  'Louradour',
-  'm.louradour@foodflex.com',
-  'foodflex'
-);
-(
-  'Jonathan',
-  'Flamme',
-  'j.flamme@foodflex.com',
-  'foodflex'
-);
 -- Table: favori
-INSERT INTO "favori" (
+INSERT INTO "favorite" (
     "idDbMeal",
     "user_id",
     "name",
@@ -50,87 +68,87 @@ INSERT INTO "favori" (
     "position"
   )
 VALUES (
-    1,
+    '1',
     1,
     'Meal 1',
     'https:\/\/www.themealdb.com\/images\/media\/meals\/ustsqw1468250014.jpg',
     1
   ),
   (
-    2,
+    '2',
     1,
     'Meal 2',
     'https:\/\/www.themealdb.com\/images\/media\/meals\/ustsqw1468250014.jpg',
     2
   ),
   (
-    3,
+    '3',
     2,
     'Meal 3',
     'https:\/\/www.themealdb.com\/images\/media\/meals\/ustsqw1468250014.jpg',
     1
+  ),
+  (
+    '52944',
+    3,
+    'Escovitch Fish',
+    'https://www.themealdb.com/images/media/meals/1520084413.jpg',
+    3
+  ),
+  (
+    '53008',
+    4,
+    'Stuffed Lamb Tomatoes',
+    'https://www.themealdb.com/images/media/meals/u55lbp1585564013.jpg',
+    6
+  ),
+  (
+    '52963',
+    5,
+    'Kapsalon',
+    'https://www.themealdb.com/images/media/meals/sxysrt1468240488.jpg',
+    10
+  ),
+  (
+    '52963',
+    6,
+    'Shakshuka',
+    'https://www.themealdb.com/images/media/meals/g373701551450225.jpg',
+    12
+  ),
+  (
+    '52944',
+    7,
+    'Escovitch Fish',
+    'https://www.themealdb.com/images/media/meals/1520084413.jpg',
+    2
   );
-(
-  '52944',
-  3,
-  'Escovitch Fish',
-  'https://www.themealdb.com/images/media/meals/1520084413.jpg',
-  3
-);
-(
-  '53008',
-  4,
-  'Stuffed Lamb Tomatoes',
-  'https://www.themealdb.com/images/media/meals/u55lbp1585564013.jpg',
-  6
-);
-(
-  '52963',
-  5,
-  'Kapsalon',
-  'https://www.themealdb.com/images/media/meals/sxysrt1468240488.jpg',
-  10
-);
-(
-  '52963',
-  6,
-  'Shakshuka',
-  'https://www.themealdb.com/images/media/meals/g373701551450225.jpg',
-  12
-);
-(
-  '52944',
-  7,
-  'Escovitch Fish',
-  'https://www.themealdb.com/images/media/meals/1520084413.jpg',
-  2
-);
 -- Table: scheduling
-INSERT INTO "scheduling" ("user_id", "week")
+INSERT INTO "schedule" ("user_id", "week")
 VALUES (3, 'Week 1'),
   (3, 'Week 2'),
   (3, 'Week 3'),
   (3, 'Week 4'),
-  (4, 'Week 1');
-(4, 'Week 2');
-(4, 'Week 3');
-(4, 'Week 4');
-(5, 'Week 1');
-(5, 'Week 2');
-(5, 'Week 3');
-(5, 'Week 4');
-(6, 'Week 1');
-(6, 'Week 2');
-(6, 'Week 3');
-(6, 'Week 4');
-(7, 'Week 1');
-(7, 'Week 2');
-(7, 'Week 3');
-(7, 'Week 4');
+  (4, 'Week 1'),
+  (4, 'Week 2'),
+  (4, 'Week 3'),
+  (4, 'Week 4'),
+  (5, 'Week 1'),
+  (5, 'Week 2'),
+  (5, 'Week 3'),
+  (5, 'Week 4'),
+  (6, 'Week 1'),
+  (6, 'Week 2'),
+  (6, 'Week 3'),
+  (6, 'Week 4'),
+  (7, 'Week 1'),
+  (7, 'Week 2'),
+  (7, 'Week 3'),
+  (7, 'Week 4');
 -- Table: meal
 INSERT INTO "meal" (
     "idDbMeal",
-    "scheduling_id",
+    "schedule_id",
     "name",
     "image",
     "position"
@@ -155,32 +173,32 @@ VALUES (
     'Treacle Tart',
     'https://www.themealdb.com/images/media/meals/wprvrw1511641295.jpg',
     8
+  ),
+  (
+    '52988',
+    18,
+    'Classic Christmas pudding',
+    'https://www.themealdb.com/images/media/meals/1d85821576790598.jpg',
+    1
+  ),
+  (
+    '52925',
+    18,
+    'Split Pea Soup',
+    'https://www.themealdb.com/images/media/meals/xxtsvx1511814083.jpg',
+    4
+  ),
+  (
+    '52892',
+    18,
+    'Treacle Tart',
+    'https://www.themealdb.com/images/media/meals/wprvrw1511641295.jpg',
+    8
+  ),
+  (
+    '3',
+    2,
+    'Meal 3',
+    'https:\/\/www.themealdb.com\/images\/media\/meals\/xvsurr1511719182.jpg',
+    1
   );
-(
-  '52988',
-  18,
-  'Classic Christmas pudding',
-  'https://www.themealdb.com/images/media/meals/1d85821576790598.jpg',
-  1
-);
-(
-  '52925',
-  18,
-  'Split Pea Soup',
-  'https://www.themealdb.com/images/media/meals/xxtsvx1511814083.jpg',
-  4
-);
-(
-  '52892',
-  18,
-  'Treacle Tart',
-  'https://www.themealdb.com/images/media/meals/wprvrw1511641295.jpg',
-  8
-);
-(
-  '3',
-  2,
-  'Meal 3',
-  'https:\/\/www.themealdb.com\/images\/media\/meals\/xvsurr1511719182.jpg',
-  1
-);

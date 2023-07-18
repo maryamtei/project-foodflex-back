@@ -4,9 +4,9 @@ const sequelize = require('../dbConnexion');
 class User extends Model { }
 
 User.init({
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    password: DataTypes.STRING,
+    firstName: DataTypes.TEXT,
+    lastName: DataTypes.TEXT,
+    password: DataTypes.TEXT,
     email: DataTypes.TEXT,
 },
     {

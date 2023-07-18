@@ -1,14 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../dbConnexion');
 
-class Scheduling extends Model { }
+class Schedule extends Model { }
 
-Scheduling.init({
+Schedule.init({
     week: DataTypes.INTEGER,
 },
     {
         sequelize,
-        tableName: "scheduling"
+        tableName: "schedule"
     })
 
-module.exports = Scheduling;
+module.exports = Schedule;

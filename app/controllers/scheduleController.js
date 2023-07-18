@@ -1,8 +1,8 @@
-const Scheduling = require('../models/schedule');
+const Schedule = require('../models/schedule');
 
-const schedulingController = {
+const scheduleController = {
 
-    modifyScheduling: async (req, res) => {
+    modifySchedule: async (req, res) => {
         try {
 
         } catch (error) {
@@ -28,4 +28,4 @@ const schedulingController = {
     }
 };
 
-module.exports = schedulingController
+module.exports = scheduleController
