@@ -1,6 +1,6 @@
 const Favorite = require('../models/favorite');
 const User = require('../models/user');
-const generateAuthTokens = require('../middlewares/generateAuthTokens')
+
 
 const favoriteController = {
 

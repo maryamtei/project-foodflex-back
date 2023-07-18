@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const { User, Schedule } = require('../models/associations');
+const generateAuthTokens = require('../middlewares/generateAuthTokens')
+
 
 const userController = {
 
@@ -115,6 +117,9 @@ const userController = {
 
             if (!password_validor) {
                 return res.status(400).json('Identifiants invalides.');
+            }else{
+                const authToken = await generateAuthTokens(user.id) // création du token jwt
+                console.log(authToken)
             }
             return res.status(200).json('Connexion réussie.'); //Pareil pas encore reflechi a si j'add user ou pas
             //Add redirect planning

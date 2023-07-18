@@ -6,6 +6,9 @@ const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
 
+/*------------ Middlewares ---------------- */
+const authentification = require('../middlewares/authentification')
+
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
 |-------|---------------------------------------|--------------------------------------------------------|
