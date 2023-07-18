@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User, Schedule } = require('../models/associations');
+const { User, Schedule, Meal, Favorite } = require('../models/associations');
 
 const userController = {
 
@@ -20,6 +20,7 @@ const userController = {
 
                 if (password) { user.password = password }
 
+                //! Comment modifié le domain rfc_email
                 if (email) { user.email = email }
 
                 await user.save();
@@ -47,17 +48,28 @@ const userController = {
             res.status(500).json(error.toString())
         }
     },
-    deleteProfil: async (req, res) => {
+    deleteUser: async (req, res) => {
         try {
             const user_id = req.params.id;
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             });
+            const schedules = await Schedule.findAll({ where: { user_id } });
+            // const meal = await Meal.findOne({ where: { schedule_id: schedule } });
 
             if (!user) {
                 res.status(404).json('Can not find user with id ' + user_id);
             } else {
+                // For each schedule, we destroy meal
+                for (const schedule of schedules) {
+                    await Meal.destroy({ where: { schedule_id: schedule.id } })
+                }
+                // Schedule destroy with user_id
+                await Schedule.destroy({ where: { user_id: user_id } });
+                // Favorite destroy with user_id
+                await Favorite.destroy({ where: { user_id: user_id } });
 
+                // Then user destroy with meal, schedule and favorite empty
                 await user.destroy();
                 res.status(200).json('OK');
             }

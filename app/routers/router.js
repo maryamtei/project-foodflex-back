@@ -19,7 +19,7 @@ const router = express.Router();
 
 /* User -> Profil */
 
-router.delete(`/profil/:id`, userController.deleteProfil)
+router.delete(`/profil/:id`, userController.deleteUser)
 router.patch(`/profil/:id`, userController.modifyUser)
 router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
@@ -27,7 +27,9 @@ router.post(`/login`, userController.login)
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.get(`/planning/:id`, scheduleController.getSchedule)
+router.get(`/schedule/:id`, scheduleController.getSchedule)
+router.post(`/schedule`, scheduleController.addSchedule)
+
 
 /* User -> Favorites */
 
