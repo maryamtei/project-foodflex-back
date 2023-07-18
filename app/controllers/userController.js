@@ -117,11 +117,11 @@ const userController = {
 
             if (password_validor) {
                 return res.status(400).json('Identifiants invalides.');
-            }else{
-                const authToken = await generateAuthTokens(user.id) // création du token jwt
-                console.log(authToken)
             }
-            return res.status(200).json(user); //Pareil pas encore reflechi a si j'add user ou pas
+
+            const authToken = await generateAuthTokens(user.id) // création du token jwt
+
+            return res.status(200).json(authToken); //Pareil pas encore reflechi a si j'add user ou pas
             //Add redirect planning
 
         } catch (error) {
