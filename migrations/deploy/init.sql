@@ -58,4 +58,11 @@ CREATE TABLE IF NOT EXISTS "meal" (
   "created_at" timestamptz NOT NULL DEFAULT NOW(),
   "updated_at" timestamptz NULL DEFAULT NOW()
 );
+/* Table: authToken */
+CREATE TABLE IF NOT EXISTS "authTokens" (
+  "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "token" text NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT NOW(),
+  "updated_at" timestamptz NULL DEFAULT NOW()
+);
 COMMIT;
