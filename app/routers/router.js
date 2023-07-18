@@ -19,7 +19,7 @@ const router = express.Router();
 
 /* User -> Profil */
 
-router.delete(`/profil/:id`, userController.deleteProfil)
+router.delete(`/profil/:id`, userController.deleteUser)
 router.patch(`/profil/:id`, userController.modifyUser)
 router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
