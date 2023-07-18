@@ -54,22 +54,23 @@ const userController = {
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             });
-            const schedule = await Schedule.findOne({ where: { user_id } }, {
-                include: ['meals']
-            });
-            console.log(schedule)
-            const meal = await Meal.findOne({ where: { schedule_id: schedule } });
-
-            console.log(meal)
+            const schedules = await Schedule.findAll({ where: { user_id } });
+            // const meal = await Meal.findOne({ where: { schedule_id: schedule } });
 
             if (!user) {
                 res.status(404).json('Can not find user with id ' + user_id);
             } else {
+                // For each schedule, we destroy meal
+                for (const schedule of schedules) {
+                    await Meal.destroy({ where: { schedule_id: schedule.id } })
+                }
+                // Schedule destroy with user_id
+                await Schedule.destroy({ where: { user_id: user_id } });
+                // Favorite destroy with user_id
+                await Favorite.destroy({ where: { user_id: user_id } });
 
-                // await Meal.destroy({ where: { schedule_id: schedule.id } })
-                // await Schedule.destroy({ where: { user_id: user_id } });
-                // await Favorite.destroy({ where: { user_id: user_id } });
-                // await user.destroy();
+                // Then user destroy with meal, schedule and favorite empty
+                await user.destroy();
                 res.status(200).json('OK');
             }
         } catch (error) {
