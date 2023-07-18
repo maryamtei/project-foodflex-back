@@ -8,7 +8,7 @@ const router = require('./app/routers/router');
 
 const cors = require('cors');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 // const middlewares = require('./app/middlewares');
 
