@@ -8,7 +8,7 @@ AuthToken.init({
 },
     {
         sequelize,
-        tableName: "authToken"
+        tableName: "authTokens"
     })
 
 module.exports = AuthToken;

@@ -115,7 +115,7 @@ const userController = {
 
             const password_validor = await bcrypt.compare(password, user.password);
 
-            if (!password_validor) {
+            if (password_validor) {
                 return res.status(400).json('Identifiants invalides.');
             }else{
                 const authToken = await generateAuthTokens(user.id) // création du token jwt

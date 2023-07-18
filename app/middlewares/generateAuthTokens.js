@@ -4,7 +4,7 @@ const AuthToken  = require('../models/authToken');
 const generateAuthTokens =  async function (id){
     const authToken = jwt.sign({_id: id.toString()},'secret')
     return newToken = await AuthToken.create({
-        id,
+        user_id:id,
         token:authToken
     });
 
