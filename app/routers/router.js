@@ -31,7 +31,7 @@ router.get(`/planning/:id`, scheduleController.getSchedule)
 
 /* User -> Favorites */
 
-router.get(`/profil/favori`, favoriteController.getAllFavorites)
+router.get(`/profil/:id/favori`, favoriteController.getAllFavorites)
 router.post(`/profil/:id/favori`, favoriteController.addFavorite)
 router.delete(`/profil/:id`, favoriteController.deleteFavorite)
 

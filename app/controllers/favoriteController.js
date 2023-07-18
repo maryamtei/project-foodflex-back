@@ -1,14 +1,19 @@
+const { where } = require('sequelize');
 const Favorite = require('../models/favorite');
 const User = require('../models/user');
 
 const favoriteController = {
 
-    getAllFavorites: async (req, res) => {
+    getAllFavorites: async (req, res) => { //Fonctionne
         try {
+            const user_id = req.params.id;
             const Favoris = await Favorite.findAll({
+                where: { user_id },
+                /*
                 include: {
-                    association: 'user', //Pour récupérer les favorites du user correspondant
+                    association: 'users', //Pour récupérer les favorites du user correspondant
                 }
+                */
             });
             console.log(Favoris)
             res.status(200).json(Favoris);
@@ -20,33 +25,47 @@ const favoriteController = {
     addFavorite: async (req,res) => {
         try {
             const user_id = req.params.id;
-            let bodyErrors = [];
             let tabFavoris = [];
-            const user = await User.findOne(user_id,{
+            const user = await User.findOne({
+                where: {id: user_id},
                 include: 'favorites'
             });
 
+            if (!user) {
+                return res.status(404).json('Utilisateur introuvable');
+            }
+
             const { name, image, position,idDbMeal} = req.body; //user_id envoyé par le front
 
-            if(favoris){
+            const existingFavorite = await Favorite.findOne({
+                where: {
+                    user_id,
+                    idDbMeal
+                  }
+            })
+
+            if(existingFavorite){
                 return res.status(400).json('Ce favori existe déjà !');
             }
 
-            if(!image) { bodyErrors.push('image can not be empty !') }
-            if(!position) { bodyErrors.push('position can not be empty !') }
-            if(!name) { bodyErrors.push('name can not be empty !') }
-            if(!idDbMeal) { bodyErrors.push('idDbMeal can not be empty !') }
+            if (!image || !position || !name || !idDbMeal) {
+                const bodyErrors = [];
+                if (!image) { bodyErrors.push('image cannot be empty!'); }
+                if (!position) { bodyErrors.push('position cannot be empty!'); }
+                if (!name) { bodyErrors.push('name cannot be empty!'); }
+                if (!idDbMeal) { bodyErrors.push('idDbMeal cannot be empty!'); }
 
-            if(bodyErrors.length) {
-                res.status(422).json(bodyErrors);
-            }else{
-                const newFavori = await user.create(user_id,{
+            return res.status(422).json(bodyErrors);
+            }else {
+                const newFavori = await Favorite.create({
+                    user_id,
                     image,
                     position,
                     name,
                     idDbMeal,
                 })
                 tabFavoris.push(newFavori)
+                res.status(200).json(tabFavoris);
             }
 
         } catch (error) {
