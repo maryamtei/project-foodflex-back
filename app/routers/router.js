@@ -34,6 +34,7 @@ router.get(`/user`,authentification, userController.getUserInformation)
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
 router.post(`/schedule`, scheduleController.addSchedule)
+router.patch(`/schedule/:id`, scheduleController.modifySchedule)
 router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
