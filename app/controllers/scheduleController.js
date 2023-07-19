@@ -1,11 +1,13 @@
+const sequelize = require("../dbConnexion");
 const { Meal, Schedule, User } = require('../models/associations');
 
 const scheduleController = {
     addSchedule: async (req, res) => {
+
         const t = await sequelize.transaction();
+
         try {
             const { user_id, schedule_id, week, meals } = req.body;
-
 
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
