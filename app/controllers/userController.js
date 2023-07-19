@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const generateAuthTokens = require('../middlewares/generateAuthTokens')
 
 
-const { User, Schedule, Meal, Favorite } = require('../models/associations');
+const { User, Schedule, Meal, Favorite, AuthToken } = require('../models/associations');
 
 const userController = {
 
@@ -100,6 +100,7 @@ const userController = {
                 role_id: 2, // role_id = 2 => membre
             });
 
+            console.log("ok", newUser)
             return res.status(200).json(newUser); //Pas sure qu'on return cet var
             //add redirect
         } catch (error) {
@@ -152,11 +153,23 @@ const userController = {
     },
     logout: async (req, res) => {
         try {
+            const user_id = req.user.id;
+
            if (!req.authToken) {
             return res.status(401).json({ message: 'Token manquant. Déconnexion échouée.' });
-           }
-           console.log(req.user.token)
+           }else{
 
+           }
+           const tokens = await AuthToken.findAll({
+            where: { user_id },
+          });
+          for (const token of tokens) {
+            await token.destroy();
+          }
+
+           req.authToken = null;
+           req.user = [];
+            res.status(200).json({status:"Deconnexion"});
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())
