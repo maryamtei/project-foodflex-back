@@ -73,18 +73,13 @@ const favoriteController = {
                 include: 'favorites'
             });
 
-            if (!user) {
-                return res.status(404).json('Utilisateur introuvable');
-            }
+            // if (!user) {
+            //     return res.status(404).json('Utilisateur introuvable');
+            // }
 
-            const favorite = await Favorite.findOne({
-                where: {
-                    user_id,
-                    idDbMeal
-                  }
-            })
+            const favorite = await Favorite.findByPk(favorite_id)
             if (!favorite) {
-                res.status(404).json('Can not find favorite with id ' + idDbMeal);
+                res.status(404).json('Can not find favorite with id ' + favorite_id);
             } else {
                 await favorite.destroy();
 
