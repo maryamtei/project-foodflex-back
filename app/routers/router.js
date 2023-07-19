@@ -40,8 +40,7 @@ router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 /* User -> Favorites */
 
 router.post(`/favorite-add`, authentification, favoriteController.addFavorite)
-router.post(`/favorite-delete`,authentification, favoriteController.deleteFavorite)
-//router.delete(`/profil/favori/:id`, favoriteController.deleteFavorite)
+router.delete(`/favorite-delete/:id`,authentification, favoriteController.deleteFavorite)
 
 /* Export */
 

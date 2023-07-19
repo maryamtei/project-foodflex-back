@@ -63,9 +63,9 @@ const favoriteController = {
     },
     deleteFavorite: async (req, res) => {
         try {
-            const user_id = req.user.id;
-            console.log(req.body)
-            const { idDbMeal } = req.body
+            const meal_id = req.params.id;
+            const user_id = req.user.id
+
 
 
             const user = await User.findOne({
@@ -77,9 +77,10 @@ const favoriteController = {
             //     return res.status(404).json('Utilisateur introuvable');
             // }
 
-            const favorite = await Favorite.findByPk(favorite_id)
+            const favorite = await Favorite.findByPk(meal_id)
+            console.log(favorite)
             if (!favorite) {
-                res.status(404).json('Can not find favorite with id ' + favorite_id);
+                res.status(404).json('Can not find favorite with id ' + meal_id);
             } else {
                 await favorite.destroy();
 
