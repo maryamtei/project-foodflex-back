@@ -28,6 +28,7 @@ router.post(`/login`, userController.login)
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
 router.post(`/schedule`, scheduleController.addSchedule)
+router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
 /* User -> Favorites */
