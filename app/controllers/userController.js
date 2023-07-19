@@ -101,6 +101,7 @@ const userController = {
                 role_id: 2, // role_id = 2 => membre
             });
 
+            console.log("ok", newUser)
             return res.status(200).json(newUser); //Pas sure qu'on return cet var
             //add redirect
         } catch (error) {
