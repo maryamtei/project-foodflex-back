@@ -28,7 +28,7 @@ const router = express.Router();
 //router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
 router.post(`/login`, userController.login)
-router.post(`/logout`,authentification, userController.logout)
+router.get(`/logout`,authentification, userController.logout)
 router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
