@@ -1,8 +1,8 @@
 const { Meal, Schedule, User } = require('../models/associations');
-const { associations } = require('../models/user');
 
 const scheduleController = {
     addSchedule: async (req, res) => {
+        const t = await sequelize.transaction();
         try {
             const { user_id, schedule_id, week, meals } = req.body;
 
@@ -24,7 +24,7 @@ const scheduleController = {
                 const addSchedule = await Schedule.create({
                     user_id: user_id,
                     week: week,
-                });
+                }, { transaction: t });
 
                 const addMeal = await Meal.create({
                     idDbMeal: meals.idDbMeal,
@@ -32,8 +32,9 @@ const scheduleController = {
                     name: meals.name,
                     image: meals.imageUrl,
                     position: meals.position,
-                })
+                }, { transaction: t })
                 user.schedules.push(addMeal)
+
             } else {
                 // ----- Check if position already exist on the meal 
                 const mealFind = await Meal.findOne({ where: { schedule_id: schedule.id, position: meals.position } });
@@ -59,9 +60,14 @@ const scheduleController = {
                 }
             }
 
+            await t.commit();
+
             return res.status(200).json('ok');
         } catch (error) {
             console.log(error);
+
+            await t.rollback();
+
             res.status(500).json(error.toString())
         }
     },
