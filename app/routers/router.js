@@ -7,6 +7,19 @@ const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
 const { getAllFavorites } = require('../controllers/favoriteController');
 
+/*------------ Validation_Schema ---------------- */
+
+/* Favorite Schema */
+const addFavoriteSchema = require('../validation/favoriteSchemas/addFavoriteSchema');
+const deleteFavoriteSchema = require('../validation/favoriteSchemas/deleteFavoriteSchema');
+
+const deleteUserSchema = require('../validation/userSchemas/deleteUserSchema');
+const loginUserSchema = require('../validation/userSchemas/loginUserSchema');
+const signUpUserSchema = require('../validation/userSchemas/signUpUserSchema');
+const modifyUserSchema = require('../validation/userSchemas/modifyUserSchema');
+
+const addScheduleSchema = require('../validation/scheduleSchemas/addScheduleSchema');
+
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
 |-------|---------------------------------------|--------------------------------------------------------|

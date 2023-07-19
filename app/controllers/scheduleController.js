@@ -22,6 +22,7 @@ const scheduleController = {
                 return res.status(400).json(`Cet utilisateur n'éxiste déjà pas.`);
             }
 
+
             // ---- if schedule not exist, we create it with meal
 
             if (!schedule) {
@@ -40,7 +41,7 @@ const scheduleController = {
                 user.schedules.push(addMeal)
 
             } else {
-                // ----- Check if position already exist on the meal 
+                // ----- Check if position already exist on the meal
                 const mealFind = await Meal.findOne({ where: { schedule_id: schedule.id, position: meals.position } });
 
                 // ---- if meal not exist, we create meal else we replace

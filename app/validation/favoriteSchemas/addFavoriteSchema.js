@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
+const validator = require('../validator')
 const addFavoriteSchema = Joi.object({
-
 })
-module.exports = addFavoriteSchema
+module.exports = validator(addFavoriteSchema)

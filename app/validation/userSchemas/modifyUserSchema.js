@@ -1,5 +1,6 @@
 const Joi = require('joi');
+const validator = require('../validator')
 
 const modifyUserSchema = Joi.object({
 })
-module.exports = modifyUserSchema
+module.exports = validator(modifyUserSchema)
