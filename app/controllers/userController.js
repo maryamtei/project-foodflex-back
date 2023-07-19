@@ -1,4 +1,7 @@
 const bcrypt = require('bcrypt');
+const generateAuthTokens = require('../middlewares/generateAuthTokens')
+
+
 const { User, Schedule, Meal, Favorite } = require('../models/associations');
 
 const userController = {
@@ -112,9 +115,13 @@ const userController = {
             console.log(email);
             console.log(password);
 
-            const user = await User.findOne({ where: { email } }, {
-                include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-            }); //email unique
+            const user = await User.findOne({
+                where: { email },
+                include: [
+                  'favorites',
+                  { model: Schedule, as: 'schedules', include: 'meals' },
+                ],
+              });
 
 
             if (!user) {
@@ -126,11 +133,29 @@ const userController = {
 
             const password_validor = await bcrypt.compare(password, user.password);
 
-            if (!password_validor) {
+            if (password_validor) {
                 return res.status(400).json('Identifiants invalides.');
             }
-            return res.status(200).json('Connexion réussie.'); //Pareil pas encore reflechi a si j'add user ou pas
-            //Add redirect planning
+
+            const authToken = await generateAuthTokens(user.id) // création du token jwt
+            //return res.status(200).header('Authorization', `Bearer ${authToken}`).json({ message: 'Connexion réussie.', authToken, user});
+            console.log(authToken)
+            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:user});
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error.toString())
+        }
+    },
+    getUserInformation: async (req, res) => {
+        return res.status(200).json({ message: 'Authentification réussie.', user:req.user})
+    },
+    logout: async (req, res) => {
+        try {
+           if (!req.authToken) {
+            return res.status(401).json({ message: 'Token manquant. Déconnexion échouée.' });
+           }
+           console.log(req.user.token)
 
         } catch (error) {
             console.log(error);
