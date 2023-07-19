@@ -23,7 +23,6 @@ const userController = {
 
                 if (password) { user.password = password }
 
-                //! Comment modifié le domain rfc_email
                 if (email) { user.email = email }
 
                 await user.save();
