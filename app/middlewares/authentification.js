@@ -24,6 +24,7 @@ const authentification =  async(req, res, next) => {
 
         req.authToken = authTokenHeader;
         req.user = user;
+        console.log("authentification ok")
         next()
     }catch(e){
       console.log(e)
