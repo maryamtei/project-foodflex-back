@@ -120,9 +120,9 @@ const userController = {
             }
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
+            //return res.status(200).header('Authorization', `Bearer ${authToken}`).json({ message: 'Connexion réussie.', authToken, user});
 
-            return res.status(200).json(authToken); //Pareil pas encore reflechi a si j'add user ou pas
-            //Add redirect planning
+            return res.status(200).json({ message: 'Connexion réussie.', authToken});
 
         } catch (error) {
             console.log(error);

@@ -27,7 +27,7 @@ const authentification =  async(req, res, next) => {
         next()
     }catch(e){
       console.log(e)
-        res.status(401).send("Utilisateur non connecté")
+        res.status(401).send("")
     }
 }
 module.exports = authentification
