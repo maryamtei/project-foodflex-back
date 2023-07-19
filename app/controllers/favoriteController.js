@@ -66,8 +66,6 @@ const favoriteController = {
             const meal_id = req.params.id;
             const user_id = req.user.id
 
-
-
             const user = await User.findOne({
                 where: {id: user_id},
                 include: 'favorites'
