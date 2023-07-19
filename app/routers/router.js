@@ -27,7 +27,6 @@ router.post(`/login`, userController.login)
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.get(`/schedule/:id`, scheduleController.getSchedule)
 router.post(`/schedule`, scheduleController.addSchedule)
 
 

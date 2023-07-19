@@ -2,15 +2,6 @@ const { Meal, Schedule, User } = require('../models/associations');
 const { associations } = require('../models/user');
 
 const scheduleController = {
-    getSchedule: async (req, res) => {
-        try {
-
-        } catch (error) {
-            console.log(error);
-            res.status(500).json(error.toString())
-        }
-    },
-
     addSchedule: async (req, res) => {
         try {
             const { user_id, schedule_id, week, meals } = req.body;
@@ -78,14 +69,6 @@ const scheduleController = {
         }
     },
 
-    modifySchedule: async (req, res) => {
-        try {
-
-        } catch (error) {
-            console.log(error);
-            res.status(500).json(error.toString())
-        }
-    },
 };
 
 module.exports = scheduleController
