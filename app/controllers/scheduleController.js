@@ -15,6 +15,8 @@ const scheduleController = {
             // ----- Search Schedule with Id User et Week number
             const schedule = await Schedule.findOne({ where: { user_id, week: week } });
 
+            // ----- Check if position already exist on the meal
+            const mealFind = await Meal.findOne({ where: { schedule_id: schedule.id, position: meals.position } });
 
             if (!user) {
                 return res.status(400).json(`Cet utilisateur n'éxiste déjà pas.`);
@@ -92,6 +94,14 @@ const scheduleController = {
             res.status(500).json(error.toString())
         }
     },
+    deleteSchedule: async (req, res) => {
+        try {
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error.toString())
+        }
+    }
 };
 
 module.exports = scheduleController
