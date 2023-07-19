@@ -5,6 +5,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
+const { getAllFavorites } = require('../controllers/favoriteController');
 
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
@@ -35,6 +36,7 @@ router.post(`/schedule`, scheduleController.addSchedule)
 
 router.get(`/profil/:id/favori`, favoriteController.getAllFavorites)
 router.post(`/profil/:id/favori`, favoriteController.addFavorite)
+router.delete(`/profil/:id/favori`, favoriteController.deleteFavorite)
 
 /* Export */
 

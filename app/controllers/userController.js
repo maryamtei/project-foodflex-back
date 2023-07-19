@@ -35,6 +35,7 @@ const userController = {
     getOneUser: async (req, res) => {
         try {
             const user_id = req.params.id;
+            console.log("test")
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             })
@@ -101,6 +102,7 @@ const userController = {
             //add redirect
         } catch (error) {
             console.log(error);
+            await t.rollback();
             res.status(500).json(error.toString())
         }
     },
