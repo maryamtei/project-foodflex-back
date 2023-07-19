@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const generateAuthTokens = require('../middlewares/generateAuthTokens')
 
+
 const { User, Schedule, Meal, Favorite } = require('../models/associations');
 
 const userController = {

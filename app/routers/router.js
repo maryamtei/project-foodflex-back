@@ -23,9 +23,9 @@ const router = express.Router();
 
 /* User -> Profil */
 
-router.delete(`/profil/:id`, userController.deleteUser)
-router.patch(`/profil/:id`, userController.modifyUser)
-router.get(`/profil/:id`, userController.getOneUser)
+//router.delete(`/profil/:id`, userController.deleteUser)
+//router.patch(`/profil/:id`, userController.modifyUser)
+//router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
 router.post(`/login`, userController.login)
 router.post(`/logout`,authentification, userController.logout)
@@ -39,9 +39,8 @@ router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 /* User -> Favorites */
 
-router.get(`/profil`, authentification, favoriteController.getAllFavorites)
-router.post(`/profil`, authentification, favoriteController.addFavorite)
-router.delete(`/profil/:id/favori`, favoriteController.deleteFavorite)
+router.post(`/favorite-add`, authentification, favoriteController.addFavorite)
+router.post(`/favorite-delete`,authentification, favoriteController.deleteFavorite)
 
 /* Export */
 

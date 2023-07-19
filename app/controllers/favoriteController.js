@@ -1,35 +1,15 @@
 const { where } = require('sequelize');
 const Favorite = require('../models/favorite');
 const User = require('../models/user');
-
+const { Schedule } = require('../models/associations');
 
 const favoriteController = {
-
-    getAllFavorites: async (req, res) => { //Fonctionne
-        try {
-            const user_id = req.params.id;
-            const Favoris = await Favorite.findAll({
-                where: { user_id },
-                /*
-                include: {
-                    association: 'users', //Pour récupérer les favorites du user correspondant
-                }
-                */
-            });
-            console.log(Favoris)
-            res.status(200).json(Favoris);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json(error.toString())
-        }
-    },
     addFavorite: async (req,res) => {
         try {
             const user_id = req.user.id;
 
             const user = await User.findOne({
-                where: {id: user_id},
-                include: 'favorites'
+                where: {id: user_id}
             });
 
             if (!user) {
@@ -64,9 +44,16 @@ const favoriteController = {
                     name,
                     idDbMeal:idMeal
                 })
-               req.user.favorites.push(newFavori)
 
-                res.status(200).json(req.user);
+                const user = await User.findOne({
+                    where: { id: user_id },
+                    include: [
+                      'favorites',
+                      { model: Schedule, as: 'schedules', include: 'meals' },
+                    ],
+                  });
+                console.log("ajout dans la bdd")
+                res.status(200).json({status:"ok",user:user});
             }
 
         } catch (error) {
@@ -76,9 +63,10 @@ const favoriteController = {
     },
     deleteFavorite: async (req, res) => {
         try {
-            const user_id = req.params.id;
-
+            const user_id = req.user.id;
+            console.log(req.body)
             const { idDbMeal } = req.body
+
 
             const user = await User.findOne({
                 where: {id: user_id},
@@ -99,7 +87,16 @@ const favoriteController = {
                 res.status(404).json('Can not find favorite with id ' + idDbMeal);
             } else {
                 await favorite.destroy();
-                res.status(200).json('Le favori ' + idDbMeal + " à bien été effacé");
+
+                const user = await User.findOne({
+                    where: { id: user_id },
+                    include: [
+                      'favorites',
+                      { model: Schedule, as: 'schedules', include: 'meals' },
+                    ],
+                  });
+                console.log("suppresion dans la bdd")
+                res.status(200).json({status:"ok",user:user});
             }
         } catch (error) {
             console.log(error);

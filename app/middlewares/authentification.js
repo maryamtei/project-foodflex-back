@@ -28,7 +28,7 @@ const authentification =  async(req, res, next) => {
         next()
     }catch(e){
       console.log(e)
-        res.status(401).send("")
+        res.status(401).send("Probleme de connexion")
     }
 }
 module.exports = authentification
