@@ -49,7 +49,6 @@ User.belongsTo(Role, {
     as: "roles"
 });
 
-
 User.hasOne(AuthToken, {
     foreignKey: "user_id",
     as: "token"

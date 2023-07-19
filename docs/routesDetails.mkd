@@ -138,7 +138,7 @@ Réponse:
     "favorites": [
       {
         "favorite_id",
-        "idMeal": string,
+        "idDbMeal": string,
         "name": string,
         "imageUrl": string,
         "position": number
@@ -151,7 +151,7 @@ Réponse:
         "meals": [
           {
             "meal_id" : number,
-            "idMeal": string,
+            "idDbMeal": string,
             "name": string,
             "imageUrl": string,
             "position": number

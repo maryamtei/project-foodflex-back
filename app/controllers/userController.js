@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const { User, Schedule } = require('../models/associations');
 const generateAuthTokens = require('../middlewares/generateAuthTokens')
 
+const { User, Schedule, Meal, Favorite } = require('../models/associations');
 
 const userController = {
 
@@ -22,6 +22,7 @@ const userController = {
 
                 if (password) { user.password = password }
 
+                //! Comment modifié le domain rfc_email
                 if (email) { user.email = email }
 
                 await user.save();
@@ -36,6 +37,7 @@ const userController = {
     getOneUser: async (req, res) => {
         try {
             const user_id = req.params.id;
+            console.log("test")
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             })
@@ -49,17 +51,28 @@ const userController = {
             res.status(500).json(error.toString())
         }
     },
-    deleteProfil: async (req, res) => {
+    deleteUser: async (req, res) => {
         try {
             const user_id = req.params.id;
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             });
+            const schedules = await Schedule.findAll({ where: { user_id } });
+            // const meal = await Meal.findOne({ where: { schedule_id: schedule } });
 
             if (!user) {
                 res.status(404).json('Can not find user with id ' + user_id);
             } else {
+                // For each schedule, we destroy meal
+                for (const schedule of schedules) {
+                    await Meal.destroy({ where: { schedule_id: schedule.id } })
+                }
+                // Schedule destroy with user_id
+                await Schedule.destroy({ where: { user_id: user_id } });
+                // Favorite destroy with user_id
+                await Favorite.destroy({ where: { user_id: user_id } });
 
+                // Then user destroy with meal, schedule and favorite empty
                 await user.destroy();
                 res.status(200).json('OK');
             }
@@ -91,6 +104,7 @@ const userController = {
             //add redirect
         } catch (error) {
             console.log(error);
+            await t.rollback();
             res.status(500).json(error.toString())
         }
     },
@@ -101,9 +115,13 @@ const userController = {
             console.log(email);
             console.log(password);
 
-            const user = await User.findOne({ where: { email } }, {
-                include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-            }); //email unique
+            const user = await User.findOne({
+                where: { email },
+                include: [
+                  'favorites',
+                  { model: Schedule, as: 'schedules', include: 'meals' },
+                ],
+              });
 
 
             if (!user) {
@@ -121,8 +139,8 @@ const userController = {
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
             //return res.status(200).header('Authorization', `Bearer ${authToken}`).json({ message: 'Connexion réussie.', authToken, user});
-
-            return res.status(200).json({ message: 'Connexion réussie.', authToken});
+            console.log(authToken)
+            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:user});
 
         } catch (error) {
             console.log(error);
@@ -130,7 +148,7 @@ const userController = {
         }
     },
     getUserInformation: async (req, res) => {
-        return res.status(200).json(req.user)
+        return res.status(200).json({ message: 'Authentification réussie.', user:req.user})
     },
     logout: async (req, res) => {
         try {

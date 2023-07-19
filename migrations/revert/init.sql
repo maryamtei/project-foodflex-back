@@ -1,9 +1,10 @@
 -- Revert foodflex:init from pg
 BEGIN;
-DROP TABLE "user",
+DROP TABLE
 "role",
+"user",
 "favorite",
 "schedule",
-"meal",
-DROP DOMAIN "rfc_email";
+"meal";
+DROP DOMAIN IF EXISTS rfc_email;
 COMMIT;
