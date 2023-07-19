@@ -7,6 +7,9 @@ const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
 const { getAllFavorites } = require('../controllers/favoriteController');
 
+/*------------ Middlewares ---------------- */
+const authentification = require('../middlewares/authentification')
+
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
 |-------|---------------------------------------|--------------------------------------------------------|
@@ -20,11 +23,13 @@ const router = express.Router();
 
 /* User -> Profil */
 
-// router.delete(`/profil/:id`, userController.deleteUser) ADMIN
-router.patch(`/profil/:id`, userController.modifyUser)
-router.get(`/profil/:id`, userController.getOneUser)
+//router.delete(`/profil/:id`, userController.deleteUser)
+//router.patch(`/profil/:id`, userController.modifyUser)
+//router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
 router.post(`/login`, userController.login)
+router.post(`/logout`,authentification, userController.logout)
+router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
@@ -33,9 +38,9 @@ router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
 /* User -> Favorites */
-router.get(`/profil/:id/favori`, favoriteController.getAllFavorites)
-router.post(`/profil/:id/favori`, favoriteController.addFavorite)
-router.delete(`/profil/favori/:id`, favoriteController.deleteFavorite)
+
+router.post(`/favorite-add`, authentification, favoriteController.addFavorite)
+router.delete(`/favorite-delete/:id`,authentification, favoriteController.deleteFavorite)
 
 /* Export */
 
