@@ -3,6 +3,7 @@ const Favorite = require('./favorite');
 const Meal = require('./meal');
 const Role = require('./role');
 const Schedule = require('./schedule');
+const AuthToken = require('./authToken');
 
 // One-to-One : hasOne + belongsTo
 // One-to-Many : hasMany + belongsTo
@@ -48,4 +49,14 @@ User.belongsTo(Role, {
     as: "roles"
 });
 
-module.exports = { User, Favorite, Meal, Role, Schedule }
+User.hasOne(AuthToken, {
+    foreignKey: "user_id",
+    as: "token"
+});
+
+AuthToken.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "users"
+});
+
+module.exports = { User, Favorite, Meal, Role, Schedule, AuthToken }
