@@ -5,9 +5,9 @@ const scheduleController = {
     addSchedule: async (req, res) => {
 
         const t = await sequelize.transaction();
-
+        const user_id = req.user.id;
         try {
-            const { user_id, week, meals } = req.body;
+            const { week, meals } = req.body;
 
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
