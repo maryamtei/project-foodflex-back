@@ -20,7 +20,7 @@ const router = express.Router();
 
 /* User -> Profil */
 
-router.delete(`/profil/:id`, userController.deleteUser)
+// router.delete(`/profil/:id`, userController.deleteUser) ADMIN
 router.patch(`/profil/:id`, userController.modifyUser)
 router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, userController.signUp)
@@ -33,10 +33,9 @@ router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
 /* User -> Favorites */
-
 router.get(`/profil/:id/favori`, favoriteController.getAllFavorites)
 router.post(`/profil/:id/favori`, favoriteController.addFavorite)
-router.delete(`/profil/:id/favori`, favoriteController.deleteFavorite)
+router.delete(`/profil/favori/:id`, favoriteController.deleteFavorite)
 
 /* Export */
 
