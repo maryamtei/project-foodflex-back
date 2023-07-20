@@ -139,8 +139,6 @@ const userController = {
             }
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
-            //return res.status(200).header('Authorization', `Bearer ${authToken}`).json({ message: 'Connexion réussie.', authToken, user});
-            console.log(authToken)
             return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:user});
 
         } catch (error) {
