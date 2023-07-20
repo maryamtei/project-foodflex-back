@@ -39,10 +39,6 @@ const scheduleController = {
                 user.schedules.push(addMeal)
 
             } else {
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
                 // ----- Check if position already exist on the meal
                 const mealFind = await Meal.findOne({ where: { schedule_id: schedule.id, position: meals.position } });
 
