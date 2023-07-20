@@ -16,7 +16,7 @@ const favoriteController = {
                 return res.status(404).json('Utilisateur introuvable');
             }
 
-            const {idDbMeal, name, image, position} = req.body; //idDbMeal envoyé par le front
+            const {idDbMeal, name, image} = req.body; //idDbMeal envoyé par le front
 
             const existingFavorite = await Favorite.findOne({
                 where: {
@@ -31,13 +31,12 @@ const favoriteController = {
             if (!image  || !name || !idDbMeal) {
                 const bodyErrors = [];
                 if (!image) { bodyErrors.push('image cannot be empty!'); }
-                //if (!position) { bodyErrors.push('position cannot be empty!'); }
                 if (!name) { bodyErrors.push('name cannot be empty!'); }
                 if (!idDbMeal) { bodyErrors.push('idDbMeal cannot be empty!'); }
 
             return res.status(422).json(bodyErrors);
             }else {
-                const newFavori = await Favorite.create({
+                await Favorite.create({
                     user_id,
                     image,
                     position:1,
