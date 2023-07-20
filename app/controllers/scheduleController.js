@@ -31,7 +31,7 @@ const scheduleController = {
                     idDbMeal: meals.idDbMeal,
                     schedule_id: addSchedule.id,
                     name: meals.name,
-                    image: meals.imageUrl,
+                    image: meals.image,
                     position: meals.position,
                 }, { transaction: t })
 
@@ -50,7 +50,7 @@ const scheduleController = {
                         idDbMeal: meals.idDbMeal,
                         schedule_id: schedule.id,
                         name: meals.name,
-                        image: meals.imageUrl,
+                        image: meals.image,
                         position: meals.position,
                     })
                     user.schedules.push(addMeal)
