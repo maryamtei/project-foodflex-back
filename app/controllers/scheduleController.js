@@ -86,45 +86,6 @@ const scheduleController = {
             res.status(500).json(error.toString())
         }
     },
-
-    //modifySchedule: async (req, res) => {
-//
-    //    try {
-    //        const schedule_id = req.params.id;
-//
-    //        const { user_id, meals } = req.body;
-//
-    //        const user = await User.findByPk(user_id, {
-    //            include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-    //        });
-//
-    //        // ----- Check if position already exist on the meal
-    //        const mealFind = await Meal.findOne({ where: { schedule_id, position: meals.position } });
-//
-    //        if (!user) {
-    //            return res.status(400).json(`this user don't exist.`);
-    //        }
-//
-    //        // ---- if meal not exist, we create meal else we replace
-    //        if (!mealFind) {
-    //            return res.status(400).json(`this meal don't exist.`);
-    //        } else {
-    //            // We replace the existing meal
-    //            mealFind.idDbMeal = meals.idDbMeal;
-    //            mealFind.name = meals.name;
-    //            mealFind.image = meals.imageUrl;
-    //            mealFind.position = meals.position;
-//
-    //            mealFind.save()
-    //        }
-//
-    //        return res.status(200).json('ok');
-    //    } catch (error) {
-    //        console.log(error);
-    //        res.status(500).json(error.toString())
-    //    }
-    //},
-
     deleteSchedule: async (req, res) => {
         try {
             const meal_id = req.params.id;
