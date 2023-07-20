@@ -2,6 +2,7 @@ const { where } = require('sequelize');
 const Favorite = require('../models/favorite');
 const User = require('../models/user');
 const { Schedule } = require('../models/associations');
+const newUserData = require('../middlewares/userData');
 
 const favoriteController = {
     addFavorite: async (req,res) => {
@@ -44,15 +45,9 @@ const favoriteController = {
                     idDbMeal
                 })
 
-                const user = await User.findOne({
-                    where: { id: user_id },
-                    include: [
-                      'favorites',
-                      { model: Schedule, as: 'schedules', include: 'meals' },
-                    ],
-                  });
+                const newUser = await newUserData(user_id);
                 console.log("ajout dans la bdd")
-                res.status(200).json({status:"ok",user:user});
+                res.status(200).json({status:"ok",user:newUser});
             }
 
         } catch (error) {
@@ -83,15 +78,9 @@ const favoriteController = {
             } else {
                 await favorite.destroy();
 
-                const user = await User.findOne({
-                    where: { id: user_id },
-                    include: [
-                      'favorites',
-                      { model: Schedule, as: 'schedules', include: 'meals' },
-                    ],
-                  });
+                const newUser = await newUserData(user_id);
                 console.log("suppresion dans la bdd")
-                res.status(200).json({status:"ok",user:user});
+                res.status(200).json({status:"ok",user:newUser});
             }
         } catch (error) {
             console.log(error);

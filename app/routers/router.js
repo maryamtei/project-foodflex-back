@@ -5,7 +5,6 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
-const { getAllFavorites } = require('../controllers/favoriteController');
 
 /*------------ Middlewares ---------------- */
 const authentification = require('../middlewares/authentification')
@@ -33,8 +32,9 @@ router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.post(`/schedule`,authentification, scheduleController.addSchedule)
-router.patch(`/schedule/:id`, scheduleController.modifySchedule)
+router.post(`/schedule-Meal`,authentification, scheduleController.addMealSchedule)
+router.post(`/scheduleAddWeek`,authentification, scheduleController.addWeekSchedule)
+//router.patch(`/schedule/:id`, scheduleController.modifySchedule)
 router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
