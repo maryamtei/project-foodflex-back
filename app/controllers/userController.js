@@ -124,15 +124,9 @@ const userController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
-            console.log(email);
-            console.log(password);
 
             const user = await User.findOne({
                 where: { email },
-                include: [
-                  'favorites',
-                  { model: Schedule, as: 'schedules', include: 'meals' },
-                ],
               });
 
 
@@ -150,7 +144,8 @@ const userController = {
             }
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
-            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:user});
+            const newUser = await newUserData(user.id);
+            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:newUser});
 
         } catch (error) {
             console.log(error);
@@ -158,7 +153,9 @@ const userController = {
         }
     },
     getUserInformation: async (req, res) => {
-        return res.status(200).json({ message: 'Authentification réussie.', user:req.user})
+        const user_id = req.user.id;
+        const newUser = await newUserData(user_id);
+        return res.status(200).json({ message: 'Authentification réussie.', user:newUser})
     },
     logout: async (req, res) => {
         try {
