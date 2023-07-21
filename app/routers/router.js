@@ -5,7 +5,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
-const { getAllFavorites } = require('../controllers/favoriteController');
+// const { getAllFavorites } = require('../controllers/favoriteController');
 
 /*------------ Validation_Schema ---------------- */
 

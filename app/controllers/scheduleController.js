@@ -20,7 +20,6 @@ const scheduleController = {
                 return res.status(400).json(`this user don't exist.`);
             }
 
-
             // ---- if schedule not exist, we create it with meal
             if (!schedule) {
                 const addSchedule = await Schedule.create({
