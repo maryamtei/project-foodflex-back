@@ -32,9 +32,8 @@ router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
 router.post(`/schedule-Meal`,authentification, scheduleController.addMealSchedule) // ajoute un meal dans le planning
-router.post(`/scheduleAddWeek`,authentification, scheduleController.addWeekSchedule)
 //router.patch(`/schedule/:id`, scheduleController.modifySchedule)
-//router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
+router.delete(`/schedule/:id`, scheduleController.deleteSchedule)
 
 
 /* User -> Favorites */

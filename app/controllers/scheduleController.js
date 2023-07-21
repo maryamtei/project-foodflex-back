@@ -3,39 +3,7 @@ const { Meal, Schedule, User } = require('../models/associations');
 const newUserData = require('../middlewares/userData');
 
 const scheduleController = {
-    addWeekSchedule: async (req, res) => {
-        const user_id = req.user.id;
-        try {
-            const { week } = req.body;
-            console.log(req.body)
-            const user = await User.findByPk(user_id, {
-                include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-            });
-            // ----- Search Schedule with Id User et Week number
-            const schedule = await Schedule.findOne({ where: { user_id, week: week } });
-
-            if (!user) {
-                return res.status(400).json(`this user don't exist.`);
-            }
-
-            // ---- if schedule not exist, we create it with meal
-            if (!schedule) {
-                await Schedule.create({
-                    user_id: user_id,
-                    week: week,
-                    meals:[]
-                });
-            }
-
-            const newUser = await newUserData(user_id);
-
-            return res.status(200).json({status:"ok",user:newUser});
-        } catch (error) {
-            console.log(error);
-            res.status(500).json(error.toString())
-        }
-    },
-    addMealSchedule: async (req, res) => {
+        addMealSchedule: async (req, res) => {
 
         const t = await sequelize.transaction();
         const user_id = req.user.id;
