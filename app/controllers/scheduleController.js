@@ -56,8 +56,9 @@ const scheduleController = {
     },
     deleteSchedule: async (req, res) => {
         try {
+            const user_id = req.user.id;
             const meal_id = req.params.id;
-
+            console.log(meal_id)
             const meal = await Meal.findByPk(meal_id);
 
             if (!meal) {
@@ -66,7 +67,8 @@ const scheduleController = {
 
                 await Meal.destroy({ where: { id: meal_id } })
 
-                res.status(200).json('Meal_id has been removed');
+                const newUser = await newUserData(user_id);
+                return res.status(200).json({status:"ok",user:newUser});
             }
         } catch (error) {
             console.log(error);
