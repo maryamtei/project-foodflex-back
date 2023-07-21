@@ -2,6 +2,8 @@ const express = require('express');
 
 /*------------ Controllers ---------------- */
 
+/* Controller Wrapper (refacto) */
+const controllerWrapper = require('../middlewares/controllerWrapper')
 const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
@@ -45,20 +47,20 @@ const router = express.Router();
 //router.delete(`/profil/:id`, userController.deleteUser)
 //router.patch(`/profil/:id`, userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
-router.post(`/signup`, validator('body',validateSignUpUserSchema),userController.signUp);
-router.post(`/login`, validator('body',validateLoginUserSchema),userController.login);
-router.get(`/logout`,authentification,  userController.logout);
-router.get(`/user`,authentification, userController.getUserInformation);
+router.post(`/signup`, validator('body',validateSignUpUserSchema),controllerWrapper(userController.signUp));
+router.post(`/login`, validator('body',validateLoginUserSchema), controllerWrapper(userController.login));
+router.get(`/logout`,authentification, controllerWrapper(userController.logout));
+router.get(`/user`,authentification, controllerWrapper(userController.getUserInformation));
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),scheduleController.addMealSchedule);
+router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),controllerWrapper(scheduleController.addMealSchedule));
 //router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
-router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
+router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema),controllerWrapper(scheduleController.deleteSchedule));
 
 /* User -> Favorites */
-router.post(`/favorite-add`,validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)
-router.delete(`/favorite-delete/:id`, validator('body',validatedeleteFavoriteSchema), authentification, favoriteController.deleteFavorite)
+router.post(`/favorite-add`,validator('body',validateAddFavoriteSchema), authentification, controllerWrapper(favoriteController.addFavorite))
+router.delete(`/favorite-delete/:id`, validator('body',validatedeleteFavoriteSchema), authentification, controllerWrapper(favoriteController.deleteFavorite))
 
 /* Export */
 module.exports = router;
