@@ -52,7 +52,7 @@ router.get(`/user`,authentification, userController.getUserInformation);
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),scheduleController.addSchedule);
+router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),scheduleController.addMealSchedule);
 //router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
 router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
 
