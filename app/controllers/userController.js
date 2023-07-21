@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const generateAuthTokens = require('../middlewares/generateAuthTokens')
-
+const newUserData = require('../middlewares/userData');
 
 const { User, Schedule, Meal, Favorite, AuthToken } = require('../models/associations');
 
@@ -100,12 +100,23 @@ const userController = {
                 role_id: 2, // role_id = 2 => membre
             });
 
-            console.log("ok", newUser)
-            return res.status(200).json(newUser); //Pas sure qu'on return cet var
+            if(newUser){
+                for (let week = 1; week <= 52; week++) {
+                    await Schedule.create({
+                        user_id: newUser.id,
+                        week:week,
+                        meals:[]
+                    });
+                }
+
+            }
+
+            const newUserSignUp = await newUserData(newUser.id);
+            console.log(newUserSignUp)
+            return res.status(200).json(newUserSignUp);
             //add redirect
         } catch (error) {
             console.log(error);
-            await t.rollback();
             res.status(500).json(error.toString())
         }
     },
@@ -113,15 +124,9 @@ const userController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
-            console.log(email);
-            console.log(password);
 
             const user = await User.findOne({
                 where: { email },
-                include: [
-                  'favorites',
-                  { model: Schedule, as: 'schedules', include: 'meals' },
-                ],
               });
 
 
@@ -134,12 +139,13 @@ const userController = {
 
             const password_validor = await bcrypt.compare(password, user.password);
 
-            if (password_validor) {
+            if (!password_validor) {
                 return res.status(400).json('Identifiants invalides.');
             }
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
-            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:user});
+            const newUser = await newUserData(user.id);
+            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:newUser});
 
         } catch (error) {
             console.log(error);
@@ -147,7 +153,9 @@ const userController = {
         }
     },
     getUserInformation: async (req, res) => {
-        return res.status(200).json({ message: 'Authentification réussie.', user:req.user})
+        const user_id = req.user.id;
+        const newUser = await newUserData(user_id);
+        return res.status(200).json({ message: 'Authentification réussie.', user:newUser})
     },
     logout: async (req, res) => {
         try {

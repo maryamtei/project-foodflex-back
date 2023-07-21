@@ -9,14 +9,6 @@ const favoriteController = {
         try {
             const user_id = req.user.id;
 
-            const user = await User.findOne({
-                where: {id: user_id}
-            });
-
-            if (!user) {
-                return res.status(404).json('Utilisateur introuvable');
-            }
-
             const {idDbMeal, name, image} = req.body; //idDbMeal envoyé par le front
 
             const existingFavorite = await Favorite.findOne({
@@ -59,17 +51,6 @@ const favoriteController = {
         try {
             const meal_id = req.params.id;
             const user_id = req.user.id
-
-
-
-            const user = await User.findOne({
-                where: {id: user_id},
-                include: 'favorites'
-            });
-
-            // if (!user) {
-            //     return res.status(404).json('Utilisateur introuvable');
-            // }
 
             const favorite = await Favorite.findByPk(meal_id)
             console.log(favorite)

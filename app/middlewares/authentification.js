@@ -10,8 +10,6 @@ const authentification =  async(req, res, next) => {
         const user = await User.findOne({
           where: { id: decodedToken._id },
           include: [
-            'favorites',
-            { model: Schedule, as: 'schedules', include: 'meals' },
             {
               model: AuthToken,
               as: 'token',
