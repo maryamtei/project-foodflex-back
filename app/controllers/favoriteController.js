@@ -41,8 +41,8 @@ const favoriteController = {
 
       const newUser = await newUserData(user_id);
       console.log("ajout dans la bdd")
-      // res.status(200).json({ status: "ok", user: newUser });
-      throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
+      res.status(200).json({ status: "ok", user: newUser });
+      // throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
     }
   },
 
@@ -70,8 +70,8 @@ const favoriteController = {
 
       const newUser = await newUserData(user_id);
       console.log("suppression dans la bdd")
-      // res.status(200).json({ status: "ok", user: newUser });
-      throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
+      res.status(200).json({ status: "ok", user: newUser });
+      // throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
     }
   }
 };

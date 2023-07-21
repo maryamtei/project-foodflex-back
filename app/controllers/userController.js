@@ -14,13 +14,13 @@ const userController = {
       // res.status(404).json('Can not find user with this id ' + user_id);
       throw new apiError('Can not find user with this id ' + user_id, { statusCode: 404 });
     } else {
-      if (firstname) { user.firstname = firstname }
-      if (lastname) { user.lastname = lastname }
+      if (firstname) { user.firstName = firstname }
+      if (lastname) { user.lastName = lastname }
       if (password) { user.password = password }
       if (email) { user.email = email }
       await user.save();
-      // res.status(200).json(user);
-      throw new apiError(user, { statusCode: 200 });
+      res.status(200).json(user);
+      // throw new apiError(user, { statusCode: 200 });
     }
   },
 
@@ -35,8 +35,8 @@ const userController = {
       // res.status(404).json('Can not find user with id : ' + user_id);
       throw new apiError('Can not find user with id : ' + user_id, { statusCode: 404 });
     } else {
-      // res.status(200).json(user);
-      throw new apiError(user, { statusCode: 200 });
+      res.status(200).json(user);
+      // throw new apiError(user, { statusCode: 200 });
     }
   },
 
@@ -57,8 +57,8 @@ const userController = {
       await Schedule.destroy({ where: { user_id: user_id } });
       await Favorite.destroy({ where: { user_id: user_id } });
       await user.destroy();
-      // res.status(200).json('OK');
-      throw new apiError('OK', { statusCode: 200 });
+      res.status(200).json('OK');
+      // throw new apiError('OK', { statusCode: 200 });
     }
   },
 
@@ -93,8 +93,8 @@ const userController = {
 
     const newUserSignUp = await newUserData(newUser.id);
     console.log(newUserSignUp);
-    // res.status(200).json(newUserSignUp);
-    throw new apiError(newUserSignUp, { statusCode: 200 });
+    res.status(200).json(newUserSignUp);
+    // throw new apiError(newUserSignUp, { statusCode: 200 });
     //add redirect
   },
 
@@ -110,22 +110,25 @@ const userController = {
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
+    console.log(password_validor)
     if (!password_validor) {
       // res.status(400).json('Identifiants invalides.');
+      console.log(password)
+      console.log(email)
       throw new apiError('Identifiants invalides.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id)
     const newUser = await newUserData(user.id);
-    // res.status(200).json({ message: 'Connexion réussie.', token: authToken.token, user: newUser });
-    throw new apiError({ message: 'Connexion réussie.', token: authToken.token, user: newUser }, { statusCode: 200 });
+    res.status(200).json({ message: 'Connexion réussie.', token: authToken.token, user: newUser });
+    // throw new apiError({ message: 'Connexion réussie.', token: authToken.token, user: newUser }, { statusCode: 200 });
   },
 
   getUserInformation: async (req, res) => {
     const user_id = req.user.id;
     const newUser = await newUserData(user_id);
-    // res.status(200).json({ message: 'Authentification réussie.', user: newUser });
-    throw new apiError({ message: 'Authentification réussie.', user: newUser }, { statusCode: 200 });
+    res.status(200).json({ message: 'Authentification réussie.', user: newUser });
+    // throw new apiError({ message: 'Authentification réussie.', user: newUser }, { statusCode: 200 });
   },
 
   logout: async (req, res) => {

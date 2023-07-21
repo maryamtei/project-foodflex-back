@@ -74,8 +74,8 @@ const scheduleController = {
     }
     await t.commit();
     const newUser = await newUserData(user_id);
-    // return res.status(200).json({status:"ok",user:newUser});
-    throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
+    return res.status(200).json({status:"ok",user:newUser});
+    // throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
     // } catch (error) {
     //   console.log(error);
     //   await t.rollback();
@@ -97,8 +97,8 @@ const scheduleController = {
     } else {
       await Meal.destroy({ where: { id: meal_id } })
       const newUser = await newUserData(user_id);
-      // return res.status(200).json({status:"ok",user:newUser});
-      throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
+      return res.status(200).json({status:"ok",user:newUser});
+      // throw new apiError({ status: "ok", user: newUser }, { statusCode: 200 });
     }
     // } catch (error) {
     //   console.log(error);
