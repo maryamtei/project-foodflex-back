@@ -101,7 +101,7 @@ const userController = {
             });
 
             if(newUser){
-                for (let week = 0; week < 52; week++) {
+                for (let week = 1; week <= 52; week++) {
                     await Schedule.create({
                         user_id: newUser.id,
                         week:week,
