@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS "favorite" (
   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "idDbMeal" int NOT NULL,
   "user_id" int NOT NULL REFERENCES "user"("id"),
-  "name" varchar(30) NOT NULL,
+  "name" varchar(30) NOT NULL, /* plus de 30 char */
   "image" text NOT NULL,
   "position" int NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT NOW(),

@@ -57,7 +57,7 @@ router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),sche
 router.delete(`/schedule/:id`, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
 
 /* User -> Favorites */
-router.post(`/favorite-add`, validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)
+router.post(`/favorite-add`,validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)
 router.delete(`/favorite-delete/:id`, validator('body',validatedeleteFavoriteSchema), authentification, favoriteController.deleteFavorite)
 
 /* Export */

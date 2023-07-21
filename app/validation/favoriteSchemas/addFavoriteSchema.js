@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const validator = require('../validator')
 
 const addFavoriteSchema = Joi.object({
     user_id: Joi.number().integer().min(1).required(),
