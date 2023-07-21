@@ -20,6 +20,33 @@ const scheduleController = {
                 return res.status(400).json(`this user don't exist.`);
             }
 
+            /*
+            // ---- if schedule not exist, we create it with meal
+            if (!schedule) {
+                const addSchedule = await Schedule.create({
+                    user_id: user_id,
+                    week: week,
+                }, { transaction: t });
+
+                const addMeal = await Meal.create({
+                    idDbMeal: meals.idDbMeal,
+                    schedule_id: addSchedule.id,
+                    name: meals.name,
+                    image: meals.imageUrl,
+                    position: meals.position,
+                }, { transaction: t })
+
+                user.schedules.push(addMeal)
+
+            } else {
+                // ----- Check if position already exist on the meal
+                const mealFind = await Meal.findOne({ where: { schedule_id: schedule.id, position: meals.position } });
+
+                if (mealFind) {
+                    return res.status(400).json(`This meal already exist.`);
+                } else {
+
+            */
 
             if (!schedule) {
                 return res.status(400).json(`schedule don't exist.`);

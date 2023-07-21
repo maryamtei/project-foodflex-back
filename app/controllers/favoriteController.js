@@ -51,6 +51,15 @@ const favoriteController = {
         try {
             const meal_id = req.params.id;
             const user_id = req.user.id
+            /*
+            const user = await User.findOne({
+                where: {id: user_id},
+                include: 'favorites'
+            });
+            */
+            // if (!user) {
+            //     return res.status(404).json('Utilisateur introuvable');
+            // }
 
             const favorite = await Favorite.findByPk(meal_id)
             console.log(favorite)

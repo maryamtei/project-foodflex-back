@@ -5,10 +5,30 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const scheduleController = require('../controllers/scheduleController');
 const favoriteController = require('../controllers/favoriteController');
+// const { getAllFavorites } = require('../controllers/favoriteController');
+
+/*------------ Validation_Schema ---------------- */
+
+/* Schema validator */
+const validator = require('../validation/validator')
+
+/* Favorite Schema */
+const validateAddFavoriteSchema = require('../validation/favoriteSchemas/addFavoriteSchema');
+const validatedeleteFavoriteSchema = require('../validation/favoriteSchemas/deleteFavoriteSchema');
+
+/* User Schema */
+const validateDeleteUserSchema = require('../validation/userSchemas/deleteUserSchema');
+const validateLoginUserSchema = require('../validation/userSchemas/loginUserSchema');
+const validateSignUpUserSchema = require('../validation/userSchemas/signUpUserSchema');
+const validateModifyUserSchema = require('../validation/userSchemas/modifyUserSchema');
+
+/* User Schema */
+const validateAddScheduleSchema = require('../validation/scheduleSchemas/addScheduleSchema');
+const validateModifyScheduleSchema = require('../validation/scheduleSchemas/modifyScheduleSchema');
+const validateDeleteScheduleSchema = require('../validation/scheduleSchemas/deleteScheduleSchema');
 
 /*------------ Middlewares ---------------- */
 const authentification = require('../middlewares/authentification')
-
 /*
 VERBE | ROUTE                                 | DESCRIPTION                                            |
 |-------|---------------------------------------|--------------------------------------------------------|
@@ -25,22 +45,20 @@ const router = express.Router();
 //router.delete(`/profil/:id`, userController.deleteUser)
 //router.patch(`/profil/:id`, userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
-router.post(`/signup`, userController.signUp)
-router.post(`/login`, userController.login)
-router.get(`/logout`,authentification, userController.logout)
-router.get(`/user`,authentification, userController.getUserInformation)
+router.post(`/signup`, validator('body',validateSignUpUserSchema),userController.signUp);
+router.post(`/login`, validator('body',validateLoginUserSchema),userController.login);
+router.get(`/logout`,authentification,  userController.logout);
+router.get(`/user`,authentification, userController.getUserInformation);
 
 /* Schedule -> Planning */
-router.post(`/schedule-Meal`,authentification, scheduleController.addMealSchedule) // ajoute un meal dans le planning
-//router.patch(`/schedule/:id`, scheduleController.modifySchedule)
-router.delete(`/schedule-delete/:id`,authentification, scheduleController.deleteSchedule)
-
+// router.patch(`/planning/:id`, scheduleController.modifyScheduling)
+router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),scheduleController.addMealSchedule);
+//router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
+router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
 
 /* User -> Favorites */
-
-router.post(`/favorite-add`, authentification, favoriteController.addFavorite)
-router.delete(`/favorite-delete/:id`,authentification, favoriteController.deleteFavorite)
+router.post(`/favorite-add`,validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)
+router.delete(`/favorite-delete/:id`, validator('body',validatedeleteFavoriteSchema), authentification, favoriteController.deleteFavorite)
 
 /* Export */
-
 module.exports = router;
