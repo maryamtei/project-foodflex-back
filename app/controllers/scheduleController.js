@@ -20,7 +20,7 @@ const scheduleController = {
 
             // ---- if schedule not exist, we create it with meal
             if (!schedule) {
-                const addSchedule = await Schedule.create({
+                await Schedule.create({
                     user_id: user_id,
                     week: week,
                     meals:[]

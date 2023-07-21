@@ -31,7 +31,6 @@ router.get(`/logout`,authentification, userController.logout)
 router.get(`/user`,authentification, userController.getUserInformation)
 
 /* Schedule -> Planning */
-// router.patch(`/planning/:id`, scheduleController.modifyScheduling)
 router.post(`/schedule-Meal`,authentification, scheduleController.addMealSchedule) // ajoute un meal dans le planning
 router.post(`/scheduleAddWeek`,authentification, scheduleController.addWeekSchedule)
 //router.patch(`/schedule/:id`, scheduleController.modifySchedule)
