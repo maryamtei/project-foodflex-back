@@ -1,7 +1,8 @@
-module.exports = (controller) => async (req, res, next) => {
+controllerWrapper = (controller) => async (req, res, next) => {
     try {
         await controller(req, res, next);
     } catch (error) {
         next(error);
     }
 };
+module.exports = controllerWrapper

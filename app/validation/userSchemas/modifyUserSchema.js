@@ -1,3 +1,4 @@
+/*
 const Joi = require('joi');
 const validator = require('../validator')
 
@@ -9,3 +10,4 @@ const modifyUserSchema = Joi.object({
     password: Joi.string().min(1).max(64).required(),
 })
 module.exports = validator(modifyUserSchema)
+*/

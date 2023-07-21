@@ -9,6 +9,9 @@ const favoriteController = require('../controllers/favoriteController');
 
 /*------------ Validation_Schema ---------------- */
 
+/* Schema validator */
+const validator = require('../validation/validator')
+
 /* Favorite Schema */
 const validateAddFavoriteSchema = require('../validation/favoriteSchemas/addFavoriteSchema');
 const validatedeleteFavoriteSchema = require('../validation/favoriteSchemas/deleteFavoriteSchema');
@@ -42,20 +45,20 @@ const router = express.Router();
 //router.delete(`/profil/:id`, userController.deleteUser)
 //router.patch(`/profil/:id`, userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
-router.post(`/signup`, validateSignUpUserSchema(req.body),userController.signUp);
-router.post(`/login`, validateLoginUserSchema(req.body) ,userController.login);
+router.post(`/signup`, validator('body',validateSignUpUserSchema),userController.signUp);
+router.post(`/login`, validator('body',validateLoginUserSchema),userController.login);
 router.post(`/logout`,authentification,  userController.logout);
 router.get(`/user`,authentification, userController.getUserInformation);
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.post(`/schedule`, validateAddScheduleSchema(req.body) ,scheduleController.addSchedule);
-router.patch(`/schedule/:id`,validateModifyScheduleSchema(req.body),scheduleController.modifySchedule);
-router.delete(`/schedule/:id`, validateDeleteScheduleSchema(req.body), scheduleController.deleteSchedule);
+router.post(`/schedule`, validator('body',validateAddScheduleSchema),scheduleController.addSchedule);
+router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
+router.delete(`/schedule/:id`, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
 
 /* User -> Favorites */
-router.post(`/favorite-add`, validateAddFavoriteSchema(req.body), authentification, favoriteController.addFavorite)
-router.delete(`/favorite-delete/:id`, validatedeleteFavoriteSchema(req.body), authentification, favoriteController.deleteFavorite)
+router.post(`/favorite-add`, validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)
+router.delete(`/favorite-delete/:id`, validator('body',validatedeleteFavoriteSchema), authentification, favoriteController.deleteFavorite)
 
 /* Export */
 module.exports = router;

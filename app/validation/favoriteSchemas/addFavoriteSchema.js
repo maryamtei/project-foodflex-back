@@ -8,4 +8,4 @@ const addFavoriteSchema = Joi.object({
     imageUrl: Joi.string().required(),
     position: Joi.number().integer().optional(),
 })
-module.exports = validator(addFavoriteSchema)
+module.exports = addFavoriteSchema;

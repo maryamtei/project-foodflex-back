@@ -1,4 +1,4 @@
-module.exports = class ApiError extends Error {
+const apiError = class ApiError extends Error {
     constructor(message, infos) {
         // On envoi le message à la classe mère Error
         super(message);
@@ -8,3 +8,4 @@ module.exports = class ApiError extends Error {
         this.infos = infos;
     }
 };
+module.exports = apiError

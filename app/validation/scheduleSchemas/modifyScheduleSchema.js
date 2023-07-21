@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const validator = require('../validator')
 
 const modifyScheduleSchema = Joi.object({
     user_id: Joi.number().integer().required(),
@@ -11,4 +10,4 @@ const modifyScheduleSchema = Joi.object({
         position: Joi.number().integer().min(1).required(),
     }).required()
 })
-module.exports = validator(modifyScheduleSchema)
+module.exports = modifyScheduleSchema
