@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "favorite" (
 CREATE TABLE IF NOT EXISTS "schedule" (
   "id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "user_id" int NOT NULL REFERENCES "user"("id"),
-  "week" varchar(30) NOT NULL,
+  "week" int NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT NOW(),
   "updated_at" timestamptz NULL DEFAULT NOW()
 );

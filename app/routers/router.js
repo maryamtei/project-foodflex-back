@@ -47,14 +47,14 @@ const router = express.Router();
 //router.get(`/profil/:id`, userController.getOneUser)
 router.post(`/signup`, validator('body',validateSignUpUserSchema),userController.signUp);
 router.post(`/login`, validator('body',validateLoginUserSchema),userController.login);
-router.post(`/logout`,authentification,  userController.logout);
+router.get(`/logout`,authentification,  userController.logout);
 router.get(`/user`,authentification, userController.getUserInformation);
 
 /* Schedule -> Planning */
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
-router.post(`/schedule`, validator('body',validateAddScheduleSchema),scheduleController.addSchedule);
-router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
-router.delete(`/schedule/:id`, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
+router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),scheduleController.addSchedule);
+//router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
+router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema), scheduleController.deleteSchedule);
 
 /* User -> Favorites */
 router.post(`/favorite-add`,validator('body',validateAddFavoriteSchema), authentification, favoriteController.addFavorite)

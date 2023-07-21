@@ -2,58 +2,44 @@ const { where } = require('sequelize');
 const Favorite = require('../models/favorite');
 const User = require('../models/user');
 const { Schedule } = require('../models/associations');
+const newUserData = require('../middlewares/userData');
 
 const favoriteController = {
     addFavorite: async (req,res) => {
         try {
             const user_id = req.user.id;
 
-            const user = await User.findOne({
-                where: {id: user_id}
-            });
-
-            if (!user) {
-                return res.status(404).json('Utilisateur introuvable');
-            }
-
-            const {idMeal, name, imageUrl, position} = req.body; //idDbMeal envoyé par le front
+            const {idDbMeal, name, image} = req.body; //idDbMeal envoyé par le front
 
             const existingFavorite = await Favorite.findOne({
                 where: {
                     user_id,
-                    idDbMeal:idMeal
+                    idDbMeal
                   }
             })
 
             if(existingFavorite){
                 return res.status(400).json('Ce favori existe déjà !');
             }
-            if (!imageUrl  || !name || !idMeal) {
+            if (!image  || !name || !idDbMeal) {
                 const bodyErrors = [];
-                if (!imageUrl) { bodyErrors.push('image cannot be empty!'); }
-                //if (!position) { bodyErrors.push('position cannot be empty!'); }
+                if (!image) { bodyErrors.push('image cannot be empty!'); }
                 if (!name) { bodyErrors.push('name cannot be empty!'); }
-                if (!idMeal) { bodyErrors.push('idDbMeal cannot be empty!'); }
+                if (!idDbMeal) { bodyErrors.push('idDbMeal cannot be empty!'); }
 
             return res.status(422).json(bodyErrors);
             }else {
-                const newFavori = await Favorite.create({
+                await Favorite.create({
                     user_id,
-                    image:imageUrl,
+                    image,
                     position:1,
                     name,
-                    idDbMeal:idMeal
+                    idDbMeal
                 })
 
-                const user = await User.findOne({
-                    where: { id: user_id },
-                    include: [
-                      'favorites',
-                      { model: Schedule, as: 'schedules', include: 'meals' },
-                    ],
-                  });
+                const newUser = await newUserData(user_id);
                 console.log("ajout dans la bdd")
-                res.status(200).json({status:"ok",user:user});
+                res.status(200).json({status:"ok",user:newUser});
             }
 
         } catch (error) {
@@ -65,12 +51,12 @@ const favoriteController = {
         try {
             const meal_id = req.params.id;
             const user_id = req.user.id
-
+            /*
             const user = await User.findOne({
                 where: {id: user_id},
                 include: 'favorites'
             });
-
+            */
             // if (!user) {
             //     return res.status(404).json('Utilisateur introuvable');
             // }
@@ -82,15 +68,9 @@ const favoriteController = {
             } else {
                 await favorite.destroy();
 
-                const user = await User.findOne({
-                    where: { id: user_id },
-                    include: [
-                      'favorites',
-                      { model: Schedule, as: 'schedules', include: 'meals' },
-                    ],
-                  });
+                const newUser = await newUserData(user_id);
                 console.log("suppresion dans la bdd")
-                res.status(200).json({status:"ok",user:user});
+                res.status(200).json({status:"ok",user:newUser});
             }
         } catch (error) {
             console.log(error);
