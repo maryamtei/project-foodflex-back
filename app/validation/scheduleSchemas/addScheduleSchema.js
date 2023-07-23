@@ -6,7 +6,7 @@ const addScheduleSchema = Joi.object({
         idDbMeal: Joi.number().integer().min(1).required(),
         name: Joi.string().required(),
         image: Joi.string().required(),
-        position: Joi.number().integer().min(1).optional(),
+        position: Joi.number().integer().min(0).optional(),
     }).required()
 })
 module.exports = addScheduleSchema
