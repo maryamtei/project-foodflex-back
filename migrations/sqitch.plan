@@ -3,3 +3,5 @@
 
 init 2023-07-12T09:01:46Z Mary <tei.mary.dev@gmail.com> # initialisation de la base de donnée
 authentification 2023-07-19T00:02:29Z Maryam <student@teleporter> # ajout de la table authTokens dans la bdd
+typeWeekIdDbMeal 2023-07-19T15:09:19Z Maryam <student@teleporter> # changement de type week et idDbMeal
+typeName 2023-07-21T13:53:21Z Maryam <student@teleporter> # change name type  varchar to text
