@@ -8,7 +8,6 @@ const favoriteController = {
     addFavorite: async (req,res) => {
         try {
             const user_id = req.user.id;
-
             const {idDbMeal, name, image} = req.body; //idDbMeal envoyé par le front
 
             const existingFavorite = await Favorite.findOne({
@@ -19,15 +18,18 @@ const favoriteController = {
             })
 
             if(existingFavorite){
-                return res.status(400).json('Ce favori existe déjà !');
+                const error = {
+                    codeMessage: 1,
+                    message: 'This favorite already exists!'
+                }
+                return res.status(400).json(error);
             }
             if (!image  || !name || !idDbMeal) {
-                const bodyErrors = [];
-                if (!image) { bodyErrors.push('image cannot be empty!'); }
-                if (!name) { bodyErrors.push('name cannot be empty!'); }
-                if (!idDbMeal) { bodyErrors.push('idDbMeal cannot be empty!'); }
-
-            return res.status(422).json(bodyErrors);
+                const error = {
+                    codeMessage: 2,
+                    message: 'Favorite object error'
+                }
+            return res.status(422).json(error);
             }else {
                 await Favorite.create({
                     user_id,
@@ -36,10 +38,14 @@ const favoriteController = {
                     name,
                     idDbMeal
                 })
-
                 const newUser = await newUserData(user_id);
-                console.log("ajout dans la bdd")
-                res.status(200).json({status:"ok",user:newUser});
+                const response =  {
+                    codeMessage:100,
+                    message: 'Recipe added to favorites',
+                    newUser
+                }
+
+                res.status(200).json(response);
             }
 
         } catch (error) {
@@ -53,15 +59,22 @@ const favoriteController = {
             const user_id = req.user.id
 
             const favorite = await Favorite.findByPk(meal_id)
-            console.log(favorite)
             if (!favorite) {
-                res.status(404).json('Can not find favorite with id ' + meal_id);
+                const error = {
+                    codeMessage: 4,
+                    message: 'Can not find favorite with id ' + meal_id
+                }
+                res.status(404).json(error);
             } else {
                 await favorite.destroy();
 
                 const newUser = await newUserData(user_id);
-                console.log("suppresion dans la bdd")
-                res.status(200).json({status:"ok",user:newUser});
+                const response =  {
+                    codeMessage:101,
+                    message: 'Recipe delete to favorite',
+                    newUser
+                }
+                res.status(200).json(response);
             }
         } catch (error) {
             console.log(error);

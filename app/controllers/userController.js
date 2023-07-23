@@ -13,22 +13,22 @@ const userController = {
 
             let user = await User.findByPk(user_id);
 
-            if (!user) {
-                res.status(404).json('Can not find user with this id ' + user_id);
-            } else {
 
-                if (firstname) { user.firstname = firstname }
+            if (firstname) { user.firstname = firstname }
 
-                if (lastname) { user.lastname = lastname }
+            if (lastname) { user.lastname = lastname }
 
-                if (password) { user.password = password }
+            if (password) { user.password = password }
 
-                if (email) { user.email = email }
+            if (email) { user.email = email }
 
-                await user.save();
-
-                res.status(200).json(user);
+            await user.save();
+            const response =  {
+                codeMessage:104,
+                message: 'Profile has been modified',
+                newUser
             }
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())
@@ -36,16 +36,14 @@ const userController = {
     },
     getOneUser: async (req, res) => {
         try {
-            const user_id = req.params.id;
-            console.log("test")
-            const user = await User.findByPk(user_id, {
-                include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-            })
-            if (!user) {
-                res.status(404).json('Can not find user with id : ' + user_id);
-            } else {
-                res.status(200).json(user);
+            const user_id = req.user.id;
+
+            const response =  {
+                codeMessage:105,
+                message: 'User data got',
+                newUser:req.user
             }
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())
@@ -53,29 +51,31 @@ const userController = {
     },
     deleteUser: async (req, res) => {
         try {
-            const user_id = req.params.id;
+            const user_id = req.user.id;
             const user = await User.findByPk(user_id, {
                 include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
             });
             const schedules = await Schedule.findAll({ where: { user_id } });
             // const meal = await Meal.findOne({ where: { schedule_id: schedule } });
 
-            if (!user) {
-                res.status(404).json('Can not find user with id ' + user_id);
-            } else {
-                // For each schedule, we destroy meal
-                for (const schedule of schedules) {
-                    await Meal.destroy({ where: { schedule_id: schedule.id } })
-                }
-                // Schedule destroy with user_id
-                await Schedule.destroy({ where: { user_id: user_id } });
-                // Favorite destroy with user_id
-                await Favorite.destroy({ where: { user_id: user_id } });
+           // For each schedule, we destroy meal
+           for (const schedule of schedules) {
+               await Meal.destroy({ where: { schedule_id: schedule.id } })
+           }
+           // Schedule destroy with user_id
+           await Schedule.destroy({ where: { user_id: user_id } });
+           // Favorite destroy with user_id
+           await Favorite.destroy({ where: { user_id: user_id } });
 
-                // Then user destroy with meal, schedule and favorite empty
-                await user.destroy();
-                res.status(200).json('OK');
-            }
+           // Then user destroy with meal, schedule and favorite empty
+           await user.destroy();
+
+           const response =  {
+            codeMessage:106,
+            message: 'User delete'
+        }
+        res.status(200).json(response);
+
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())
@@ -87,7 +87,12 @@ const userController = {
             const user = await User.findOne({ where: { email } }); //email unique
 
             if (user) {
-                return res.status(400).json('Cet utilisateur existe déjà.');
+                const response =  {
+                    codeMessage:14,
+                    message: 'User already exists',
+
+                }
+                return res.status(400).json(response);
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -112,8 +117,14 @@ const userController = {
             }
 
             const newUserSignUp = await newUserData(newUser.id);
-            console.log(newUserSignUp)
-            return res.status(200).json(newUserSignUp);
+            const authToken = await generateAuthTokens(newUser.id) // création du token jwt
+            const response =  {
+                codeMessage:107,
+                message: 'User has been create',
+                token:authToken.token,
+                newUser:newUserSignUp
+            }
+            res.status(200).json(response);
             //add redirect
         } catch (error) {
             console.log(error);
@@ -131,22 +142,32 @@ const userController = {
 
 
             if (!user) {
-                return res.status(400).json('Identifiants invalides.');
+                const response =  {
+                    codeMessage:16,
+                    message: 'Credentials are invalid',
+                }
+                return res.status(400).json(response);
             }
-
-
-            //! --------- REVOIR LE CHIFFREMENT DU MOT DE PASSE ------------//
 
             const password_validor = await bcrypt.compare(password, user.password);
 
             if (!password_validor) {
-                return res.status(400).json('Identifiants invalides.');
+                const response =  {
+                    codeMessage:16,
+                    message: 'Credentials are invalid',
+                }
+                return res.status(400).json(response);
             }
 
             const authToken = await generateAuthTokens(user.id) // création du token jwt
             const newUser = await newUserData(user.id);
-            return res.status(200).json({ message: 'Connexion réussie.', token:authToken.token, user:newUser});
-
+            const response =  {
+                codeMessage:108,
+                message: 'You have been logged in',
+                token:authToken.token,
+                newUser
+            }
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
             res.status(500).json(error.toString())
@@ -155,14 +176,23 @@ const userController = {
     getUserInformation: async (req, res) => {
         const user_id = req.user.id;
         const newUser = await newUserData(user_id);
-        return res.status(200).json({ message: 'Authentification réussie.', user:newUser})
+        const response =  {
+            codeMessage:108,
+            message: 'You have been logged in',
+            newUser
+        }
+        res.status(200).json(response);
     },
     logout: async (req, res) => {
         try {
             const user_id = req.user.id;
 
            if (!req.authToken) {
-            return res.status(401).json({ message: 'Token manquant. Déconnexion échouée.' });
+            const response =  {
+                codeMessage:18,
+                message: 'Token missing. Logout failed.',
+            }
+            return res.status(400).json(response);
            }else{
 
            }
@@ -175,10 +205,15 @@ const userController = {
 
            req.authToken = null;
            req.user = [];
-            res.status(200).json({status:"Deconnexion"});
+           const response =  {
+            codeMessage:109,
+            message: 'Logout succesfull',
+        }
+        res.status(200).json(response);
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json(error.toString())
+
+            res.status(500).json({message:error.toString()})
         }
     }
 
