@@ -1,0 +1,9 @@
+const Joi = require('joi');
+
+const addFavoriteSchema = Joi.object({
+    user_id: Joi.number().integer().min(1).required(),
+    idDbMeal: Joi.string().min(1).required(),
+    name: Joi.string().required(),
+    image: Joi.string().required(),
+})
+module.exports = addFavoriteSchema;
