@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add verifications here.
+SELECT * FROM "contact" WHERE false;
 
 ROLLBACK;
