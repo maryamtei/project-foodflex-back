@@ -7,7 +7,7 @@ const addScheduleSchema = Joi.object({
         idDbMeal: Joi.number().integer().min(1).required(),
         schedule_id: Joi.number().integer().required(),
         name: Joi.string().required(),
-        imageUrl: Joi.string().required(),
+        image: Joi.string().required(),
         position: Joi.number().integer().min(1).optional(),
     })).required()
 })
