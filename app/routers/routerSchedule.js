@@ -23,7 +23,7 @@ const validateDeleteScheduleSchema = require('../validation/scheduleSchemas/dele
 const router = express.Router();
 
 router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),controllerWrapper(scheduleController.addMealSchedule));
-router.delete(`/schedule-delete/:id`, authentification, validator('body',validateDeleteScheduleSchema),controllerWrapper(scheduleController.deleteSchedule));
+router.delete(`/schedule-delete/:id`, authentification, validator('params',validateDeleteScheduleSchema),controllerWrapper(scheduleController.deleteSchedule));
 // router.patch(`/planning/:id`, scheduleController.modifyScheduling)
 // router.patch(`/schedule/:id`,validator('body',validateModifyScheduleSchema),scheduleController.modifySchedule);
 

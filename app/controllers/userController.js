@@ -19,27 +19,16 @@ const userController = {
       if (password) { user.password = password }
       if (email) { user.email = email }
       await user.save();
-      res.status(200).json(user);
-      // throw new apiError(user, { statusCode: 200 });
+
+      await user.save();
+      const response =  {
+          codeMessage:104,
+          message: 'Profile has been modified',
+          newUser
+      }
+      res.status(200).json(response);
     }
   },
-
-  getOneUser: async (req, res) => {
-    const user_id = req.params.id;
-    console.log("test")
-    const user = await User.findByPk(user_id, {
-      include: ['favorites', { model: Schedule, as: 'schedules', include: 'meals' }]
-    })
-
-    if (!user) {
-      // res.status(404).json('Can not find user with id : ' + user_id);
-      throw new apiError('Can not find user with id : ' + user_id, { statusCode: 404 });
-    } else {
-      res.status(200).json(user);
-      // throw new apiError(user, { statusCode: 200 });
-    }
-  },
-
   deleteUser: async (req, res) => {
     const user_id = req.params.id;
     const user = await User.findByPk(user_id, {
@@ -57,8 +46,11 @@ const userController = {
       await Schedule.destroy({ where: { user_id: user_id } });
       await Favorite.destroy({ where: { user_id: user_id } });
       await user.destroy();
-      res.status(200).json('OK');
-      // throw new apiError('OK', { statusCode: 200 });
+      const response =  {
+        codeMessage:106,
+        message: 'User delete'
+    }
+    res.status(200).json(response);
     }
   },
 
@@ -67,7 +59,12 @@ const userController = {
     const user = await User.findOne({ where: { email } });
 
     if (user) {
-      // res.status(400).json('Cet utilisateur existe déjà.');
+      const response =  {
+        codeMessage:14,
+        message: 'User already exists',
+
+    }
+      res.status(400).json(response);
       throw new apiError('Cet utilisateur existe déjà.', { statusCode: 400 });
     }
 
@@ -90,14 +87,17 @@ const userController = {
         });
       }
     }
-
     const newUserSignUp = await newUserData(newUser.id);
-    console.log(newUserSignUp);
-    res.status(200).json(newUserSignUp);
-    // throw new apiError(newUserSignUp, { statusCode: 200 });
-    //add redirect
-  },
+    const authToken = await generateAuthTokens(newUser.id) // création du token jwt
+    const response =  {
+        codeMessage:107,
+        message: 'User has been create',
+        token:authToken.token,
+        newUser:newUserSignUp
+    }
+    res.status(200).json(response);
 
+  },
   login: async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -105,39 +105,74 @@ const userController = {
     });
 
     if (!user) {
-      // res.status(400).json('Identifiants invalides.');
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
+      const response =  {
+        codeMessage:16,
+        message: 'Credentials are invalid',
+    }
+      res.status(400).json(response);
+     throw new apiError('Identifiants invalides.', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
     console.log(password_validor)
     if (!password_validor) {
-      // res.status(400).json('Identifiants invalides.');
-      console.log(password)
-      console.log(email)
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
+      const response =  {
+        codeMessage:16,
+        message: 'Credentials are invalid',
+    }
+     res.status(400).json(response);
+     throw new apiError('Identifiants invalides.', { statusCode: 400 });
     }
 
-    const authToken = await generateAuthTokens(user.id)
+    const authToken = await generateAuthTokens(user.id) // création du token jwt
     const newUser = await newUserData(user.id);
-    res.status(200).json({ message: 'Connexion réussie.', token: authToken.token, user: newUser });
-    // throw new apiError({ message: 'Connexion réussie.', token: authToken.token, user: newUser }, { statusCode: 200 });
+    const response =  {
+        codeMessage:108,
+        message: 'You have been logged in',
+        token:authToken.token,
+        newUser
+    }
+    res.status(200).json(response);
   },
 
   getUserInformation: async (req, res) => {
     const user_id = req.user.id;
     const newUser = await newUserData(user_id);
-    res.status(200).json({ message: 'Authentification réussie.', user: newUser });
-    // throw new apiError({ message: 'Authentification réussie.', user: newUser }, { statusCode: 200 });
+    const response =  {
+        codeMessage:108,
+        message: 'You have been logged in',
+        newUser
+    }
+    res.status(200).json(response);
   },
 
   logout: async (req, res) => {
     const user_id = req.user.id;
 
     if (!req.authToken) {
-      // res.status(401).json({ message: 'Token manquant. Déconnexion échouée.' });
-      throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
+      const response =  {
+        codeMessage:18,
+        message: 'Token missing. Logout failed.',
     }
+      res.status(400).json(response);
+      throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
+    }else{
+
+    }
+    const tokens = await AuthToken.findAll({
+     where: { user_id },
+   });
+   for (const token of tokens) {
+     await token.destroy();
+   }
+
+    req.authToken = null;
+    req.user = [];
+    const response =  {
+     codeMessage:109,
+     message: 'Logout succesfull',
+    }
+    res.status(200).json(response);
   }
 };
 
