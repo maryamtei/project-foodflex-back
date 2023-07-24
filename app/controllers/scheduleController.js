@@ -10,7 +10,7 @@ const scheduleController = {
     const { meals, week } = req.body;
     const schedule = await Schedule.findOne({ where: { user_id, week: week } });
 
-    if (!meals.idDbMeal  || !meals.name  || !meals.image  || !meals.position  ) {
+    if (!meals.idDbMeal  || !meals.name  || !meals.image  || meals.position ==! undefined  ) {
       const error = {
             codeMessage: 6,
             message: 'Fields of meal are not complete'
