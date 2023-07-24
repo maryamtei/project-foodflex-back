@@ -4,17 +4,16 @@ dotenv.config();
 
 /*----------------- Express ----------------- */
 const express = require('express');
+const {errorHandler} = require("./app/middlewares/errorHandler")
 const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
-
-
 const cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.set('env', 'development'); // Remplacez 'production' par 'development' pour le mode de développement
 // const middlewares = require('./app/middlewares');
-
 app.use(express.json());
 //app.use(express.urlencoded({extended: true}))
 // On aurait pu mettre express.urlencoded, ça aurait aussi très bien marché
@@ -25,6 +24,7 @@ app.use(express.json());
 /*----------------- Middlewares ----------------- */
 app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 // app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
+// app.use(errorHandler);
 app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
