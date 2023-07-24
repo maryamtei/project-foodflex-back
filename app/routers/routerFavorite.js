@@ -23,7 +23,7 @@ const controllerWrapper = require('../middlewares/controllerWrapper');
 /* Router Express */
 const router = express.Router();
 
-router.post(`/add`,authentification, validator('body', validateAddFavoriteSchema),controllerWrapper(favoriteController.addFavorite));
-router.delete(`/delete/:id`, authentification, validator('params', validatedeleteFavoriteSchema), controllerWrapper(favoriteController.deleteFavorite));
+router.post(`/favorite-add`, authentification, validator('body', validateAddFavoriteSchema), controllerWrapper(favoriteController.addFavorite));
+router.delete(`/favorite-delete/:id`, authentification, validator('params', validatedeleteFavoriteSchema), controllerWrapper(favoriteController.deleteFavorite));
 
 module.exports = router;
