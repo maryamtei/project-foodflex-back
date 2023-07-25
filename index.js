@@ -8,6 +8,7 @@ const {errorHandler} = require("./app/middlewares/errorHandler")
 const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
+const routerContact = require('./app/routers/routerContact');
 const cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
@@ -24,11 +25,11 @@ app.use(express.json());
 /*----------------- Middlewares ----------------- */
 app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 // app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
-// app.use(errorHandler);
+app.use(errorHandler);
 app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
-
+app.use(routerContact);
 
 // app.use(middlewares.notFound);
 
