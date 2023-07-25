@@ -11,20 +11,10 @@ const scheduleController = {
     const schedule = await Schedule.findOne({ where: { user_id, week: week } });
 
     if (!meals.idDbMeal  || !meals.name  || !meals.image  || meals.position ==! undefined  ) {
-      const error = {
-            codeMessage: 6,
-            message: 'Fields of meal are not complete'
-        }
-        res.status(400).json(error);
         throw new apiError(`Fields of meal are not complete`, { statusCode: 400 });
     }
 
     if (!schedule) {
-        const error = {
-            codeMessage: 7,
-            message: `Schedule don't exist.`
-        }
-        res.status(400).json(error);
         throw new apiError(`Schedule don't exist.`, { statusCode: 400 });
     }
 
@@ -48,7 +38,6 @@ const scheduleController = {
     await t.commit();
     const newUser = await newUserData(user_id);
     const response =  {
-        codeMessage:102,
         message: 'Meal add to schedule',
         newUser
     }
@@ -61,17 +50,11 @@ const scheduleController = {
     const meal = await Meal.findByPk(meal_id);
 
     if (!meal) {
-        const error = {
-            codeMessage: 9,
-            message: `Can not find meal with id` + meal_id
-        }
-        res.status(404).json(error);
         throw new apiError('Can not find meal with id ' + meal_id, { statusCode: 404 });
     }
     await Meal.destroy({ where: { id: meal_id } })
     const newUser = await newUserData(user_id);
     const response =  {
-        codeMessage:103,
         message: 'Meal delete to schedule',
         newUser
     }

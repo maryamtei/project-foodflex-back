@@ -22,7 +22,6 @@ const userController = {
 
       await user.save();
       const response =  {
-          codeMessage:104,
           message: 'Profile has been modified',
           newUser
       }
@@ -37,20 +36,16 @@ const userController = {
     const schedules = await Schedule.findAll({ where: { user_id } });
 
     if (!user) {
-      // res.status(404).json('Can not find user with id ' + user_id);
-      throw new apiError('Can not find user with id ' + user_id, { statusCode: 404 });
+      throw new apiError('Can not find user with id ' + user_id, { statusCode: 404 })
     } else {
+
       for (const schedule of schedules) {
         await Meal.destroy({ where: { schedule_id: schedule.id } })
       }
       await Schedule.destroy({ where: { user_id: user_id } });
       await Favorite.destroy({ where: { user_id: user_id } });
       await user.destroy();
-      const response =  {
-        codeMessage:106,
-        message: 'User delete'
-    }
-    res.status(200).json(response);
+      res.status(200).json({ message: 'User delete' });
     }
   },
 
@@ -59,12 +54,6 @@ const userController = {
     const user = await User.findOne({ where: { email } });
 
     if (user) {
-      const response =  {
-        codeMessage:14,
-        message: 'User already exists',
-
-    }
-      res.status(400).json(response);
       throw new apiError('Cet utilisateur existe déjà.', { statusCode: 400 });
     }
 
@@ -90,7 +79,6 @@ const userController = {
     const newUserSignUp = await newUserData(newUser.id);
     const authToken = await generateAuthTokens(newUser.id) // création du token jwt
     const response =  {
-        codeMessage:107,
         message: 'User has been create',
         token:authToken.token,
         newUser:newUserSignUp
@@ -150,29 +138,21 @@ const userController = {
     const user_id = req.user.id;
 
     if (!req.authToken) {
-      const response =  {
-        codeMessage:18,
-        message: 'Token missing. Logout failed.',
-    }
-      res.status(400).json(response);
       throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
-    }else{
 
-    }
-    const tokens = await AuthToken.findAll({
-     where: { user_id },
-   });
-   for (const token of tokens) {
-     await token.destroy();
-   }
+    } else {
 
-    req.authToken = null;
-    req.user = [];
-    const response =  {
-     codeMessage:109,
-     message: 'Logout succesfull',
+      const tokens = await AuthToken.findAll({
+        where: { user_id },
+       });
+       for (const token of tokens) {
+         await token.destroy();
+       }
+
+       req.authToken = null;
+       req.user = [];
+       res.status(200).json({message : "Logout sucessfull"});
     }
-    res.status(200).json(response);
   }
 };
 
