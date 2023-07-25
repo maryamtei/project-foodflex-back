@@ -7,9 +7,11 @@ const express = require('express');
 const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
+const routerContact = require('./app/routers/routerContact');
 
 
 const cors = require('cors');
+const router = require('./app/routers/routerContact');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -28,6 +30,7 @@ app.use(cors('*'));                 // On autorise toutes les origines à envoye
 app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
+app.use(routerContact);
 
 
 // app.use(middlewares.notFound);
