@@ -110,7 +110,7 @@ const userController = {
         message: 'Credentials are invalid',
     }
       res.status(400).json(response);
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     throw new apiError('Identifiants invalides.', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
@@ -120,8 +120,8 @@ const userController = {
         codeMessage:16,
         message: 'Credentials are invalid',
     }
-      res.status(400).json(response);
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     res.status(400).json(response);
+     throw new apiError('Identifiants invalides.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
