@@ -1,18 +1,23 @@
-const swagger = require("express-jsdoc-swagger");
-
 const options = {
-    definition: {
-        openapi: '3.0.0',
-        info:{
-            title: "Project Foodflex",
-            version: "1.0.0",
-            description: "API for create a custom recipe schedule"
-        },
-        servers: [
-            {
-                url: "http://localhost:3210"
-            }
-        ]
+    info: {
+      version: '1.0.0',
+      title: 'Project Foodflex',
+      description: 'Create a food schedule!',
     },
-    apis: ["../routers/*.js"]
-}
+    security: {
+      BasicAuth: {
+        type: 'jwt',
+        scheme: 'basic',
+      },
+    },
+    baseDir: __dirname,
+    // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
+    filesPattern: './**/*.js',
+    // URL where SwaggerUI will be rendered
+    swaggerUIPath: '/api-docs',
+    // Expose OpenAPI UI
+    exposeSwaggerUI: true,
+    // Set non-required fields as nullable by default
+    notRequiredAsNullable: false
+  };
+module.exports = options

@@ -9,14 +9,9 @@ const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
 const routerContact = require('./app/routers/routerContact');
-<<<<<<< HEAD
-=======
-
-
->>>>>>> develop
 const cors = require('cors');
 const router = require('./app/routers/routerContact');
-
+const expressJsDocSwagger = require("express-jsdoc-swagger") // doc swagger
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.set('env', 'development'); // Remplacez 'production' par 'development' pour le mode de développement
@@ -27,7 +22,8 @@ app.use(express.json());
 // Différence entre urlencoded() et json()
 // json() parse uniquement des body sous forme de json
 // urlencoded parse à la fois des body en json mais aussi en html post form (multipart/formdata)
-
+const options = require("./app/doc/swaggerDoc")
+expressJsDocSwagger(app)(options);
 /*----------------- Middlewares ----------------- */
 app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 // app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
@@ -36,10 +32,6 @@ app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
 app.use(routerContact);
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 
 // app.use(middlewares.notFound);
 

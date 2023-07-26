@@ -56,6 +56,16 @@ const favoriteController = {
      res.status(200).json(response);
   },
 
+    /**
+   * Deletes a recipe from the user's favorites.
+   * @async
+   * @function
+   * @param {object} req - The Express request object.
+   * @param {object} res - The Express response object.
+   * @throws {apiError} If the favorite with the specified ID is not found (status code: 404).
+   * @returns {Promise<void>} A JSON response containing the message 'Recipe deleted from favorites' and updated user data.
+   *
+   */
   deleteFavorite: async (req, res) => {
     const meal_id = req.params.id;
     const user_id = req.user.id

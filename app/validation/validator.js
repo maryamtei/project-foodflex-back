@@ -1,10 +1,5 @@
 const Joi = require("joi");
-/*
-const validator = (schema) => (payload) =>
-    schema.validate(payload, { abortEarly: false});
 
-module.export = validator
-*/
 const validator = (source, schema) => async (req, res, next) => {
     try {
       await schema.validateAsync(req[source]);
