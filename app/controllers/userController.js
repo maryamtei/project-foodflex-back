@@ -6,8 +6,8 @@ const apiError = require('../errors/apiErrors');
 
 const userController = {
   modifyUser: async (req, res) => {
-    const user_id = req.params.id;
-    const { firstname, lastname, password, email } = req.body;
+    const user_id = req.user.id;
+    const { firstname, lastname,  email } = req.body;
     let user = await User.findByPk(user_id);
 
     if (!user) {
@@ -16,11 +16,9 @@ const userController = {
     } else {
       if (firstname) { user.firstName = firstname }
       if (lastname) { user.lastName = lastname }
-      if (password) { user.password = password }
       if (email) { user.email = email }
       await user.save();
 
-      await user.save();
       const response =  {
           codeMessage:104,
           message: 'Profile has been modified',
