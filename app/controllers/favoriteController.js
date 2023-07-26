@@ -5,7 +5,22 @@ const { Schedule } = require('../models/associations');
 const newUserData = require('../middlewares/userData');
 const apiError = require('../errors/apiErrors');
 
+/**
+ * Controller for managing favorite recipes.
+ * @namespace favoriteController
+ */
+
 const favoriteController = {
+  /**
+   * Adds a recipe to the user's favorites.
+   * @async
+   * @function
+   * @param {object} req - The Express request object.
+   * @param {object} res - The Express response object.
+   * @throws {apiError} If the favorite already exists (status code: 400) or if the favorite object is missing required properties (status code: 422).
+   * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
+   *
+   */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
     const { idDbMeal, name, image } = req.body; //idDbMeal envoyé par le front
@@ -18,22 +33,13 @@ const favoriteController = {
     })
 
     if (existingFavorite) {
-      const error = {
-        codeMessage: 1,
-        message: 'This favorite already exists!'
-    }
-      res.status(400).json(error);
-      throw new apiError('Ce favori existe déjà !', { statusCode: 400 });
+      throw new apiError('This favorite already exists !', { statusCode: 400 });
     }
 
     if (!image || !name || !idDbMeal) {
-      const error = {
-        codeMessage: 2,
-        message: 'Favorite object error'
-    }
-    res.status(422).json(error);
-    throw new apiError(bodyErrors, { statusCode: 422 });
+      throw new apiError('Favorite object error !', { statusCode: 422 });
     }else {
+
     await Favorite.create({
          user_id,
          image,
@@ -44,11 +50,10 @@ const favoriteController = {
     }
      const newUser = await newUserData(user_id);
      const response =  {
-         codeMessage:100,
-         message: 'Recipe added to favorites',
-         newUser
+        codeMessage: 200,
+        message: 'Recipe added to favorites',
+        newUser
      }
-
      res.status(200).json(response);
   },
 
@@ -58,17 +63,11 @@ const favoriteController = {
 
     const favorite = await Favorite.findByPk(meal_id)
     if (!favorite) {
-        const error = {
-            codeMessage: 4,
-            message: 'Can not find favorite with id ' + meal_id
-        }
-        res.status(404).json(error);
         throw new apiError('Can not find favorite with id ' + meal_id, { statusCode: 404 });
     } else {
         await favorite.destroy();
      const newUser = await newUserData(user_id);
         const response =  {
-            codeMessage:101,
             message: 'Recipe delete to favorite',
             newUser
         }
