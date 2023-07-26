@@ -29,7 +29,7 @@ app.use(express.json());
 
 // app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 app.use(cors({
-  origin: 'https://app.foodflex.me/'
+  origin: 'https://app.foodflex.me'
 }));
 
 // app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
