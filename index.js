@@ -4,7 +4,7 @@ dotenv.config();
 
 /*----------------- Express ----------------- */
 const express = require('express');
-const {errorHandler} = require("./app/middlewares/errorHandler")
+const { errorHandler } = require("./app/middlewares/errorHandler")
 const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
@@ -26,7 +26,11 @@ app.use(express.json());
 // urlencoded parse à la fois des body en json mais aussi en html post form (multipart/formdata)
 
 /*----------------- Middlewares ----------------- */
-app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
+// app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
+app.use(cors({
+  origin: 'https://app.foodflex.me'
+}));
+
 // app.use(middlewares.bodySanitizer); // On branche le middleware qui va désinfecter les requetes qui contiennent un body, avant d'arriver vers le router
 app.use(errorHandler);
 app.use(routerFavorite);
