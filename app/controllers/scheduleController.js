@@ -5,7 +5,6 @@ const apiError = require('../errors/apiErrors');
 
 const scheduleController = {
   addMealSchedule: async (req, res) => {
-    const t = await sequelize.transaction();
     const user_id = req.user.id;
     const { meals, week } = req.body;
     const schedule = await Schedule.findOne({ where: { user_id, week: week } });
@@ -45,7 +44,6 @@ const scheduleController = {
         position: meals.position,
       })
     }
-    await t.commit();
     const newUser = await newUserData(user_id);
     const response =  {
         codeMessage:102,
