@@ -9,11 +9,8 @@ const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
 const routerContact = require('./app/routers/routerContact');
-<<<<<<< HEAD
-=======
 
 
->>>>>>> develop
 const cors = require('cors');
 const router = require('./app/routers/routerContact');
 
@@ -36,10 +33,6 @@ app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
 app.use(routerContact);
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 
 // app.use(middlewares.notFound);
 

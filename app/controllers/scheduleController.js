@@ -5,12 +5,11 @@ const apiError = require('../errors/apiErrors');
 
 const scheduleController = {
   addMealSchedule: async (req, res) => {
-    const t = await sequelize.transaction();
     const user_id = req.user.id;
     const { meals, week } = req.body;
     const schedule = await Schedule.findOne({ where: { user_id, week: week } });
 
-    if (!meals.idDbMeal  || !meals.name  || !meals.image  || meals.position ==! undefined  ) {
+    if (!meals.idDbMeal  || !meals.name  || !meals.image  || meals.position == undefined  ) {
         throw new apiError(`Fields of meal are not complete`, { statusCode: 400 });
     }
 
@@ -35,7 +34,6 @@ const scheduleController = {
         position: meals.position,
       })
     }
-    await t.commit();
     const newUser = await newUserData(user_id);
     const response =  {
         message: 'Meal add to schedule',
