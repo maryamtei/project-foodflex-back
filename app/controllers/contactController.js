@@ -2,6 +2,18 @@ const apiError = require('../errors/apiErrors');
 const Contact = require('../models/contact');
 
 const contactController = {
+
+   /**
+   * Envoie le formulaire de contact.
+   *
+   * @async
+   * @function
+   * @param {object} req - L'objet de requête Express.
+   * @param {object} res - L'objet de réponse Express.
+   * @throws {apiError} Si l'un des champs du formulaire est manquant (statut de réponse 422).
+   * @returns {Promise<void>} Renvoie une réponse JSON contenant les informations du contact créé (statut de réponse 200).
+   */
+
     submitContactForm: async (req, res) => {
         const { name, email, message } = req.body;
         console.log(email)

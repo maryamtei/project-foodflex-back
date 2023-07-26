@@ -5,7 +5,22 @@ const { Schedule } = require('../models/associations');
 const newUserData = require('../middlewares/userData');
 const apiError = require('../errors/apiErrors');
 
+/**
+ * Controller for managing favorite recipes.
+ * @namespace favoriteController
+ */
+
 const favoriteController = {
+  /**
+   * Adds a recipe to the user's favorites.
+   * @async
+   * @function
+   * @param {object} req - The Express request object.
+   * @param {object} res - The Express response object.
+   * @throws {apiError} If the favorite already exists (status code: 400) or if the favorite object is missing required properties (status code: 422).
+   * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
+   *
+   */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
     const { idDbMeal, name, image } = req.body; //idDbMeal envoyé par le front
