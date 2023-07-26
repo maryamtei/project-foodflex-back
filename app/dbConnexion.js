@@ -7,6 +7,13 @@ const { Sequelize } = require('sequelize');
 const PG_URL = "postgres://bmycrhcbnofysn:1ade80a3fbbece08d68b41fce7ef8055d433e5958ae3aff92607a0d90c2c1c24@ec2-63-35-80-199.eu-west-1.compute.amazonaws.com:5432/d6ehd2d0fnn1u8";
 
 const defineAttributes = {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // N'utilisez ceci qu'avec des certificats auto-signés
+        }
+    },
     logging: false,
     define: {
         // underscored: true,          // On indique à sequelize de passer en mode snake case
