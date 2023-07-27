@@ -1,6 +1,7 @@
 const ApiError = require('../errors/apiErrors');
 
 const errorHandler = (error, req, res, next) => {
+    console.error('Error Server Side : ', error);
     let { message } = error;
     let statusCode = error.infos?.statusCode;
     if (!statusCode || Number.isNaN(Number(statusCode))) {

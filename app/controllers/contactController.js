@@ -21,7 +21,7 @@ const contactController = {
         } else {
             const contact = await Contact.create({
                 name,
-                email,
+                email, //enlever la contrainte unique
                 message
             });
             res.status(200).json(contact);

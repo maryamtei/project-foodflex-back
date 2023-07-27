@@ -50,15 +50,15 @@ const userController = {
   },
 
   signUp: async (req, res) => {
-    const { firstName, lastName, email, password, /* confirmPassword */ } = req.body;
+    const { firstName, lastName, email, password, confirmPassword} = req.body;
     const user = await User.findOne({ where: { email } });
     if (user) {
-      throw new apiError('Cet utilisateur existe déjà.', { statusCode: 400 });
+      throw new apiError('User already exists.', { statusCode: 400 });
     }
 
-    // if (password != confirmPassword){
-    //   throw new apiError('Eho pas le même mot de passe', { statusCode: 400 });
-    // }
+    if (password != confirmPassword){
+      throw new apiError('Invalid password. Passwords must match.', { statusCode: 400 });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
