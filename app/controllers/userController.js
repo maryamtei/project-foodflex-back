@@ -6,21 +6,32 @@ const apiError = require('../errors/apiErrors');
 
 const userController = {
   modifyUser: async (req, res) => {
-    const user_id = req.params.id;
-    const { firstname, lastname, password, email } = req.body;
+    const user_id = req.user.id;
+    const { firstName, lastName,  email } = req.body;
     let user = await User.findByPk(user_id);
 
     if (!user) {
       // res.status(404).json('Can not find user with this id ' + user_id);
       throw new apiError('Can not find user with this id ' + user_id, { statusCode: 404 });
     } else {
-      if (firstname) { user.firstName = firstname }
-      if (lastname) { user.lastName = lastname }
-      if (password) { user.password = password }
-      if (email) { user.email = email }
-      await user.save();
+      if (user.firstName !== firstName) { user.firstName = firstName }
+      if (user.lastName !== lastName) { user.lastName = lastName }
+      if ( user.email !== email) {
+        const userEmail = await User.findOne({ where: {email} });
+        if (userEmail) {
+          const response =  {
+            codeMessage:14,
+            message: 'Mail already exists',
 
+        }
+          res.status(400).json(response);
+          throw new apiError('Mail already exists', { statusCode: 400 });
+        }else{
+          user.email = email
+        }
+      }
       await user.save();
+      const newUser = await newUserData(user_id);
       const response =  {
           message: 'Profile has been modified',
           newUser
@@ -101,7 +112,7 @@ const userController = {
         message: 'Credentials are invalid',
     }
       res.status(400).json(response);
-     throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     throw new apiError('Invalid credentials..', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
@@ -112,7 +123,7 @@ const userController = {
         message: 'Credentials are invalid',
     }
      res.status(400).json(response);
-     throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     throw new apiError('Invalid credentials.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
@@ -141,7 +152,7 @@ const userController = {
     const user_id = req.user.id;
 
     if (!req.authToken) {
-      throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
+      throw new apiError({ message: 'Token missing, logout failed.' })
 
     } else {
 

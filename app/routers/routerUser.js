@@ -28,7 +28,7 @@ router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrap
 router.get(`/logout`, authentification, controllerWrapper(userController.logout));
 router.get(`/user`, authentification, controllerWrapper(userController.getUserInformation));
 //router.delete(`/profil/:id`, userController.deleteUser)
-//router.patch(`/profil/:id`, userController.modifyUser)
+router.patch(`/profil`, authentification ,userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
 
 module.exports = router;

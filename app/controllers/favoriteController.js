@@ -50,8 +50,9 @@ const favoriteController = {
     }
      const newUser = await newUserData(user_id);
      const response =  {
-         message: 'Recipe added to favorites',
-         newUser
+        codeMessage: 200,
+        message: 'Recipe added to favorites',
+        newUser
      }
      res.status(200).json(response);
   },
