@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { AuthToken, Schedule } = require('../models/associations');
-
+const apiError = require('../errors/apiErrors');
 
 const authentification =  async(req, res, next) => {
     try {
@@ -10,7 +9,7 @@ const authentification =  async(req, res, next) => {
         const user = await User.findOne({
           where: { id: decodedToken._id }});
 
-        if (!user) throw new Error();
+        if (!user) throw new apiError('Can not find user, please reconnect ', { statusCode: 401 });
 
         req.authToken = authTokenHeader;
         req.user =  {}
@@ -18,8 +17,7 @@ const authentification =  async(req, res, next) => {
         console.log("authentification ok")
         next()
     }catch(e){
-      console.log(e)
-        res.status(401).send("Probleme de connexion")
+      throw new apiError('Authentication problem', { statusCode: 401 });
     }
 }
 module.exports = authentification
