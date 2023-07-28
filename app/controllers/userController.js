@@ -61,14 +61,14 @@ const userController = {
   },
 
   signUp: async (req, res) => {
-    const { firstName, lastName, email, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, password, confirmPassword} = req.body;
     const user = await User.findOne({ where: { email } });
     if (user) {
-      throw new apiError('Cet utilisateur existe déjà.', { statusCode: 400 });
+      throw new apiError('User already exists.', { statusCode: 400 });
     }
 
     if (password != confirmPassword){
-      throw new apiError('Eho pas le même mot de passe', { statusCode: 400 });
+      throw new apiError('Invalid password. Passwords must match.', { statusCode: 400 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -112,7 +112,7 @@ const userController = {
         message: 'Credentials are invalid',
     }
       res.status(400).json(response);
-     throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     throw new apiError('Invalid credentials..', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
@@ -123,7 +123,7 @@ const userController = {
         message: 'Credentials are invalid',
     }
      res.status(400).json(response);
-     throw new apiError('Identifiants invalides.', { statusCode: 400 });
+     throw new apiError('Invalid credentials.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
@@ -152,7 +152,7 @@ const userController = {
     const user_id = req.user.id;
 
     if (!req.authToken) {
-      throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
+      throw new apiError({ message: 'Token missing, logout failed.' })
 
     } else {
 
