@@ -4,6 +4,14 @@ const newUserData = require('../middlewares/userData');
 const apiError = require('../errors/apiErrors');
 
 const scheduleController = {
+  /**
+   * Add a meal to the user's schedule.
+   * @async
+   * @param {Object} req - The Express request object.
+   * @param {Object} res - The Express response object.
+   * @throws {apiError} Error thrown if meal fields are incomplete or if the schedule does not exist.
+   * @returns {Object} JSON response containing a success message and the updated user data.
+   */
   addMealSchedule: async (req, res) => {
     const user_id = req.user.id;
     const { meals, week } = req.body;
@@ -42,6 +50,14 @@ const scheduleController = {
     res.status(200).json(response);
   },
 
+  /**
+   * Delete a meal from the user's schedule.
+   * @async
+   * @param {Object} req - The Express request object.
+   * @param {Object} res - The Express response object.
+   * @throws {apiError} Error thrown if the meal with the specified ID is not found.
+   * @returns {Object} JSON response containing a success message and the updated user data.
+   */
   deleteSchedule: async (req, res) => {
     const user_id = req.user.id;
     const meal_id = req.params.id;
