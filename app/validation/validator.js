@@ -1,11 +1,12 @@
-const apiError = require('../errors/apiErrors');
+const Joi = require("joi");
 
 const validator = (source, schema) => async (req, res, next) => {
     try {
       await schema.validateAsync(req[source]);
       return next();
     } catch (err) {
-      throw new apiError('Internal error ', { statusCode: 401 })
+
+      return res.status(400).json({ message: err.details[0].message });
     }
   };
 module.exports = validator

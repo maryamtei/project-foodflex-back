@@ -17,7 +17,7 @@ const authentification =  async(req, res, next) => {
         console.log("authentification ok")
         next()
     }catch(e){
-      throw new apiError('Authentication problem', { statusCode: 401 });
+      return res.status(401).json({ message: e.details[0].message });
     }
 }
 module.exports = authentification
