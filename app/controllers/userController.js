@@ -19,12 +19,6 @@ const userController = {
       if ( user.email !== email) {
         const userEmail = await User.findOne({ where: {email} });
         if (userEmail) {
-          const response =  {
-            codeMessage:14,
-            message: 'Mail already exists',
-
-        }
-          res.status(400).json(response);
           throw new apiError('Mail already exists', { statusCode: 400 });
         }else{
           user.email = email
@@ -107,29 +101,18 @@ const userController = {
     });
 
     if (!user) {
-      const response =  {
-        codeMessage:16,
-        message: 'Credentials are invalid',
-    }
-      res.status(400).json(response);
      throw new apiError('Invalid credentials..', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
-    console.log(password_validor)
+
     if (!password_validor) {
-      const response =  {
-        codeMessage:16,
-        message: 'Credentials are invalid',
-    }
-     res.status(400).json(response);
      throw new apiError('Invalid credentials.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
     const newUser = await newUserData(user.id);
     const response =  {
-        codeMessage:108,
         message: 'You have been logged in',
         token:authToken.token,
         newUser
@@ -141,7 +124,6 @@ const userController = {
     const user_id = req.user.id;
     const newUser = await newUserData(user_id);
     const response =  {
-        codeMessage:108,
         message: 'You have been logged in',
         newUser
     }
