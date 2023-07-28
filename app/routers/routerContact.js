@@ -21,10 +21,10 @@ const router = express.Router();
 /**
  * POST /routers/routerContact
  * @summary Submit a contact form
- * @param {object} body.required - Contact form data to be submitted.
+ * @tags contact
  * @returns {object} 200 - Success message and response data.
  * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {ApiError} 500 - Error message and details for server errors.
+ * @returns {object} 500 - Error message and details for server errors.
  */
 router.post(`/contact`, validator('body', validateSubmitFormSchema), controllerWrapper(contactController.submitContactForm));
 

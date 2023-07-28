@@ -1,5 +1,11 @@
 const ApiError = require('../errors/apiErrors');
 
+/**
+ * Middleware that respond to a next method with an error as argument
+ * @param {object} err Error class
+ * @param {object} res Express response object
+ */
+
 const errorHandler = (error, req, res, next) => {
     console.error('Error Server Side : ', error);
     let { message } = error;
