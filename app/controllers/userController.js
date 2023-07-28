@@ -131,24 +131,15 @@ const userController = {
   },
 
   logout: async (req, res) => {
-    const user_id = req.user.id;
 
     if (!req.authToken) {
       throw new apiError({ message: 'Token missing, logout failed.' })
 
-    } else {
-
-      const tokens = await AuthToken.findAll({
-        where: { user_id },
-       });
-       for (const token of tokens) {
-         await token.destroy();
-       }
-
-       req.authToken = null;
-       req.user = [];
-       res.status(200).json({message : "Logout sucessfull"});
     }
+    req.authToken = null;
+    req.user = [];
+    res.status(200).json({message : "Logout sucessfull"});
+
   }
 };
 
