@@ -1,0 +1,337 @@
+# Définitions des appels API
+
+## Planning
+
+### GET
+
+- VERBE: GET
+- ROUTE FRONT: /planning
+- ROUTE API BACK: /planning
+- ACTION: au chargement
+- DESCRIPTION: Planning page - Récupérer tous les menus de l'utilisateur enregistrés dans la bdd -> les stocker dans le store
+On doit récuperer un tableau avec 52 semaines et 14 repas par semaine.
+
+Réponse :
+
+```javascript
+[
+  {
+    "week": number,
+    "meals": [
+      {
+        "idMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      },
+    ]
+  }
+] 
+```
+
+### POST
+
+- VERBE: POST
+- ROUTE FRONT: /planning
+- ROUTE API BACK: /planning
+- ACTION: execution lors du drag'n'drop
+- DESCRIPTION: Planning page - Change la position entre deux menus
+
+Requete:
+
+```javascript
+ {
+    "week": number,
+    "meals": [
+      {
+        "idMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      },
+    ]
+  }
+```
+
+Réponse :
+
+```javascript
+{
+  message : "string" (message ok or failed),
+
+}
+```
+
+## Sign-up
+
+- VERBE: Post  
+- ROUTE FRONT: /signup
+- ROUTE API BACK: /signup
+- ACTION: validation du formulaire
+- DESCRIPTION: signup page - crée le profil de l’utilisateur
+- NOTE : Initialiser Favorites et Schedules à la création du profil
+  
+Requete:
+
+```javascript
+{
+  "firstName": string,
+  "lastName": string,
+  "email": string,
+  "password": string,
+}
+```
+
+Réponse :
+
+```javascript
+{
+  message : "string" (message ok or failed),
+
+}
+```
+
+## Login
+
+- VERBE: Post  
+- ROUTE FRONT: /login
+- ROUTE API BACK: /login
+- ACTION: validation du formulaire
+- DESCRIPTION: Login page - gére la connexion
+
+Requete:
+
+```javascript
+{
+  "email": string,
+  "password" : string,
+}
+```
+
+Réponse :
+
+```javascript
+{
+  status : "string" (message ok or failed)
+}
+```
+
+### Modale Profil
+
+## GET Profil
+
+- VERBE: GET  
+- ROUTE FRONT: modale
+- ROUTE API BACK: /profil
+- ACTION: à l'ouverture de la modale
+- DESCRIPTION: profil modale - Récupere les informations utilisateurs
+
+Réponse:
+
+```javascript
+{ 
+    "user_id": number,
+    "firstName": string,
+    "lastName": string,
+    "email": string,
+    "password": string,
+    "favorites": [
+      {
+        "favorite_id",
+        "idDbMeal": string,
+        "name": string,
+        "imageUrl": string,
+        "position": number
+      }
+    ],
+    "schedule": [
+      {
+        "schedule_id" : number,
+        "week": number,
+        "meals": [
+          {
+            "meal_id" : number,
+            "idDbMeal": string,
+            "name": string,
+            "imageUrl": string,
+            "position": number
+          },
+        ]
+      },
+    ]
+  },
+```
+
+## PATCH
+
+- VERBE: Patch  
+- ROUTE FRONT: modale
+- ROUTE API BACK: /profil
+- ACTION: lors de l'appuie du bouton "modification profil"
+- DESCRIPTION: profil modale - Modifie les informations utilisateurs
+
+Requete:
+
+```javascript
+{
+    mail: "string",
+    name : "string",
+    password: "string",
+    confirm_password: "string"
+}
+```
+
+Réponse:
+
+```javascript
+{
+    status: "string"
+}
+```
+
+## DELETE
+
+- VERBE: Delete  
+- ROUTE FRONT: modale
+- ROUTE API BACK: /profil
+- ACTION: lors de l'appuie du bouton "delete favori"
+- DESCRIPTION: profil modale - Supprime une recette favorite
+
+Requete:
+
+```javascript
+{
+      "idMeal": number
+}
+```
+
+Réponse:
+
+```javascript
+{
+    status: "string"
+}
+```
+
+### Recipes
+
+## GET recipes
+
+- VERBE: GET
+- ROUTE FRONT: /recipes
+- ROUTE API THEMEALDB: <www.themealdb.com/api/json/v1/1/random.php>
+- ROUTE API BACK: non
+- ACTION: au chargement
+- DESCRIPTION: Home page - Récupérer X meals, on garde que idMeal, strMeal et strMealThumb pour l'affichage.
+
+Réponse:
+
+```json
+{
+  "meals": [
+    {
+      "idMeal": "52863",
+      "strMeal": "Vegetarian Casserole",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/vptwyt1511450962.jpg",
+    }
+  ]
+}
+```
+
+TypeScript :
+
+```js
+export interface Root {
+  meals: Meal[]
+}
+
+export interface Meal {
+  idMeal: string
+  strMeal: string
+  strMealThumb: string
+}
+
+```
+
+### Favorites
+
+## GET ROUTER
+
+- VERBE: GET
+- ROUTE FRONT:
+- ROUTE API BACK: /favori
+- ACTION: lors de l'appuie sur le bouton filter favorites
+- DESCRIPTION: profil modale - Récupere les informations utilisateurs
+
+Réponse:
+
+```javascript
+{
+  favorites:[{
+      "idMeal": number,
+      "name": string,
+      image: string,
+      position: number 
+  }]
+}
+```
+
+## POST
+
+- VERBE: POST
+- ROUTE FRONT:
+- ROUTE API BACK: /favori
+- ACTION: appuie sur le bouton favori
+- DESCRIPTION: Planning page - Ajoute en favori
+
+Requete:
+
+```javascript
+{
+  meal_1: 
+    {
+      "idMeal": number,
+      "name": string,
+      image: string
+    }
+```
+
+Réponse :
+
+```javascript
+{
+  message : "string" (message ok or failed),
+
+}
+```
+
+## DELETE
+
+- VERBE: DELETE
+- ROUTE FRONT:
+- ROUTE API BACK: /favori
+- ACTION: appuie sur le bouton delete
+- DESCRIPTION: Planning page - Supprime le menu dans le planning
+
+Requete:
+
+```javascript
+{
+  week: number,
+  meal_1: 
+    {
+      "idMeal": number,
+      "name": string,
+      image: string,
+      position: number
+    }
+```
+
+Réponse :
+
+```javascript
+{
+  message : "string" (message ok or failed),
+
+}
+```
