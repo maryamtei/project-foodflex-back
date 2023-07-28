@@ -4,8 +4,9 @@ const apiError = require('../errors/apiErrors');
 
 const authentification =  async(req, res, next) => {
     try {
+        const secret = process.env.SECRET;
         const authTokenHeader = req.headers.authorization.split(' ')[1] // récupere le token stocker dans le header
-        const decodedToken =jwt.verify(authTokenHeader,'secret') // decodedToken = idUser
+        const decodedToken =jwt.verify(authTokenHeader, secret) // decodedToken = idUser
         const user = await User.findOne({
           where: { id: decodedToken._id }});
 
@@ -17,7 +18,7 @@ const authentification =  async(req, res, next) => {
         console.log("authentification ok")
         next()
     }catch(e){
-      return res.status(401).json({ message: e.details[0].message });
+      return res.status(401).json({ message: "Token invalide, please reconnect" });
     }
 }
 module.exports = authentification
