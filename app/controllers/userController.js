@@ -56,7 +56,6 @@ const userController = {
 
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
-
     const user = await User.findOne({ where: { email } });
     if (user) {
       throw new apiError('User already exists.', { statusCode: 400 });
@@ -129,18 +128,6 @@ const userController = {
         newUser
     }
     res.status(200).json(response);
-  },
-
-  logout: async (req, res) => {
-
-    if (!req.authToken) {
-      throw new apiError({ message: 'Token missing, logout failed.' })
-
-    }
-    req.authToken = null;
-    req.user = [];
-    res.status(200).json({message : "Logout sucessfull"});
-
   }
 };
 

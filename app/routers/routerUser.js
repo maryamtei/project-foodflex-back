@@ -25,7 +25,6 @@ const router = express.Router();
 
 router.post(`/signup`, validator('body', validateSignUpUserSchema), controllerWrapper(userController.signUp));
 router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrapper(userController.login));
-router.get(`/logout`, authentification, controllerWrapper(userController.logout));
 router.get(`/user`, authentification, controllerWrapper(userController.getUserInformation));
 //router.delete(`/profil/:id`, userController.deleteUser)
 router.patch(`/profil`, authentification ,userController.modifyUser)
