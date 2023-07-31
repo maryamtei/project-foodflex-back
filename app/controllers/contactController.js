@@ -20,7 +20,7 @@ const contactController = {
    */
     submitContactForm: async (req, res) => {
         const transporter = nodemailer.createTransport({
-          host: "gmail",
+          host: "smtp.gmail.com",
           secure: true,
           auth: {
             user: 'foodflexfoodflex@gmail.com',
@@ -38,7 +38,7 @@ const contactController = {
             from: email,
             to: "foodflexfoodflex@gmail.com",
             subject: "Contact from Foodflex website",
-            text: `Name: ${name}
+            text: ` Name: ${name}
                     Email: ${email}
                     Message: ${message}`
           });
