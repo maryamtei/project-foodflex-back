@@ -15,7 +15,7 @@ const authentification =  async(req, res, next) => {
         req.authToken = authTokenHeader;
         req.user =  {}
         req.user.id = decodedToken._id;
-        console.log("authentification ok")
+        console.log("authentification ok.")
         next()
     }catch(e){
       return res.status(401).json({ message: "Token invalide, please reconnect" });

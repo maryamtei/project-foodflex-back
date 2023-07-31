@@ -56,6 +56,7 @@ const userController = {
 
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
+
     const user = await User.findOne({ where: { email } });
     if (user) {
       throw new apiError('User already exists.', { statusCode: 400 });
