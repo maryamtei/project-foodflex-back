@@ -1,32 +1,24 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { AuthToken, Schedule } = require('../models/associations');
-
+const apiError = require('../errors/apiErrors');
 
 const authentification =  async(req, res, next) => {
     try {
+        const secret = process.env.SECRET;
         const authTokenHeader = req.headers.authorization.split(' ')[1] // récupere le token stocker dans le header
-        const decodedToken =jwt.verify(authTokenHeader,'secret')
+        const decodedToken =jwt.verify(authTokenHeader, secret) // decodedToken = idUser
         const user = await User.findOne({
-          where: { id: decodedToken._id },
-          include: [
-            {
-              model: AuthToken,
-              as: 'token',
-              where: { token: authTokenHeader },
-            },
-          ],
-        });
+          where: { id: decodedToken._id }});
 
-        if (!user) throw new Error();
+        if (!user) throw new apiError('Can not find user, please reconnect ', { statusCode: 401 });
 
         req.authToken = authTokenHeader;
-        req.user = user;
-        console.log("authentification ok")
+        req.user =  {}
+        req.user.id = decodedToken._id;
+        console.log("authentification ok.")
         next()
     }catch(e){
-      console.log(e)
-        res.status(401).send("Probleme de connexion")
+      return res.status(401).json({ message: "Token invalide, please reconnect" });
     }
 }
 module.exports = authentification
