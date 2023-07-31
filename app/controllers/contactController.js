@@ -1,5 +1,6 @@
 const apiError = require('../errors/apiErrors');
 const Contact = require('../models/contact');
+const nodemailer = require('nodemailer');
 
 const contactController = {
 
@@ -18,6 +19,14 @@ const contactController = {
    * @property {string} email
    */
     submitContactForm: async (req, res) => {
+        const transporter = nodemailer.createTransport({
+          host: "gmail",
+          secure: true,
+          auth: {
+            user: 'foodflexfoodflex@gmail.com',
+            pass: 'foodflex2023'
+          }
+        });
         const { name, email, message } = req.body;
         console.log(email)
         console.log(name)
@@ -25,14 +34,23 @@ const contactController = {
         if (!name || !email || !message) {
           throw new apiError('The form fields are required.', { statusCode: 422 });
         } else {
-            const contact = await Contact.create({
-                name,
-                email, //enlever la contrainte unique
-                message
-            });
+          const info = await transporter.sendMail({
+            from: email,
+            to: "foodflexfoodflex@gmail.com",
+            subject: "Contact from Foodflex website",
+            text: `Name: ${name}
+                    Email: ${email}
+                    Message: ${message}`
+          });
+          console.log("Message sent: " + info.messageId)
+          const contact = await Contact.create({
+              name,
+              email, //enlever la contrainte unique
+              message
+          });
             res.status(200).json(contact);
         }
-      }
+  }
 };
 
 module.exports = contactController;
