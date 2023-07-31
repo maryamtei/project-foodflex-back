@@ -72,7 +72,6 @@ router.get(`/user`, authentification, controllerWrapper(userController.getUserIn
 router.patch(`/profil`, authentification ,userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
 //router.delete(`/profil/:id`, userController.deleteUser)
-router.get(`/logout`, authentification, controllerWrapper(userController.logout));
 
 
 module.exports = router;

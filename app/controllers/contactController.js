@@ -24,9 +24,10 @@ const contactController = {
           secure: true,
           auth: {
             user: 'foodflexfoodflex@gmail.com',
-            pass: 'foodflex2023'
-          }
+            pass: process.env.EMAILPASSWORD
+          },
         });
+        console.log(process.env.EMAILPASSWORD)
         const { name, email, message } = req.body;
         console.log(email)
         console.log(name)

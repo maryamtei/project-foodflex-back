@@ -1,8 +1,8 @@
--- -- Revert foodflex:confirmPassword from pg
+-- Revert foodflex:confirmPassword from pg
 
--- BEGIN;
+BEGIN;
 
--- ALTER TABLE "user"
--- DROP COLUMN "confirmPassword";
+ALTER TABLE "user"
+DROP COLUMN "confirmPassword";
 
--- COMMIT;
+COMMIT;
