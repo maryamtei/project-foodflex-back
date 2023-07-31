@@ -21,7 +21,7 @@ const router = express.Router();
 /**
  * POST /contact
  * @summary Submit a contact form
- * @tags Submit Contact form
+ * @tags Contact
  * @param {contact} request.body.required - ok
  * @returns {contact} 200 - Success message and response data.
  * @returns {object} 400 - Error message and details for invalid form data.

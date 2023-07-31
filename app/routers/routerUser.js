@@ -62,7 +62,7 @@ router.get(`/user`, authentification, controllerWrapper(userController.getUserIn
  * @summary Modify a User
  * @tags User
  * @security BasicAuth
- * @param {userModify} request.body.required - ok
+ * @param {userModify} request.body.required - Enter to modify user data
  * @returns {userModify} 200 - Success message and response data.
  * @returns {object} 400 - Error message and details for invalid form data.
  * @returns {object} 400 - Error message and details for connexion problem.
