@@ -25,7 +25,7 @@ const router = express.Router();
 /**
  * POST /favorite-add
  * @summary add favorite
- * @tags add favorite
+ * @tags Favorites
  * @security BasicAuth
  * @param {addFavorite} request.body.required - ok
  * @returns {addFavorite} 200 - Success message and response data.

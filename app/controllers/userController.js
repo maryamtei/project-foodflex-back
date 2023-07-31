@@ -5,6 +5,12 @@ const { User, Schedule, Meal, Favorite, AuthToken } = require('../models/associa
 const apiError = require('../errors/apiErrors');
 
 const userController = {
+    /**
+    * @typedef {object} userModify
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    */
   modifyUser: async (req, res) => {
     const user_id = req.user.id;
     const { firstName, lastName,  email } = req.body;
@@ -19,12 +25,6 @@ const userController = {
       if ( user.email !== email) {
         const userEmail = await User.findOne({ where: {email} });
         if (userEmail) {
-          const response =  {
-            codeMessage:14,
-            message: 'Mail already exists',
-
-        }
-          res.status(400).json(response);
           throw new apiError('Mail already exists', { statusCode: 400 });
         }else{
           user.email = email
@@ -59,9 +59,17 @@ const userController = {
       res.status(200).json({ message: 'User delete' });
     }
   },
-
+    /**
+    * @typedef {object} signup
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    * @property {string} password
+    * @property {string} confirmPassword
+    */
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
+
     const user = await User.findOne({ where: { email } });
     if (user) {
       throw new apiError('User already exists.', { statusCode: 400 });
@@ -100,6 +108,11 @@ const userController = {
     res.status(200).json(response);
 
   },
+    /**
+    * @typedef {object} login
+    * @property {string} email
+    * @property {string} password
+    */
   login: async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -107,29 +120,18 @@ const userController = {
     });
 
     if (!user) {
-      const response =  {
-        codeMessage:16,
-        message: 'Credentials are invalid',
-    }
-      res.status(400).json(response);
      throw new apiError('Invalid credentials..', { statusCode: 400 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
-    console.log(password_validor)
+
     if (!password_validor) {
-      const response =  {
-        codeMessage:16,
-        message: 'Credentials are invalid',
-    }
-     res.status(400).json(response);
      throw new apiError('Invalid credentials.', { statusCode: 400 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
     const newUser = await newUserData(user.id);
     const response =  {
-        codeMessage:108,
         message: 'You have been logged in',
         token:authToken.token,
         newUser
@@ -141,32 +143,21 @@ const userController = {
     const user_id = req.user.id;
     const newUser = await newUserData(user_id);
     const response =  {
-        codeMessage:108,
         message: 'You have been logged in',
         newUser
     }
     res.status(200).json(response);
   },
-
   logout: async (req, res) => {
-    const user_id = req.user.id;
 
     if (!req.authToken) {
       throw new apiError({ message: 'Token missing, logout failed.' })
 
-    } else {
-
-      const tokens = await AuthToken.findAll({
-        where: { user_id },
-       });
-       for (const token of tokens) {
-         await token.destroy();
-       }
-
-       req.authToken = null;
-       req.user = [];
-       res.status(200).json({message : "Logout sucessfull"});
     }
+    req.authToken = null;
+    req.user = [];
+    res.status(200).json({message : "Logout sucessfull"});
+
   }
 };
 

@@ -32,7 +32,7 @@ const scheduleController = {
       mealFind.image = meals.image;
       mealFind.position = meals.position;
 
-      mealFind.save()
+      await mealFind.save()
     } else {
       await Meal.create({
         idDbMeal: meals.idDbMeal,

@@ -21,7 +21,7 @@ const favoriteController = {
    * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
    *
    */
-     /**
+    /**
     * @typedef {object} addFavorite
     * @property {string} idDbMeal
     * @property {string} name
