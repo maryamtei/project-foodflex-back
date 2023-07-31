@@ -19,6 +19,10 @@ const contactController = {
    * @property {string} email
    */
     submitContactForm: async (req, res) => {
+        const { name, email, message } = req.body;
+        console.log(email)
+        console.log(name)
+        console.log(message)
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           secure: true,
@@ -26,22 +30,20 @@ const contactController = {
             user: 'foodflexfoodflex@gmail.com',
             pass: process.env.EMAILPASSWORD
           },
+          from: email
         });
-        console.log(process.env.EMAILPASSWORD)
-        const { name, email, message } = req.body;
-        console.log(email)
-        console.log(name)
-        console.log(message)
         if (!name || !email || !message) {
           throw new apiError('The form fields are required.', { statusCode: 422 });
         } else {
           const info = await transporter.sendMail({
-            from: email,
+            from: "fromeeee" + email,
             to: "foodflexfoodflex@gmail.com",
             subject: "Contact from Foodflex website",
-            text: ` Name: ${name}
+            text: `
+                    Name: ${name}
                     Email: ${email}
-                    Message: ${message}`
+                    Message: ${message}
+                  `
           });
           console.log("Message sent: " + info.messageId)
           const contact = await Contact.create({
