@@ -1,35 +1,38 @@
-const User = require('../models/user');
-const { Schedule, Favorite, Meal } = require('../models/associations');
+// Import required modules and associations
+const User = require('../models/user'); // User model
+const { Schedule, Favorite, Meal } = require('../models/associations'); // Association models
 
-const newUserData = async function (id){
+// Function to fetch new user data including favorites and schedules with associated meals
+const newUserData = async function (id) {
+  // Fetch user data with specific attributes and associated models
   return await User.findOne({
-    where: { id: id },
-    attributes: ['firstName', 'lastName', 'email'],
+    where: { id: id }, // Filter by user ID
+    attributes: ['firstName', 'lastName', 'email'], // Include specific attributes from the User model
     include: [
       {
-        model: Favorite,
-        as: 'favorites',
-        attributes: ['id', 'idDbMeal', 'name', 'image', 'position', 'created_at'],
-        separate: true,
-        order: [['created_at', 'DESC']], // Sort by 'created_at' in descending order
+        model: Favorite, // Include the Favorite model as an associated model
+        as: 'favorites', // Set the alias to 'favorites' for better readability
+        attributes: ['id', 'idDbMeal', 'name', 'image', 'position', 'created_at'], // Include specific attributes from the Favorite model
+        separate: true, // Use separate queries to load associated models, which can be more efficient
+        order: [['created_at', 'DESC']], // Sort the favorites by 'created_at' in descending order
       },
       {
-        model: Schedule,
-        as: 'schedules',
-        attributes: ['id', 'week'],
+        model: Schedule, // Include the Schedule model as an associated model
+        as: 'schedules', // Set the alias to 'schedules' for better readability
+        attributes: ['id', 'week'], // Include specific attributes from the Schedule model
         include: [
           {
-            model: Meal,
-            as: 'meals',
-            attributes: ['id', 'idDbMeal', 'name', 'image', 'position'],
+            model: Meal, // Include the Meal model as an associated model within Schedule
+            as: 'meals', // Set the alias to 'meals' for better readability
+            attributes: ['id', 'idDbMeal', 'name', 'image', 'position'], // Include specific attributes from the Meal model
           },
         ],
-        separate: true,
-        order: [['id', 'ASC']], // Sort by 'week' in ascending order
+        separate: true, // Use separate queries to load associated models, which can be more efficient
+        order: [['id', 'ASC']], // Sort the schedules by 'week' in ascending order
       },
     ],
   });
+};
 
-  ;}
-
-module.exports = newUserData
+// Export the newUserData function to be used in other modules
+module.exports = newUserData;
