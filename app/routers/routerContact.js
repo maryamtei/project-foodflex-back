@@ -19,10 +19,11 @@ const controllerWrapper = require('../middlewares/controllerWrapper');
 const router = express.Router();
 
 /**
- * POST /routers/routerContact
+ * POST /contact
  * @summary Submit a contact form
- * @tags contact
- * @returns {object} 200 - Success message and response data.
+ * @tags Submit Contact form
+ * @param {contact} request.body.required - ok
+ * @returns {contact} 200 - Success message and response data.
  * @returns {object} 400 - Error message and details for invalid form data.
  * @returns {object} 500 - Error message and details for server errors.
  */

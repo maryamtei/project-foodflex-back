@@ -22,19 +22,13 @@ const controllerWrapper = require('../middlewares/controllerWrapper'); // Contro
 /*------------ Routes ---------------- */
 
 const router = express.Router();
-  /**
-   * POST /login
-   * @summary For login an user
-   * @tags Auth
-   * @param {string} email.query.required - email param
-   * @param {string} password.query.required - password param
-   */
+
 router.post(`/signup`, validator('body', validateSignUpUserSchema), controllerWrapper(userController.signUp));
 router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrapper(userController.login));
 router.get(`/logout`, authentification, controllerWrapper(userController.logout));
 router.get(`/user`, authentification, controllerWrapper(userController.getUserInformation));
-//router.delete(`/profil/:id`, userController.deleteUser)
 router.patch(`/profil`, authentification ,userController.modifyUser)
 //router.get(`/profil/:id`, userController.getOneUser)
+//router.delete(`/profil/:id`, userController.deleteUser)
 
 module.exports = router;

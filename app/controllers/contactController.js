@@ -11,6 +11,12 @@ const contactController = {
    * @returns {Promise<void>} return response JSON with create contact informations (statut de réponse 200).
    */
 
+   /**
+   * @typedef {object} contact
+   * @property {string} name
+   * @property {string} message
+   * @property {string} email
+   */
     submitContactForm: async (req, res) => {
         const { name, email, message } = req.body;
         console.log(email)

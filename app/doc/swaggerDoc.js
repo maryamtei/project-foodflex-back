@@ -5,6 +5,13 @@ const options = {
       title: 'Project Foodflex',
       description: 'Create a food schedule!',
     },
+    security: {
+      BasicAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: "JWT"
+      },
+    },
     // security: {
     //   BasicAuth: {
     //     type: 'jwt',

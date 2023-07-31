@@ -21,9 +21,15 @@ const favoriteController = {
    * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
    *
    */
+     /**
+    * @typedef {object} addFavorite
+    * @property {string} idDbMeal
+    * @property {string} name
+    * @property {string} image
+    */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
-    const { idDbMeal, name, image } = req.body; //idDbMeal envoyé par le front
+    const { idDbMeal, name, image } = req.body;
 
     const existingFavorite = await Favorite.findOne({
       where: {
@@ -67,6 +73,7 @@ const favoriteController = {
    * @returns {Promise<void>} A JSON response containing the message 'Recipe deleted from favorites' and updated user data.
    *
    */
+
   deleteFavorite: async (req, res) => {
     const meal_id = req.params.id;
     const user_id = req.user.id
