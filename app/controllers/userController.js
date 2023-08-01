@@ -36,7 +36,6 @@ const userController = {
     let user = await User.findByPk(user_id);
 
     if (!user) {
-      // res.status(404).json('Can not find user with this id ' + user_id);
       throw new apiError('Can not find user with this id ' + user_id, { statusCode: 404 });
     } else {
       if (user.firstName !== firstName) { user.firstName = firstName }
@@ -44,7 +43,7 @@ const userController = {
       if ( user.email !== email) {
         const userEmail = await User.findOne({ where: {email} });
         if (userEmail) {
-          throw new apiError('Mail already exists', { statusCode: 400 });
+          throw new apiError('Mail already exists', { statusCode: 409 });
         }else{
           user.email = email
         }

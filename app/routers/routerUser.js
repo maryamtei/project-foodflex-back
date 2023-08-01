@@ -9,7 +9,7 @@ const userController = require('../controllers/userController');
 const validator = require('../validation/validator'); // Schema validator
 const validateLoginUserSchema = require('../validation/userSchemas/loginUserSchema');
 const validateSignUpUserSchema = require('../validation/userSchemas/signUpUserSchema');
-// const validateModifyUserSchema = require('../validation/userSchemas/modifyUserSchema');
+const validateModifyUserSchema = require('../validation/userSchemas/modifyUserSchema');
 // const validateDeleteUserSchema = require('../validation/userSchemas/deleteUserSchema');
 
 
@@ -62,14 +62,14 @@ router.get(`/user`, authentification, controllerWrapper(userController.getUserIn
  * @summary Modify a User
  * @tags User
  * @security BasicAuth
- * @param {userModify} request.body.required - Enter to modify user data
- * @returns {userModify} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {userModify} request.body.required - Please provide the required information as specified in the following schema.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Can not find user with this id + {user_id}
+ * @returns {errorData} 409 - Mail already exists.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
-router.patch(`/profil`, authentification ,userController.modifyUser)
+router.patch(`/profil`, authentification, validator('body', validateModifyUserSchema), controllerWrapper(userController.modifyUser));
 //router.get(`/profil/:id`, userController.getOneUser)
 //router.delete(`/profil/:id`, userController.deleteUser)
 
