@@ -4,12 +4,12 @@ const nodemailer = require('nodemailer');
 
 const contactController = {
 
-   /**
-   * Envoie le formulaire de contact.
-   * @param {object} req - L'objet de requête Express.
-   * @param {object} res - L'objet de réponse Express.
-   * @throws {apiError} Si l'un des champs du formulaire est manquant (statut de réponse 422).
-   * @returns {Promise<void>} return response JSON with create contact informations (statut de réponse 200).
+  /**
+   * Send the contact form.
+   * @param {object} req - The Express request object.
+   * @param {object} res - The Express response object.
+   * @throws {apiError} If any of the form fields are missing (response status 422).
+   * @returns {Promise<void>} Returns a JSON response with created contact information (response status 200).
    */
 
    /**
@@ -17,6 +17,14 @@ const contactController = {
    * @property {string} name
    * @property {string} message
    * @property {string} email
+   */
+   /**
+   * @typedef {object} responseContact
+   * @property {string} name
+   * @property {string} message
+   * @property {string} email
+   * @property {string} created_at
+   * @property {string} modify_at
    */
     submitContactForm: async (req, res) => {
         const { name, email, message } = req.body;
@@ -36,7 +44,7 @@ const contactController = {
           throw new apiError('The form fields are required.', { statusCode: 422 });
         } else {
           const info = await transporter.sendMail({
-            from: "fromeeee" + email,
+            from: email,
             to: "foodflexfoodflex@gmail.com",
             subject: "Contact from Foodflex website",
             text: `
