@@ -1,7 +1,7 @@
 BEGIN;
 
-INSERT INTO "user" ("firstName", "lastName", "email", "password", "role_id", "confirmPassword")
-VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed_password', 1, 'hashed_password');
+INSERT INTO "user" ("firstName", "lastName", "email", "password", "role_id")
+VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed_password', 1);
 
 -- Insertion dans la table "favorite"
 INSERT INTO "favorite" ("idDbMeal", "user_id", "name", "image", "position")

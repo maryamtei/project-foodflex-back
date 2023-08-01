@@ -21,9 +21,16 @@ const favoriteController = {
    * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
    *
    */
+    /**
+    * @typedef {object} addFavorite
+    * @property {string} idDbMeal
+    * @property {string} name
+    * @property {string} image
+    * @property {number} position
+    */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
-    const { idDbMeal, name, image } = req.body; //idDbMeal envoyé par le front
+    const { idDbMeal, name, image } = req.body;
 
     const existingFavorite = await Favorite.findOne({
       where: {
@@ -33,7 +40,7 @@ const favoriteController = {
     })
 
     if (existingFavorite) {
-      throw new apiError('This favorite already exists !', { statusCode: 400 });
+      throw new apiError('This favorite already exists !', { statusCode: 409 });
     }
 
     if (!image || !name || !idDbMeal) {
@@ -67,22 +74,28 @@ const favoriteController = {
    * @returns {Promise<void>} A JSON response containing the message 'Recipe deleted from favorites' and updated user data.
    *
    */
+
   deleteFavorite: async (req, res) => {
     const meal_id = req.params.id;
     const user_id = req.user.id
 
-    const favorite = await Favorite.findByPk(meal_id)
-    if (!favorite) {
+    const favorite = await Favorite.findOne({
+      where: {
+        id: meal_id,
+        user_id: user_id
+      }
+    });
+      if (!favorite) {
         throw new apiError('Can not find favorite with id ' + meal_id, { statusCode: 404 });
-    } else {
-        await favorite.destroy();
-     const newUser = await newUserData(user_id);
-        const response =  {
-            message: 'Recipe delete to favorite',
-            newUser
-        }
-        res.status(200).json(response);
-    }
+      } else {
+          await favorite.destroy();
+          const newUser = await newUserData(user_id);
+          const response =  {
+              message: 'Recipe delete to favorite',
+              newUser
+          }
+          res.status(200).json(response);
+      }
   }
 };
 

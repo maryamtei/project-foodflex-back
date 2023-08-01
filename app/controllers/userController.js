@@ -5,13 +5,37 @@ const { User, Schedule, Meal, Favorite, AuthToken } = require('../models/associa
 const apiError = require('../errors/apiErrors');
 
 const userController = {
+    /**
+    * @typedef {object} userData
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    * @property {number} id
+    * @property {[]} favorite
+    * @property {Array.<schedule>} schedule - schedule informations
+    */
+    /**
+    * @typedef {object} userModify
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    */
+    /**
+    * @typedef {object} errorData
+    * @property {string} status
+    * @property {number} statusCode
+    * @property {string} message
+    */
+    /**
+    * @typedef {object} errorSchema
+    * @property {string} message
+    */
   modifyUser: async (req, res) => {
     const user_id = req.user.id;
     const { firstName, lastName,  email } = req.body;
     let user = await User.findByPk(user_id);
 
     if (!user) {
-      // res.status(404).json('Can not find user with this id ' + user_id);
       throw new apiError('Can not find user with this id ' + user_id, { statusCode: 404 });
     } else {
       if (user.firstName !== firstName) { user.firstName = firstName }
@@ -19,7 +43,7 @@ const userController = {
       if ( user.email !== email) {
         const userEmail = await User.findOne({ where: {email} });
         if (userEmail) {
-          throw new apiError('Mail already exists', { statusCode: 400 });
+          throw new apiError('Mail already exists', { statusCode: 409 });
         }else{
           user.email = email
         }
@@ -53,16 +77,29 @@ const userController = {
       res.status(200).json({ message: 'User delete' });
     }
   },
-
+    /**
+    * @typedef {object} signup
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    * @property {string} password
+    * @property {string} confirmPassword
+    */
+    /**
+    * @typedef {object} userInfoWithToken
+    * @property {string} message
+    * @property {string} token
+    * @property {userData} userData - contain informations of new User
+    */
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
     const user = await User.findOne({ where: { email } });
     if (user) {
-      throw new apiError('User already exists.', { statusCode: 400 });
+      throw new apiError('User already exists.', { statusCode: 409 });
     }
 
     if (password != confirmPassword){
-      throw new apiError('Invalid password. Passwords must match.', { statusCode: 400 });
+      throw new apiError('Invalid password. Passwords must match.', { statusCode: 422 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -94,6 +131,11 @@ const userController = {
     res.status(200).json(response);
 
   },
+    /**
+    * @typedef {object} login
+    * @property {string} email
+    * @property {string} password
+    */
   login: async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -101,13 +143,13 @@ const userController = {
     });
 
     if (!user) {
-     throw new apiError('Invalid credentials..', { statusCode: 400 });
+     throw new apiError('Invalid credentials..', { statusCode: 401 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
 
     if (!password_validor) {
-     throw new apiError('Invalid credentials.', { statusCode: 400 });
+     throw new apiError('Invalid credentials.', { statusCode: 401 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
@@ -119,9 +161,16 @@ const userController = {
     }
     res.status(200).json(response);
   },
-
+    /**
+    * @typedef {object} userInfo
+    * @property {string} message
+    * @property {userData} userData - contain informations of new User
+    */
   getUserInformation: async (req, res) => {
     const user_id = req.user.id;
+    if(!user_id){
+      throw new apiError("User not found.", { statusCode: 404 });
+    }
     const newUser = await newUserData(user_id);
     const response =  {
         message: 'You have been logged in',

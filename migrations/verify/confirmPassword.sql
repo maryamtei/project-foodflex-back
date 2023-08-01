@@ -1,7 +1,7 @@
--- -- Verify foodflex:confirmPassword on pg
+--Verify foodflex:confirmPassword on pg
 
--- BEGIN;
+BEGIN;
 
--- SELECT * FROM "user" WHERE false;
+SELECT * FROM "user" WHERE false;
 
--- ROLLBACK;
+ROLLBACK;
