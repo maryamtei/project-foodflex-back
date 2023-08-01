@@ -21,9 +21,30 @@ const validateDeleteScheduleSchema = require('../validation/scheduleSchemas/dele
 /*------------ Routes ---------------- */
 
 const router = express.Router();
-
+/**
+ * POST /schedule-Meal
+ * @summary Add a meal to schedule
+ * @tags Schedule
+ * @security BasicAuth
+ * @param {addMeal} request.body.required - Please provide the required information as specified in the following schema.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Schedule don't exist.
+ * @returns {errorData} 422 - Fields of meal are not complete
+ * @returns {errorData} 500 - Error message and details for server errors.
+ */
 router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),controllerWrapper(scheduleController.addMealSchedule));
-router.delete(`/schedule-delete/:id`, authentification, validator('params',validateDeleteScheduleSchema),controllerWrapper(scheduleController.deleteSchedule));
+/**
+ * DELETE /schedule-delete/:id
+ * @summary Delete a meal in the schedule
+ * @tags Schedule
+ * @security BasicAuth
+ * @param {number} meal_id.query - Id of the meal
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Can not find meal with id.
+ * @returns {errorData} 500 - Error message and details for server errors.
+ */
+router.delete(`/schedule-delete/:id`, authentification,controllerWrapper(scheduleController.deleteSchedule));
 
 
 module.exports = router;

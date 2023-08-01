@@ -23,19 +23,19 @@ const routerFavorite = require('./app/routers/routerFavorite');
 const routerUser = require('./app/routers/routerUser');
 const routerSchedule = require('./app/routers/routerSchedule');
 const routerContact = require('./app/routers/routerContact');
-const bodySanitizer = require("./app/middlewares/bodySanitizer");
-
-// Swagger documentation
-const options = require("./app/doc/swaggerDoc");
-expressJsDocSwagger(app)(options);
+// const bodySanitizer = require("./app/middlewares/bodySanitizer");
 
 // Apply middlewares and routes
-app.use(bodySanitizer);
+// app.use(bodySanitizer);
 app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
 app.use(routerContact);
 app.use(errorHandler);
+
+// Swagger documentation
+const swaggerDoc = require("./app/doc/swaggerDoc");
+swaggerDoc(app)
 
 // Start the server
 app.listen(PORT, () => {
