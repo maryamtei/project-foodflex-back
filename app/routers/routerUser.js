@@ -27,9 +27,8 @@ const router = express.Router();
  * @summary signup
  * @tags User
  * @param {signup} request.body.required - ok
- * @returns {signup} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorData} 400 - Error message and details for invalid form data.
  * @returns {object} 422 - Error message when the request body is incomplete or invalid.
  * @returns {object} 500 - Error message and details for server errors.
  */
@@ -39,11 +38,10 @@ router.post(`/signup`, validator('body', validateSignUpUserSchema), controllerWr
  * @summary login
  * @tags User
  * @param {login} request.body.required - ok
- * @returns {login} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorData} 401 - Invalids credentials
+ * @returns {errorSchema} 400 - Error message when the request body is incomplete or invalid.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrapper(userController.login));
 /**

@@ -11,6 +11,16 @@ const userController = {
     * @property {string} lastName
     * @property {string} email
     */
+    /**
+    * @typedef {object} errorData
+    * @property {string} status
+    * @property {number} statusCode
+    * @property {string} message
+    */
+    /**
+    * @typedef {object} errorSchema
+    * @property {string} message
+    */
   modifyUser: async (req, res) => {
     const user_id = req.user.id;
     const { firstName, lastName,  email } = req.body;
@@ -67,6 +77,37 @@ const userController = {
     * @property {string} password
     * @property {string} confirmPassword
     */
+    /**
+    * @typedef {object} newUser
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    * @property {number} id
+    * @property {[]} favorite
+    * @property {Array.<schedule>} schedule - schedule informations
+    */
+    /**
+    * @typedef {object} meals
+    * @property {string} idDbMeal
+    * @property {string} name
+    * @property {string} image
+    * @property {number} position
+    */
+    /**
+    * @typedef {object} favorites
+    */
+    /**
+    * @typedef {object} schedule
+    * @property {number} id
+    * @property {number} week
+    * @property {Array} meals
+    */
+    /**
+    * @typedef {object} userInfo
+    * @property {string} message
+    * @property {string} token
+    * @property {newUser} newUser - contain informations of new User
+    */
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
     const user = await User.findOne({ where: { email } });
@@ -119,13 +160,13 @@ const userController = {
     });
 
     if (!user) {
-     throw new apiError('Invalid credentials..', { statusCode: 400 });
+     throw new apiError('Invalid credentials..', { statusCode: 401 });
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
 
     if (!password_validor) {
-     throw new apiError('Invalid credentials.', { statusCode: 400 });
+     throw new apiError('Invalid credentials.', { statusCode: 401 });
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
