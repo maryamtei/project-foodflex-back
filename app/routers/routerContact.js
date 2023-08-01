@@ -22,7 +22,7 @@ const router = express.Router();
  * POST /contact
  * @summary Submit a contact form
  * @tags Contact
- * @param {contact} request.body.required -  Please provide the required information as specified in the following schema.
+ * @param {contact} request.body.required - Please provide the required information as specified in the following schema.
  * @returns {responseContact} 200 - Success message and response data.
  * @returns {errorSchema} 400 - Error message and details for invalid form data.
  * @returns {errorData} 422 - The form fields are required.
