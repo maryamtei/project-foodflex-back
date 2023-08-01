@@ -26,21 +26,22 @@ const router = express.Router();
  * POST /signup
  * @summary signup
  * @tags User
- * @param {signup} request.body.required - ok
- * @returns {userInfo} 200 - Success message and response data.
- * @returns {errorData} 400 - Error message and details for invalid form data.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {signup} request.body.required - Please provide the required information as specified in the following schema
+ * @returns {userInfoWithToken} 200 - Success message and response data. User have 52 weeks in the beggining
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 409 - User already exists.
+ * @returns {errorData} 422 - Invalid password. Passwords must match.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.post(`/signup`, validator('body', validateSignUpUserSchema), controllerWrapper(userController.signUp));
 /**
  * POST /login
  * @summary login
  * @tags User
- * @param {login} request.body.required - ok
- * @returns {userInfo} 200 - Success message and response data.
- * @returns {errorData} 401 - Invalids credentials
+ * @param {login} request.body.required - Please provide the required information as specified in the following schema.
+ * @returns {userInfoWithToken} 200 - Success message and response data.
  * @returns {errorSchema} 400 - Error message when the request body is incomplete or invalid.
+ * @returns {errorData} 401 - Invalids credentials.
  * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrapper(userController.login));
@@ -49,10 +50,11 @@ router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrap
  * @summary Get User informations via ID
  * @tags User
  * @security BasicAuth
- * @param {string} user_id.query - The name of the user submitting the contact form.
- * @returns {contact} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {number} user_id.query - The name of the user submitting the contact form.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 401 - Invalid token, please reconnect.
+ * @returns {errorData} 404 - User not found.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.get(`/user`, authentification, controllerWrapper(userController.getUserInformation));
 /**

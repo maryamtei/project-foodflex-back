@@ -6,6 +6,15 @@ const apiError = require('../errors/apiErrors');
 
 const userController = {
     /**
+    * @typedef {object} userData
+    * @property {string} firstName
+    * @property {string} lastName
+    * @property {string} email
+    * @property {number} id
+    * @property {[]} favorite
+    * @property {Array.<schedule>} schedule - schedule informations
+    */
+    /**
     * @typedef {object} userModify
     * @property {string} firstName
     * @property {string} lastName
@@ -78,45 +87,26 @@ const userController = {
     * @property {string} confirmPassword
     */
     /**
-    * @typedef {object} newUser
-    * @property {string} firstName
-    * @property {string} lastName
-    * @property {string} email
-    * @property {number} id
-    * @property {[]} favorite
-    * @property {Array.<schedule>} schedule - schedule informations
-    */
-    /**
-    * @typedef {object} meals
-    * @property {string} idDbMeal
-    * @property {string} name
-    * @property {string} image
-    * @property {number} position
-    */
-    /**
-    * @typedef {object} favorites
-    */
-    /**
     * @typedef {object} schedule
     * @property {number} id
     * @property {number} week
-    * @property {Array} meals
+    * @property {[]} meals
     */
     /**
-    * @typedef {object} userInfo
+    * @typedef {object} userInfoWithToken
     * @property {string} message
     * @property {string} token
-    * @property {newUser} newUser - contain informations of new User
+    * @property {userData} userData - contain informations of new User
     */
   signUp: async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword} = req.body;
     const user = await User.findOne({ where: { email } });
     if (user) {
-      throw new apiError('User already exists.', { statusCode: 400 });
+      throw new apiError('User already exists.', { statusCode: 409 });
     }
 
     if (password != confirmPassword){
-      throw new apiError('Invalid password. Passwords must match.', { statusCode: 400 });
+      throw new apiError('Invalid password. Passwords must match.', { statusCode: 422 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -178,9 +168,16 @@ const userController = {
     }
     res.status(200).json(response);
   },
-
+    /**
+    * @typedef {object} userInfo
+    * @property {string} message
+    * @property {userData} userData - contain informations of new User
+    */
   getUserInformation: async (req, res) => {
     const user_id = req.user.id;
+    if(!user_id){
+      throw new apiError("User not found.", { statusCode: 404 });
+    }
     const newUser = await newUserData(user_id);
     const response =  {
         message: 'You have been logged in',

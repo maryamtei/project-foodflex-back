@@ -12,6 +12,13 @@ const scheduleController = {
    * @throws {apiError} Error thrown if meal fields are incomplete or if the schedule does not exist.
    * @returns {Object} JSON response containing a success message and the updated user data.
    */
+    /**
+    * @typedef {object} meals
+    * @property {string} idDbMeal
+    * @property {string} name
+    * @property {string} image
+    * @property {number} position
+    */
   addMealSchedule: async (req, res) => {
     const user_id = req.user.id;
     const { meals, week } = req.body;
