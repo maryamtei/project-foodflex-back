@@ -86,12 +86,6 @@ const userController = {
     * @property {string} confirmPassword
     */
     /**
-    * @typedef {object} schedule
-    * @property {number} id
-    * @property {number} week
-    * @property {[]} meals
-    */
-    /**
     * @typedef {object} userInfoWithToken
     * @property {string} message
     * @property {string} token

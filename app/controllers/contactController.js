@@ -20,6 +20,7 @@ const contactController = {
    */
    /**
    * @typedef {object} responseContact
+   * @property {number} id
    * @property {string} name
    * @property {string} message
    * @property {string} email

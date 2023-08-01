@@ -27,12 +27,12 @@ const router = express.Router();
  * @summary Add a new favorite
  * @tags Favorite
  * @security BasicAuth
- * @param {addFavorite} request.body.required - Enter new favorite
- * @returns {addFavorite} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {addFavorite} request.body.required - Please provide the required information as specified in the following schema.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 409 - This favorite already exists !
+ * @returns {errorData} 422 - Favorite object is missing one or more required properties.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.post(`/favorite-add`, authentification, validator('body', validateAddFavoriteSchema), controllerWrapper(favoriteController.addFavorite));
 /**
@@ -40,12 +40,11 @@ router.post(`/favorite-add`, authentification, validator('body', validateAddFavo
  * @summary Delete a favorite
  * @tags Favorite
  * @security BasicAuth
- * @param {userModify} request.body.required - ok
- * @returns {userModify} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {number} meal_id.query - Id of the meal.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Can not find favorite with id.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.delete(`/favorite-delete/:id`, authentification, validator('params', validatedeleteFavoriteSchema), controllerWrapper(favoriteController.deleteFavorite));
 

@@ -50,7 +50,6 @@ router.post(`/login`, validator('body', validateLoginUserSchema), controllerWrap
  * @summary Get User informations via ID
  * @tags User
  * @security BasicAuth
- * @param {number} user_id.query - The name of the user submitting the contact form.
  * @returns {userInfo} 200 - Success message and response data.
  * @returns {errorSchema} 401 - Invalid token, please reconnect.
  * @returns {errorData} 404 - User not found.

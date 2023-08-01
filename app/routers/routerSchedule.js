@@ -26,12 +26,12 @@ const router = express.Router();
  * @summary Add a meal to schedule
  * @tags Schedule
  * @security BasicAuth
- * @param {userModify} request.body.required - ok
- * @returns {userModify} 200 - Success message and response data.
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {addMeal} request.body.required - Please provide the required information as specified in the following schema.
+ * @returns {userInfo} 200 - Success message and response data.
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Schedule don't exist.
+ * @returns {errorData} 422 - Fields of meal are not complete
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
 router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),controllerWrapper(scheduleController.addMealSchedule));
 /**
@@ -39,13 +39,12 @@ router.post(`/schedule-Meal`, authentification, validator('body',validateAddSche
  * @summary Delete a meal in the schedule
  * @tags Schedule
  * @security BasicAuth
- * @param {string} meal_id.query - id of the meal
- * @returns {object} 400 - Error message and details for invalid form data.
- * @returns {object} 400 - Error message and details for connexion problem.
- * @returns {object} 422 - Error message when the request body is incomplete or invalid.
- * @returns {object} 500 - Error message and details for server errors.
+ * @param {number} meal_id.query - Id of the meal
+ * @returns {errorSchema} 400 - Error message and details for invalid form data.
+ * @returns {errorData} 404 - Can not find meal with id.
+ * @returns {errorData} 500 - Error message and details for server errors.
  */
-router.delete(`/schedule-delete/:id`, authentification, validator('params',validateDeleteScheduleSchema),controllerWrapper(scheduleController.deleteSchedule));
+router.delete(`/schedule-delete/:id`, authentification,controllerWrapper(scheduleController.deleteSchedule));
 
 
 module.exports = router;

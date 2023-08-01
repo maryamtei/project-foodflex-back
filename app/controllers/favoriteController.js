@@ -26,6 +26,7 @@ const favoriteController = {
     * @property {string} idDbMeal
     * @property {string} name
     * @property {string} image
+    * @property {number} position
     */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
@@ -39,7 +40,7 @@ const favoriteController = {
     })
 
     if (existingFavorite) {
-      throw new apiError('This favorite already exists !', { statusCode: 400 });
+      throw new apiError('This favorite already exists !', { statusCode: 409 });
     }
 
     if (!image || !name || !idDbMeal) {
@@ -78,18 +79,23 @@ const favoriteController = {
     const meal_id = req.params.id;
     const user_id = req.user.id
 
-    const favorite = await Favorite.findByPk(meal_id)
-    if (!favorite) {
+    const favorite = await Favorite.findOne({
+      where: {
+        id: meal_id,
+        user_id: user_id
+      }
+    });
+      if (!favorite) {
         throw new apiError('Can not find favorite with id ' + meal_id, { statusCode: 404 });
-    } else {
-        await favorite.destroy();
-     const newUser = await newUserData(user_id);
-        const response =  {
-            message: 'Recipe delete to favorite',
-            newUser
-        }
-        res.status(200).json(response);
-    }
+      } else {
+          await favorite.destroy();
+          const newUser = await newUserData(user_id);
+          const response =  {
+              message: 'Recipe delete to favorite',
+              newUser
+          }
+          res.status(200).json(response);
+      }
   }
 };
 
