@@ -6,5 +6,4 @@ authentification 2023-07-19T00:02:29Z Maryam <student@teleporter> # ajout de la 
 typeWeekIdDbMeal 2023-07-19T15:09:19Z Maryam <student@teleporter> # changement de type week et idDbMeal
 typeName 2023-07-21T13:53:21Z Maryam <student@teleporter> # change name type  varchar to text
 contact 2023-07-24T08:10:09Z Etudiant O'clock <student@teleporter> # contact form
-confirmPassword 2023-07-25T18:57:24Z Maryam <student@teleporter> # add confirm password
 removeUniqueMail 2023-07-31T14:34:12Z Maryam <student@teleporter> # remove constraint unique to email

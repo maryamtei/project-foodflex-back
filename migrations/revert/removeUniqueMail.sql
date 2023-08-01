@@ -1,7 +1,7 @@
--- Revert foodflex:removeUniqueMail from pg
+-- -- Revert foodflex:removeUniqueMail from pg
 
-BEGIN;
+-- BEGIN;
 
-ALTER TABLE "contact" ADD CONSTRAINT "contact_email_key" UNIQUE ("email");
+-- ALTER TABLE "contact" ADD CONSTRAINT "contact_email_key" UNIQUE ("email");
 
-COMMIT;
+-- COMMIT;
