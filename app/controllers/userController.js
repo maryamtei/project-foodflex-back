@@ -149,47 +149,21 @@ const userController = {
     });
 
     if (!user) {
-<<<<<<< HEAD
       throw new apiError('Invalid credentials..', { statusCode: 401 });
-=======
-      const response = {
-        codeMessage: 16,
-        message: 'Credentials are invalid',
-      }
-      res.status(400).json(response);
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
->>>>>>> main
     }
 
     const password_validor = await bcrypt.compare(password, user.password);
 
     if (!password_validor) {
-<<<<<<< HEAD
       throw new apiError('Invalid credentials.', { statusCode: 401 });
-=======
-      const response = {
-        codeMessage: 16,
-        message: 'Credentials are invalid',
-      }
-      res.status(400).json(response);
-      throw new apiError('Identifiants invalides.', { statusCode: 400 });
->>>>>>> main
     }
 
     const authToken = await generateAuthTokens(user.id) // création du token jwt
     const newUser = await newUserData(user.id);
-<<<<<<< HEAD
     const response = {
       message: 'You have been logged in',
       token: authToken.token,
       newUser
-=======
-    const response = {
-      codeMessage: 108,
-      message: 'You have been logged in',
-      token: authToken.token,
-      newUser
->>>>>>> main
     }
     res.status(200).json(response);
   },
@@ -204,41 +178,11 @@ const userController = {
       throw new apiError("User not found.", { statusCode: 404 });
     }
     const newUser = await newUserData(user_id);
-<<<<<<< HEAD
     const response = {
       message: 'You have been logged in',
       newUser
     }
     res.status(200).json(response);
-=======
-    const response = {
-      codeMessage: 108,
-      message: 'You have been logged in',
-      newUser
-    }
-    res.status(200).json(response);
-  },
-
-  logout: async (req, res) => {
-    const user_id = req.user.id;
-
-    if (!req.authToken) {
-      throw new apiError({ message: 'Token manquant. Déconnexion échouée.' })
-
-    } else {
-
-      const tokens = await AuthToken.findAll({
-        where: { user_id },
-      });
-      for (const token of tokens) {
-        await token.destroy();
-      }
-
-      req.authToken = null;
-      req.user = [];
-      res.status(200).json({ message: "Logout sucessfull" });
-    }
->>>>>>> main
   }
 };
 
