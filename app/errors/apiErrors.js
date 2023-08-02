@@ -1,11 +1,19 @@
+/**
+ * @class
+ * @extends Error
+ * @param {string} message - The error message.
+ * @param {Object} infos - Additional information related to the error.
+ * @property {string} name - The name of the error (always set to 'ApiError').
+ * @property {Object} infos - Additional information related to the error.
+ */
+
 const apiError = class ApiError extends Error {
     constructor(message, infos) {
-        // On envoi le message à la classe mère Error
         super(message);
-        // On défini le nom de l'erreur qui de base est 'Error'
         this.name = 'ApiError';
-        // on défini les infos supplémentaires afin des les transporter
+        console.log('API ERROR');
         this.infos = infos;
     }
 };
 module.exports = apiError
+

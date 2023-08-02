@@ -1,5 +1,11 @@
-/*----------------- DotEnv ----------------- */
+// Import dependencies
 const dotenv = require('dotenv');
+const express = require('express');
+const cors = require('cors');
+const expressJsDocSwagger = require("express-jsdoc-swagger");
+const bodyParser = require('body-parser'); // Added body-parser for express.json()
+
+// Load environment variables from .env file
 dotenv.config();
 
 /*----------------- Express ----------------- */
@@ -37,20 +43,13 @@ app.use(routerFavorite);
 app.use(routerUser);
 app.use(routerSchedule);
 app.use(routerContact);
+app.use(errorHandler);
 
-// app.use(middlewares.notFound);
+// Swagger documentation
+const swaggerDoc = require("./app/doc/swaggerDoc");
+swaggerDoc(app)
 
-
-/*----------------- App ----------------- */
-
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT} ...`)
+  console.log(`Listening on port ${PORT} ...`);
 });
-/*
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-*/
