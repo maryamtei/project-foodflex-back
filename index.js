@@ -31,8 +31,8 @@ app.use(express.json());
 // urlencoded parse à la fois des body en json mais aussi en html post form (multipart/formdata)
 
 /*----------------- Middlewares ----------------- */
-app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 
+// app.use(cors('*'));                 // On autorise toutes les origines à envoyer des requests vers nos routes
 app.use(cors({
   origin: 'https://app.foodflex.me'
 }));
