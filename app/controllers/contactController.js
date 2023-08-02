@@ -60,7 +60,8 @@ const contactController = {
               email, //enlever la contrainte unique
               message
           });
-            res.status(200).json(contact);
+
+          res.status(200).json({message : "Message sent." + contact});
         }
   }
 };
