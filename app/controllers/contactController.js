@@ -57,11 +57,15 @@ const contactController = {
           console.log("Message sent: " + info.messageId)
           const contact = await Contact.create({
               name,
-              email, //enlever la contrainte unique
+              email,
               message
           });
 
-          res.status(200).json({message : "Message sent." + contact});
+          const response =  {
+            message: 'Message sent.',
+            contact
+          }
+          res.status(200).json(response);
         }
   }
 };
