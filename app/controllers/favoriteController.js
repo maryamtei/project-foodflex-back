@@ -11,23 +11,23 @@ const apiError = require('../errors/apiErrors');
  */
 
 const favoriteController = {
+/**
+ * Adds a recipe to the user's favorites.
+ * @async
+ * @function
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @throws {apiError} If the favorite already exists (status code: 400) or if the favorite object is missing required properties (status code: 422).
+ * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
+ *
+ */
   /**
-   * Adds a recipe to the user's favorites.
-   * @async
-   * @function
-   * @param {object} req - The Express request object.
-   * @param {object} res - The Express response object.
-   * @throws {apiError} If the favorite already exists (status code: 400) or if the favorite object is missing required properties (status code: 422).
-   * @returns {Promise<void>} A JSON response containing the message 'Recipe added to favorites' and updated user data.
-   *
-   */
-    /**
-    * @typedef {object} addFavorite
-    * @property {string} idDbMeal
-    * @property {string} name
-    * @property {string} image
-    * @property {number} position
-    */
+  * @typedef {object} addFavorite
+  * @property {string} idDbMeal
+  * @property {string} name
+  * @property {string} image
+  * @property {number} position
+  */
   addFavorite: async (req, res) => {
     const user_id = req.user.id;
     const { idDbMeal, name, image } = req.body;
