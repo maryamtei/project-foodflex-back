@@ -15,7 +15,9 @@ const PORT = process.env.PORT || 3000;
 // Set environment and JSON parsing middleware
 app.set('env', 'development');
 app.use(bodyParser.json());
-app.use(cors('*'));
+app.use(cors({
+  origin: 'https://app.foodflex.me'
+}));
 
 // Import routes and error handler middleware
 const { errorHandler } = require("./app/middlewares/errorHandler");

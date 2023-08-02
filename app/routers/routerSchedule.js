@@ -33,7 +33,7 @@ const router = express.Router();
  * @returns {errorData} 422 - Fields of meal are not complete
  * @returns {errorData} 500 - Error message and details for server errors.
  */
-router.post(`/schedule-Meal`, authentification, validator('body',validateAddScheduleSchema),controllerWrapper(scheduleController.addMealSchedule));
+router.post(`/schedule-Meal`, authentification, validator('body', validateAddScheduleSchema), controllerWrapper(scheduleController.addMealSchedule));
 /**
  * DELETE /schedule-delete/:id
  * @summary Delete a meal in the schedule
@@ -44,7 +44,7 @@ router.post(`/schedule-Meal`, authentification, validator('body',validateAddSche
  * @returns {errorData} 404 - Can not find meal with id.
  * @returns {errorData} 500 - Error message and details for server errors.
  */
-router.delete(`/schedule-delete/:id`, authentification,controllerWrapper(scheduleController.deleteSchedule));
+router.delete(`/schedule-delete/:id`, authentification, controllerWrapper(scheduleController.deleteSchedule));
 
 
 module.exports = router;
