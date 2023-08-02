@@ -4,7 +4,6 @@ const { Sequelize } = require('sequelize');
 // On attendra de finir l'atelier jour 3 pour mettre en place dotenv dans notre point d'entrée (par exemple /index.js)
 
 // On charge l'url de PG
-const PG_URL = "postgres://bmycrhcbnofysn:1ade80a3fbbece08d68b41fce7ef8055d433e5958ae3aff92607a0d90c2c1c24@ec2-63-35-80-199.eu-west-1.compute.amazonaws.com:5432/d6ehd2d0fnn1u8";
 
 const defineAttributes = {
     dialect: 'postgres',
@@ -21,7 +20,7 @@ const defineAttributes = {
         updatedAt: "updated_at",
     }
 }
-
-const sequelize = new Sequelize(PG_URL, defineAttributes)
+// On charge l'url de PG
+const sequelize = new Sequelize(DATABASE_URL, defineAttributes)
 
 module.exports = sequelize;
