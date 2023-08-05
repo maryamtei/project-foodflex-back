@@ -38,7 +38,7 @@ const contactController = {
       secure: true,
       auth: {
         user: 'foodflexfoodflex@gmail.com',
-        pass: "ukyuzceepmtgoiwk"
+        pass: process.env.EMAILPASSWORD,
       },
       from: email
     });
