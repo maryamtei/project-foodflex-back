@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const AuthToken = require('../models/authToken');
 
 const generateAuthTokens = async function (id) {
-    const secret = "83333595199027641087";
+    const secret = process.env.SECRET;
 
     // Generate a JWT token with a 24-hour duration
     const authToken = jwt.sign({ _id: id.toString() }, secret, { expiresIn: '24h' });
