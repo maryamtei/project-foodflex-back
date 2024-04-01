@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.set('env', 'development');
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://foodflexx.netlify.app/'
+  origin: 'https://foodflexx.netlify.app'
 }));
 
 // Import routes and error handler middleware
